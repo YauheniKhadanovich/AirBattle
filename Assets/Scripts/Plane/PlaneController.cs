@@ -4,14 +4,14 @@ namespace Plane
 {
     public class PlaneController : MonoBehaviour
     {
+        private readonly Vector3 _groundPosition = Vector3.zero;
+        
         [SerializeField] 
-        private Transform planeBody;
+        private Transform _bodyDirection;
         [SerializeField] 
-        private Transform bodyElements;
+        private Transform _bodyRotation;
         [SerializeField]
-        public float speed = 30f;
-        [SerializeField] 
-        private Transform groundPos;
+        public float _speed = 30f;
         [SerializeField] 
         private MovementController _movementController;
         private float xParam;
@@ -25,21 +25,21 @@ namespace Plane
         // TODO: use consts
         private void ControlPlane()
         {
-            var localEulerAngles = bodyElements.localEulerAngles;
+            var localEulerAngles = _bodyDirection.localEulerAngles;
             xParam = Mathf.Lerp(xParam, _movementController.MovementState.x, Time.deltaTime * 5f);
             var targetEulerAngles = new Vector3(0f, localEulerAngles.y + xParam * 40f, 0f);
             localEulerAngles = Vector3.Lerp(localEulerAngles, targetEulerAngles, Time.deltaTime * 2f);
-            bodyElements.localEulerAngles = localEulerAngles;
+            _bodyDirection.localEulerAngles = localEulerAngles;
             Tilt(targetEulerAngles);
         }
 
-        private void MoveForward() => transform.RotateAround(groundPos.position, bodyElements.forward, Time.deltaTime * speed);
+        private void MoveForward() => transform.RotateAround(_groundPosition, _bodyDirection.forward, Time.deltaTime * _speed);
 
         private void Tilt(Vector3 targetEulerAngles)
         {
-            var tiltAngle = Mathf.Clamp(Mathf.DeltaAngle(targetEulerAngles.y, bodyElements.localEulerAngles.y) * 1.5f, -89f, 89f);
+            var tiltAngle = Mathf.Clamp(Mathf.DeltaAngle(targetEulerAngles.y, _bodyDirection.localEulerAngles.y) * 1.5f, -89f, 89f);
         
-            planeBody.localEulerAngles = new Vector3(-tiltAngle, 0, 0);
+            _bodyRotation.localEulerAngles = new Vector3(-tiltAngle, 0, 0);
         }
     }
 }
