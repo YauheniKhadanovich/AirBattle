@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Features.Aerostat
+namespace Features.Bots.Impl
 {
-    public class AerostatController : CanFlyController
+    public class AerostatController : Bot
     {
         [SerializeField] 
         private Transform _bodyRotationAroundSelf;
@@ -17,5 +17,6 @@ namespace Features.Aerostat
         {
             _bodyRotationAroundSelf.Rotate(Vector3.back * 2f * Time.deltaTime, Space.Self);
         }
+        
     }
 }

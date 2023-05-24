@@ -1,5 +1,6 @@
 using System.Collections;
-using Features.Aerostat;
+using Features.Bots;
+using Features.Bots.Impl;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
