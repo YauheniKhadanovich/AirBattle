@@ -1,5 +1,6 @@
 using Features.Bullets;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Features.Plane
 {
@@ -7,10 +8,10 @@ namespace Features.Plane
     {
         [SerializeField] 
         private FireEffectController _fireEffect;
+        [FormerlySerializedAs("_bulletController")] [SerializeField] 
+        private Bullet bullet;
         [SerializeField] 
-        private BulletController _bulletController;
-        [SerializeField] 
-        private float _fireDelay = 0.3f;
+        private float _fireDelay = 0.15f;
 
         private float _tmpDelay;
 
@@ -31,7 +32,7 @@ namespace Features.Plane
             effect.transform.rotation = transform.rotation; // TODO: fix it
             effect.transform.position = transform.position;
 
-            var bullet = Instantiate(_bulletController, null);
+            var bullet = Instantiate(this.bullet, null);
             bullet.transform.rotation = transform.rotation; // TODO: fix it
             bullet.transform.position = transform.position;
         }

@@ -15,8 +15,7 @@ namespace Features.Bots.Impl
 
         private void RotateAroundSelf()
         {
-            _bodyRotationAroundSelf.Rotate(Vector3.back * 2f * Time.deltaTime, Space.Self);
+            _bodyRotationAroundSelf.Rotate(Vector3.back * 26f * Time.deltaTime, Space.Self);
         }
-        
     }
 }
