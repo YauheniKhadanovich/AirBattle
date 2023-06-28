@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Features.Plane;
+using Features.Plane.Components;
 using Modules.BotSpawn.Data;
 using Modules.BotSpawn.Facade;
 using UnityEngine;
@@ -24,26 +24,30 @@ namespace Features.Spawner.Impl
         private List<BotPrefabsData> _botPrefabs;
         [SerializeField] 
         private PlaneInputHandler _planeInputHandler;
+        [SerializeField] 
+        private Plane.PlaneView _planeView;
 
         public void Initialize()
         {
-            _botSpawnFacade.NeedSpawnBot += Spawn;
-        }
-
-        private void Start()
-        {
-            // TODO: after Play Button
-            _botSpawnFacade.InitBots();
+            _botSpawnFacade.SpawnBotRequested += OnSpawnBotRequested;
+            _botSpawnFacade.GameStarted += OnGameStarted;
+            _planeView.Failed += OnFailed;
         }
 
         public void Dispose()
         {
-            _botSpawnFacade.NeedSpawnBot -= Spawn;
+            _botSpawnFacade.SpawnBotRequested -= OnSpawnBotRequested;
+            _planeView.Failed -= OnFailed;
         }
 
-        public void Spawn(BotInfo botInfo)
+        private void OnSpawnBotRequested(BotInfo botInfo)
         {
             StartCoroutine(SpawnCoroutine(botInfo));
+        }
+        
+        private void OnGameStarted()
+        {
+            _planeView.InitPlane();
         }
 
         private IEnumerator SpawnCoroutine(BotInfo botInfo)
@@ -57,6 +61,11 @@ namespace Features.Spawner.Impl
             bot.BotSpawned += _botSpawnFacade.OnBotSpawned;
             bot.BotDestroyed += _botSpawnFacade.OnBotDestroyed;
             yield return null;
+        }
+        
+        private void OnFailed()
+        {
+            _botSpawnFacade.OnGameFailed();
         }
     }
 }

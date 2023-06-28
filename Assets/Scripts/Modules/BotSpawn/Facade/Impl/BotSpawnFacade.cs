@@ -7,14 +7,20 @@ namespace Modules.BotSpawn.Facade.Impl
 {
     public class BotSpawnFacade : IBotSpawnFacade
     {
-        public event Action<BotInfo> NeedSpawnBot = delegate { };
+        public event Action<BotInfo> SpawnBotRequested = delegate { };
+        public event Action GameStarted = delegate { };
+        public event Action GameFailed = delegate { };
 
         [Inject]
         private readonly IBotModel _botModel;
 
-        public void InitBots()
+        public void StartGame(bool needInitBots)
         {
-            _botModel.InitBots();
+            if (needInitBots)
+            {
+                _botModel.InitBots();
+            }
+            GameStarted.Invoke();
         }
 
         public void OnBotDestroyed(BotType botType)
@@ -29,7 +35,12 @@ namespace Modules.BotSpawn.Facade.Impl
 
         public void NeedSpawn(BotInfo botType)
         {
-            NeedSpawnBot(botType);
+            SpawnBotRequested(botType);
+        }
+
+        public void OnGameFailed()
+        {
+            GameFailed.Invoke();
         }
     }
 }

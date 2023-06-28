@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Features.Plane
+namespace Features.Plane.Components
 {
     public class PlaneInputHandler : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Features.Plane
             _playerInput = new PlayerInput();
         }
 
-        void Start()
+        private void Start()
         {
             _playerInput.Player.Enable();
         }

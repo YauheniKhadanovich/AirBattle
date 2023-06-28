@@ -6,7 +6,6 @@ using Zenject;
 
 namespace Modules.BotSpawn.Models.Impl
 {
-    // TODO: Move data into model
     public class BotModel : IBotModel
     {
         [Inject] 

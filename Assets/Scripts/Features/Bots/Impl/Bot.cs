@@ -1,4 +1,5 @@
 using System;
+using Features.Shared;
 using Modules.BotSpawn.Data;
 using UnityEngine;
 
@@ -28,6 +29,11 @@ namespace Features.Bots.Impl
             {
                 Destroy();
             }
+        }
+
+        public void FullDamage()
+        {
+            Destroy();
         }
 
         private void Destroy()

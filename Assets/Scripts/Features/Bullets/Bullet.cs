@@ -1,4 +1,5 @@
 using Features.Bots;
+using Features.Shared;
 using UnityEngine;
 
 namespace Features.Bullets
@@ -9,6 +10,7 @@ namespace Features.Bullets
         private ParticleSystem _impactEffect;
         [SerializeField] 
         private float _lifeTime = 4f;
+        
         private float _lifeTimeTmp;
 
         private void Update()
@@ -34,8 +36,9 @@ namespace Features.Bullets
             Destroy(gameObject);
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Bullet OnCollisionEnter");
             if (other.gameObject.TryGetComponent<IMortal>(out var obj))
             {
                 obj.Damage(1); // TODO: add damage value

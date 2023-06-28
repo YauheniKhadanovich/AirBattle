@@ -1,6 +1,6 @@
 namespace Features.UI.Presenters
 {
-    public class MainGamePresenter
+    public interface IMainGamePresenter
     {
         
     }

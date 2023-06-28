@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Features
+namespace Features.Shared
 {
     public class CanFly : MonoBehaviour
     {

@@ -1,14 +1,13 @@
 using Features.Bullets;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Features.Plane
+namespace Features.Plane.Components
 {
     public class FireController : MonoBehaviour
     {
         [SerializeField] 
         private FireEffectController _fireEffect;
-        [FormerlySerializedAs("_bulletController")] [SerializeField] 
+        [SerializeField] 
         private Bullet bullet;
         [SerializeField] 
         private float _fireDelay = 0.15f;
