@@ -1,7 +1,6 @@
 using System;
 using Features.UI.Views;
-using Modules.BotSpawn.Data;
-using Modules.BotSpawn.Facade;
+using Modules.GameController.Facade;
 using Zenject;
 
 namespace Features.UI.Presenters.Impl
@@ -11,30 +10,30 @@ namespace Features.UI.Presenters.Impl
         [Inject] 
         private IMainGameView _mainGameView;
         [Inject] 
-        private IBotSpawnFacade _botSpawnFacade;
+        private IGameControllerFacade _gameControllerFacade;
         
         public void Initialize()
         {
             _mainGameView.GoClicked += OnGoClicked;
             _mainGameView.RestartClicked += OnRestartClicked;
-            _botSpawnFacade.GameFailed += OnGameFailed;
+            _gameControllerFacade.GameFailed += OnGameFailed;
         }
 
         public void Dispose()
         {
             _mainGameView.GoClicked -= OnGoClicked;
             _mainGameView.RestartClicked -= OnRestartClicked;
-            _botSpawnFacade.GameFailed -= OnGameFailed;
+            _gameControllerFacade.GameFailed -= OnGameFailed;
         }
 
         private void OnGoClicked()
         {
-            _botSpawnFacade.StartGame(true);
+            _gameControllerFacade.StartGame(true);
         }
         
         private void OnRestartClicked()
         {
-            _botSpawnFacade.StartGame(false);
+            _gameControllerFacade.StartGame(false);
         }
 
         private void OnGameFailed()

@@ -1,11 +1,11 @@
 using System;
-using Modules.BotSpawn.Data;
-using Modules.BotSpawn.Models;
+using Modules.GameController.Data;
+using Modules.GameController.Models;
 using Zenject;
 
-namespace Modules.BotSpawn.Facade.Impl
+namespace Modules.GameController.Facade.Impl
 {
-    public class BotSpawnFacade : IBotSpawnFacade
+    public class GameControllerFacade : IGameControllerFacade
     {
         public event Action<BotInfo> SpawnBotRequested = delegate { };
         public event Action GameStarted = delegate { };
@@ -33,7 +33,7 @@ namespace Modules.BotSpawn.Facade.Impl
             _botModel.OnBotSpawned(botType);
         }
 
-        public void NeedSpawn(BotInfo botType)
+        public void RequestSpawn(BotInfo botType)
         {
             SpawnBotRequested(botType);
         }

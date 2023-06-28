@@ -28,6 +28,8 @@ namespace Features.Plane
         private void Start()
         {
             _collisionsController.OnCollision += OnCollision;
+            _isAlive = false;
+            _planeModel.gameObject.SetActive(false);
         }
         
         private void Update()

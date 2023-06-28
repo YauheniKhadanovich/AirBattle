@@ -1,22 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
-using Modules.BotSpawn.Data;
-using Modules.BotSpawn.Facade;
+using Modules.GameController.Data;
+using Modules.GameController.Facade;
 using Zenject;
 
-namespace Modules.BotSpawn.Models.Impl
+namespace Modules.GameController.Models.Impl
 {
     public class BotModel : IBotModel
     {
         [Inject] 
-        private readonly IBotSpawnFacade _botSpawnFacade;
+        private readonly IGameControllerFacade _gameControllerFacade;
 
         // TODO: add serialization
-        private Dictionary<BotType, BotInfo> _botCounts = new()
+        private readonly Dictionary<BotType, BotInfo> _botCounts = new()
         {
-            { BotType.GreenBalloon, new BotInfo(BotType.GreenBalloon, 3, 3f) },
-            { BotType.RedBalloon, new BotInfo(BotType.RedBalloon, 1, 4f) },
-            { BotType.YellowBalloon, new BotInfo(BotType.YellowBalloon, 2, 3f) }
+            { BotType.GreenBalloon, new BotInfo(BotType.GreenBalloon, 10, 3f) },
+            { BotType.RedBalloon, new BotInfo(BotType.RedBalloon, 3, 4f) },
+            { BotType.YellowBalloon, new BotInfo(BotType.YellowBalloon, 7, 3f) }
         };
 
         public void InitBots()
@@ -49,7 +49,7 @@ namespace Modules.BotSpawn.Models.Impl
             var botInfo = _botCounts[botType];
             if (botInfo.IsNeedSpawn())
             {
-                _botSpawnFacade.NeedSpawn(botInfo);
+                _gameControllerFacade.RequestSpawn(botInfo);
                 botInfo.IncAwaitingBotsCount();
             }
 

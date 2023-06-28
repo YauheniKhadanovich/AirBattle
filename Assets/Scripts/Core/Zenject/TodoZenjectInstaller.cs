@@ -5,10 +5,10 @@ using Features.UI.Presenters;
 using Features.UI.Presenters.Impl;
 using Features.UI.Views;
 using Features.UI.Views.Impl;
-using Modules.BotSpawn.Facade;
-using Modules.BotSpawn.Facade.Impl;
-using Modules.BotSpawn.Models;
-using Modules.BotSpawn.Models.Impl;
+using Modules.GameController.Facade;
+using Modules.GameController.Facade.Impl;
+using Modules.GameController.Models;
+using Modules.GameController.Models.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -46,7 +46,7 @@ namespace Core.Zenject
         
         private void InstallModules()
         {
-            Container.Bind<IBotSpawnFacade>().To<BotSpawnFacade>().AsCached();
+            Container.Bind<IGameControllerFacade>().To<GameControllerFacade>().AsCached();
             Container.Bind(typeof(IBotModel)).To<BotModel>().AsCached();
         }
     }

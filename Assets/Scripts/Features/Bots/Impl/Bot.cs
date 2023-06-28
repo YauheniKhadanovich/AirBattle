@@ -1,6 +1,6 @@
 using System;
 using Features.Shared;
-using Modules.BotSpawn.Data;
+using Modules.GameController.Data;
 using UnityEngine;
 
 namespace Features.Bots.Impl

@@ -1,9 +1,9 @@
 using System;
-using Modules.BotSpawn.Data;
+using Modules.GameController.Data;
 
-namespace Modules.BotSpawn.Facade
+namespace Modules.GameController.Facade
 {
-    public interface IBotSpawnFacade
+    public interface IGameControllerFacade
     {
         event Action<BotInfo> SpawnBotRequested;
         event Action GameFailed;
@@ -13,6 +13,6 @@ namespace Modules.BotSpawn.Facade
         void OnBotDestroyed(BotType botType);
         void OnBotSpawned(BotType botType);
         void OnGameFailed();
-        void NeedSpawn(BotInfo botType);
+        void RequestSpawn(BotInfo botType);
     }
 }

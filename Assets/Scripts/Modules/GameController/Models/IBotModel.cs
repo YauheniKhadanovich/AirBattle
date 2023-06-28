@@ -1,6 +1,6 @@
-using Modules.BotSpawn.Data;
+using Modules.GameController.Data;
 
-namespace Modules.BotSpawn.Models
+namespace Modules.GameController.Models
 {
     public interface IBotModel
     {

@@ -1,4 +1,4 @@
-namespace Modules.BotSpawn.Data
+namespace Modules.GameController.Data
 {
     public enum BotType
     {

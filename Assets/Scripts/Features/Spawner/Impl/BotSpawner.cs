@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Features.Plane.Components;
-using Modules.BotSpawn.Data;
-using Modules.BotSpawn.Facade;
+using Modules.GameController.Data;
+using Modules.GameController.Facade;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -13,30 +12,27 @@ namespace Features.Spawner.Impl
 {
     public class BotSpawner : MonoBehaviour, IBotSpawner, IInitializable, IDisposable
     {
-        private readonly Vector3 groundPosition = Vector3.zero;
+        private readonly Vector3 _groundPosition = Vector3.zero;
 
         [Inject] 
-        private IBotSpawnFacade _botSpawnFacade;
+        private IGameControllerFacade _gameControllerFacade;
         [SerializeField] 
         private Transform[] _spawnPositions;
-        // TODO: move to the separate file 
         [SerializeField] 
         private List<BotPrefabsData> _botPrefabs;
-        [SerializeField] 
-        private PlaneInputHandler _planeInputHandler;
         [SerializeField] 
         private Plane.PlaneView _planeView;
 
         public void Initialize()
         {
-            _botSpawnFacade.SpawnBotRequested += OnSpawnBotRequested;
-            _botSpawnFacade.GameStarted += OnGameStarted;
+            _gameControllerFacade.SpawnBotRequested += OnSpawnBotRequested;
+            _gameControllerFacade.GameStarted += OnGameStarted;
             _planeView.Failed += OnFailed;
         }
 
         public void Dispose()
         {
-            _botSpawnFacade.SpawnBotRequested -= OnSpawnBotRequested;
+            _gameControllerFacade.SpawnBotRequested -= OnSpawnBotRequested;
             _planeView.Failed -= OnFailed;
         }
 
@@ -57,15 +53,15 @@ namespace Features.Spawner.Impl
             var pos = _spawnPositions[Random.Range(0, _spawnPositions.Length)].position;
             var bot = Instantiate(botPrefab, null);
             bot.transform.position = pos;
-            bot.transform.LookAt(groundPosition);
-            bot.BotSpawned += _botSpawnFacade.OnBotSpawned;
-            bot.BotDestroyed += _botSpawnFacade.OnBotDestroyed;
+            bot.transform.LookAt(_groundPosition);
+            bot.BotSpawned += _gameControllerFacade.OnBotSpawned;
+            bot.BotDestroyed += _gameControllerFacade.OnBotDestroyed;
             yield return null;
         }
         
         private void OnFailed()
         {
-            _botSpawnFacade.OnGameFailed();
+            _gameControllerFacade.OnGameFailed();
         }
     }
 }

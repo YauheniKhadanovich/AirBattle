@@ -2,7 +2,7 @@ using System;
 using Features.Bots.Impl;
 using UnityEngine;
 
-namespace Modules.BotSpawn.Data
+namespace Modules.GameController.Data
 {
     [Serializable]
     public class BotPrefabsData
