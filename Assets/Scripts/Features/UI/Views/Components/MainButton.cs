@@ -11,11 +11,23 @@ namespace Features.UI.Views.Components
 
         private Animator _animator;
 
-        public Button Button { get; private set; }
+        private Button _button;
+
+        public Button Button
+        {
+            get
+            {
+                if (!_button)
+                {
+                    _button = GetComponent<Button>();
+                }
+
+                return _button;
+            }
+        }
 
         private void Awake()
         {
-            Button = GetComponent<Button>();
             _animator = GetComponent<Animator>();
         }
 
