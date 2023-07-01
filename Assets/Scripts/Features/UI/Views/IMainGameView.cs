@@ -8,5 +8,6 @@ namespace Features.UI.Views
         event Action RestartClicked;
 
         void ShowRestartButton();
+        void SetPointsCount(int points);
     }
 }

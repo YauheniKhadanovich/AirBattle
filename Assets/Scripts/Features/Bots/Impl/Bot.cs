@@ -7,7 +7,7 @@ namespace Features.Bots.Impl
 {
     public class Bot : CanFly, IMortal
     {
-        public event Action<BotType> BotDestroyed = delegate {  };
+        public event Action<BotType, bool> BotDestroyed = delegate {  };
         public event Action<BotType> BotSpawned = delegate {  };
 
         [SerializeField] 
@@ -22,26 +22,26 @@ namespace Features.Bots.Impl
             BotSpawned(_botType);
         }
 
-        public void Damage(int value)
+        public void Damage(int damageValue, bool byPlayer)
         {
-            _health -= value;
+            _health -= damageValue;
             if (_health <= 0)
             {
-                Destroy();
+                Destroy(byPlayer);
             }
         }
 
         public void FullDamage()
         {
-            Destroy();
+            Destroy(false);
         }
 
-        private void Destroy()
+        private void Destroy(bool byPlayer)
         {
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
-            BotDestroyed(_botType);
-            Destroy(gameObject);
+            BotDestroyed(_botType, byPlayer);
+            GameObject.Destroy(gameObject);
         }
     }
 }

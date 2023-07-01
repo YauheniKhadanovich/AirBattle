@@ -19,16 +19,32 @@ namespace Modules.GameController.Models.Impl
             { BotType.YellowBalloon, new BotInfo(BotType.YellowBalloon, 7, 3f) }
         };
 
+        private int _points;
+        
+        private int Points
+        {
+            get => _points;
+            set
+            {
+                _points = value;
+                _gameControllerFacade.OnPointUpdated(_points);
+            }
+        }
+
         public void InitBots()
         {
             var v = _botCounts.Keys.ToList();
             v.ForEach(SpawnIfNeed);
         }
 
-        public void OnBotDestroyed(BotType botType)
+        public void OnBotDestroyed(BotType botType, bool byPlayer)
         {
             ReduceBotsCount(botType);
             SpawnIfNeed(botType);
+            if (byPlayer)
+            {
+                Points++;
+            }
         }
 
         public void OnBotSpawned(BotType botType)

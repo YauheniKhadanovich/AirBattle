@@ -41,7 +41,7 @@ namespace Features.Bullets
             Debug.Log("Bullet OnCollisionEnter");
             if (other.gameObject.TryGetComponent<IMortal>(out var obj))
             {
-                obj.Damage(1); // TODO: add damage value
+                obj.Damage(1, true); // TODO: add damage value
                 DestroySelf();
             }
         }

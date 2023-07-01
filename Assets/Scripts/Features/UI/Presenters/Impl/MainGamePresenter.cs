@@ -17,6 +17,7 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.GoClicked += OnGoClicked;
             _mainGameView.RestartClicked += OnRestartClicked;
             _gameControllerFacade.GameFailed += OnGameFailed;
+            _gameControllerFacade.PointUpdated += OnPointUpdated;
         }
 
         public void Dispose()
@@ -24,6 +25,7 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.GoClicked -= OnGoClicked;
             _mainGameView.RestartClicked -= OnRestartClicked;
             _gameControllerFacade.GameFailed -= OnGameFailed;
+            _gameControllerFacade.PointUpdated -= OnPointUpdated;
         }
 
         private void OnGoClicked()
@@ -39,6 +41,12 @@ namespace Features.UI.Presenters.Impl
         private void OnGameFailed()
         {
             _mainGameView.ShowRestartButton();
+        }
+        
+        
+        private void OnPointUpdated(int pointsCount)
+        {
+            _mainGameView.SetPointsCount(pointsCount);
         }
     }
 }

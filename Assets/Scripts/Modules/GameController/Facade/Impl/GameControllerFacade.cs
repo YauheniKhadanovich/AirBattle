@@ -10,6 +10,7 @@ namespace Modules.GameController.Facade.Impl
         public event Action<BotInfo> SpawnBotRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
+        public event Action<int> PointUpdated = delegate { };
 
         [Inject]
         private readonly IBotModel _botModel;
@@ -23,9 +24,9 @@ namespace Modules.GameController.Facade.Impl
             GameStarted.Invoke();
         }
 
-        public void OnBotDestroyed(BotType botType)
+        public void OnBotDestroyed(BotType botType, bool byPlayer)
         {
-            _botModel.OnBotDestroyed(botType);
+            _botModel.OnBotDestroyed(botType, byPlayer);
         }
 
         public void OnBotSpawned(BotType botType)
@@ -41,6 +42,11 @@ namespace Modules.GameController.Facade.Impl
         public void OnGameFailed()
         {
             GameFailed.Invoke();
+        }
+        
+        public void OnPointUpdated(int points)
+        {
+            PointUpdated.Invoke(points);
         }
     }
 }

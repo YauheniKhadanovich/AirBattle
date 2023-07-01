@@ -2,7 +2,7 @@ namespace Features.Bots
 {
     public interface IMortal
     {
-        void Damage(int value);
+        void Damage(int damageValue, bool byPlayer);
         void FullDamage();
     }
 }

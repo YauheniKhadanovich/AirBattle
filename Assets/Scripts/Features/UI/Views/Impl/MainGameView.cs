@@ -15,6 +15,8 @@ namespace Features.UI.Views.Impl
         private MainButton _restartButton;
         [SerializeField] 
         private GameObject _footPane;
+        [SerializeField] 
+        private PointsField _pointsField;
         
         public void Awake()
         {
@@ -29,6 +31,11 @@ namespace Features.UI.Views.Impl
             HideFootPanel();
         }
 
+        public void SetPointsCount(int points)
+        {
+            _pointsField.Set(points);
+        }
+        
         public void ShowRestartButton()
         {
             _goButton.DisableButton();
