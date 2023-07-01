@@ -6,12 +6,14 @@ using Zenject;
 
 namespace Modules.GameController.Models.Impl
 {
-    public class BotModel : IBotModel
+    public class GameModel : IGameModel
     {
         [Inject] 
         private readonly IGameControllerFacade _gameControllerFacade;
 
-        // TODO: add serialization
+        /*
+         * TODO: add serialization
+         */
         private readonly Dictionary<BotType, BotInfo> _botCounts = new()
         {
             { BotType.GreenBalloon, new BotInfo(BotType.GreenBalloon, 10, 3f) },

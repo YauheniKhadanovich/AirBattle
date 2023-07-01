@@ -16,6 +16,7 @@ namespace Features.Spawner.Impl
 
         [Inject] 
         private IGameControllerFacade _gameControllerFacade;
+        
         [SerializeField] 
         private Transform[] _spawnPositions;
         [SerializeField] 
@@ -46,6 +47,9 @@ namespace Features.Spawner.Impl
             _planeView.InitPlane();
         }
 
+        /*
+         * TODO: refactoring. add something like queue
+         */
         private IEnumerator SpawnCoroutine(BotInfo botInfo)
         {
             yield return new WaitForSeconds(botInfo.SpawnDelay);
@@ -54,11 +58,21 @@ namespace Features.Spawner.Impl
             var bot = Instantiate(botPrefab, null);
             bot.transform.position = pos;
             bot.transform.LookAt(_groundPosition);
-            bot.BotSpawned += _gameControllerFacade.OnBotSpawned;
-            bot.BotDestroyed += _gameControllerFacade.OnBotDestroyed;
+            bot.BotSpawned += OnBotSpawned;
+            bot.BotDestroyed += OnBotDestroyed;
             yield return null;
         }
-        
+
+        private void OnBotDestroyed(BotType botType, bool byPlayer)
+        {
+            _gameControllerFacade.OnBotDestroyed(botType, byPlayer);
+        }
+
+        private void OnBotSpawned(BotType botType)
+        {
+            _gameControllerFacade.OnBotSpawned(botType);
+        }
+
         private void OnFailed()
         {
             _gameControllerFacade.OnGameFailed();

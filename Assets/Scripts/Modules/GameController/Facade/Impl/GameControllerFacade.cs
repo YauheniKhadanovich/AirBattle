@@ -13,25 +13,25 @@ namespace Modules.GameController.Facade.Impl
         public event Action<int> PointUpdated = delegate { };
 
         [Inject]
-        private readonly IBotModel _botModel;
+        private readonly IGameModel _gameModel;
 
         public void StartGame(bool needInitBots)
         {
             if (needInitBots)
             {
-                _botModel.InitBots();
+                _gameModel.InitBots();
             }
             GameStarted.Invoke();
         }
 
         public void OnBotDestroyed(BotType botType, bool byPlayer)
         {
-            _botModel.OnBotDestroyed(botType, byPlayer);
+            _gameModel.OnBotDestroyed(botType, byPlayer);
         }
 
         public void OnBotSpawned(BotType botType)
         {
-            _botModel.OnBotSpawned(botType);
+            _gameModel.OnBotSpawned(botType);
         }
 
         public void RequestSpawn(BotInfo botType)

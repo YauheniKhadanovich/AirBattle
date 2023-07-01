@@ -47,7 +47,7 @@ namespace Core.Zenject
         private void InstallModules()
         {
             Container.Bind<IGameControllerFacade>().To<GameControllerFacade>().AsCached();
-            Container.Bind(typeof(IBotModel)).To<BotModel>().AsCached();
+            Container.Bind(typeof(IGameModel)).To<GameModel>().AsCached();
         }
     }
 }
