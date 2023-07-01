@@ -42,8 +42,7 @@ namespace Features.UI.Presenters.Impl
         {
             _mainGameView.ShowRestartButton();
         }
-        
-        
+
         private void OnPointUpdated(int pointsCount)
         {
             _mainGameView.SetPointsCount(pointsCount);
