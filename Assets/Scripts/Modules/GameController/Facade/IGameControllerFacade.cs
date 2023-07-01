@@ -3,9 +3,13 @@ using Modules.GameController.Data;
 
 namespace Modules.GameController.Facade
 {
+    /*
+     * TODO: Add service
+     */
     public interface IGameControllerFacade
     {
         event Action<BotInfo> SpawnBotRequested;
+        event Action DestroyBotsRequested;
         event Action GameFailed;
         event Action GameStarted;
         event Action<int> PointUpdated; 
@@ -16,5 +20,6 @@ namespace Modules.GameController.Facade
         void OnGameFailed();
         void RequestSpawn(BotInfo botType);
         void OnPointUpdated(int points);
+        void DestroyBotsImmediately();
     }
 }

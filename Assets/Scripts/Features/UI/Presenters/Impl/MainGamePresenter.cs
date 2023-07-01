@@ -30,12 +30,12 @@ namespace Features.UI.Presenters.Impl
 
         private void OnGoClicked()
         {
-            _gameControllerFacade.StartGame(true);
+            _gameControllerFacade.StartGame(false);
         }
         
         private void OnRestartClicked()
         {
-            _gameControllerFacade.StartGame(false);
+            _gameControllerFacade.StartGame(true);
         }
 
         private void OnGameFailed()

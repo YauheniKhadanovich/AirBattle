@@ -59,13 +59,13 @@ namespace Features.Spawner.Impl
             bot.transform.position = pos;
             bot.transform.LookAt(_groundPosition);
             bot.BotSpawned += OnBotSpawned;
-            bot.BotDestroyed += OnBotDestroyed;
+            _gameControllerFacade.DestroyBotsRequested += bot.FullDamage;
+            bot.BotDestroyed += (botType, byPlayer) =>
+            {
+                _gameControllerFacade.OnBotDestroyed(botType, byPlayer);
+                _gameControllerFacade.DestroyBotsRequested -= bot.FullDamage;
+            };
             yield return null;
-        }
-
-        private void OnBotDestroyed(BotType botType, bool byPlayer)
-        {
-            _gameControllerFacade.OnBotDestroyed(botType, byPlayer);
         }
 
         private void OnBotSpawned(BotType botType)
@@ -77,5 +77,6 @@ namespace Features.Spawner.Impl
         {
             _gameControllerFacade.OnGameFailed();
         }
+        
     }
 }

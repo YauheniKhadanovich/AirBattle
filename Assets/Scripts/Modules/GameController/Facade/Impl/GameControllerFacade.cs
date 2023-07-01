@@ -8,6 +8,7 @@ namespace Modules.GameController.Facade.Impl
     public class GameControllerFacade : IGameControllerFacade
     {
         public event Action<BotInfo> SpawnBotRequested = delegate { };
+        public event Action DestroyBotsRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
         public event Action<int> PointUpdated = delegate { };
@@ -15,12 +16,17 @@ namespace Modules.GameController.Facade.Impl
         [Inject]
         private readonly IGameModel _gameModel;
 
-        public void StartGame(bool needInitBots)
+        public void StartGame(bool isRestart)
         {
-            if (needInitBots)
+            if (isRestart)
+            {
+                DestroyBotsImmediately();
+            }
+            else
             {
                 _gameModel.InitBots();
             }
+
             GameStarted.Invoke();
         }
 
@@ -47,6 +53,11 @@ namespace Modules.GameController.Facade.Impl
         public void OnPointUpdated(int points)
         {
             PointUpdated.Invoke(points);
+        }
+
+        public void DestroyBotsImmediately()
+        {
+            DestroyBotsRequested.Invoke();
         }
     }
 }
