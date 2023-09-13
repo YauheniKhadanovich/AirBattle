@@ -14,7 +14,7 @@ using Zenject;
 
 namespace Core.Zenject
 {
-    public class TodoZenjectInstaller : MonoInstaller
+    public class AirBattleZenjectInstaller : MonoInstaller
     {
         [SerializeField] 
         private BotSpawner _botSpawner;

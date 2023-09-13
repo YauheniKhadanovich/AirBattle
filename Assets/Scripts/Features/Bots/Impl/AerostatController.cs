@@ -1,3 +1,7 @@
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Features.Bots.Impl
@@ -7,15 +11,53 @@ namespace Features.Bots.Impl
         [SerializeField] 
         private Transform _bodyRotationAroundSelf;
 
+        private NativeArray<float3> _nativeRotation;
+        private JobHandle _rotationJobHandle;
+
+        private void Awake()
+        {
+            _nativeRotation = new NativeArray<float3>(1, Allocator.Persistent);
+        }
+
+        private void OnDestroy()
+        {
+            _nativeRotation.Dispose();
+        }
+
         private void Update()
         {
             MoveForward();
-            RotateAroundSelf();
+
+            var rotationJob = new RotationJob(26f, Time.deltaTime, _nativeRotation);
+            _rotationJobHandle = rotationJob.Schedule();
         }
 
-        private void RotateAroundSelf()
+
+        private void LateUpdate()
         {
-            _bodyRotationAroundSelf.Rotate(Vector3.back * 26f * Time.deltaTime, Space.Self);
+            _rotationJobHandle.Complete();
+            
+            _bodyRotationAroundSelf.Rotate(_nativeRotation[0], Space.Self);
+        }
+    }
+    
+    [BurstCompile]
+    public struct RotationJob : IJob
+    {
+        private float _rotationSpeed;
+        private float _deltaTime;
+        private NativeArray<float3> _result;
+
+        public RotationJob(float rotationSpeed, float deltaTime, NativeArray<float3> result)
+        {
+            _deltaTime = deltaTime;
+            _rotationSpeed = rotationSpeed;
+            _result = result;
+        }
+
+        public void Execute()
+        {
+            _result[0] = Vector3.back * _rotationSpeed * _deltaTime;
         }
     }
 }

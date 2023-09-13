@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61eb326b4b1cd42ddb0022a5336bfa62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireEffect: {fileID: 4177570079847746373, guid: fccbd6d7e71b34135bb81d07744260ee, type: 3}
+  _fireEffect: {fileID: 3597772836445351093, guid: fccbd6d7e71b34135bb81d07744260ee, type: 3}
   bullet: {fileID: 6346473969318222330, guid: 28d64f855d1d84460aa525d652dbb9bb, type: 3}
   _fireDelay: 0.1
 --- !u!1 &963194225

@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Modules.GameController.Data;
 using Modules.GameController.Facade;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
 using Zenject;
 
 namespace Modules.GameController.Models.Impl
@@ -12,13 +15,13 @@ namespace Modules.GameController.Models.Impl
         private readonly IGameControllerFacade _gameControllerFacade;
 
         /*
-         * TODO: add serialization
+         * TODO: add serialization with BotConfig
          */
         private readonly Dictionary<BotType, BotInfo> _botCounts = new()
         {
-            { BotType.GreenBalloon, new BotInfo(BotType.GreenBalloon, 10, 3f) },
-            { BotType.RedBalloon, new BotInfo(BotType.RedBalloon, 3, 4f) },
-            { BotType.YellowBalloon, new BotInfo(BotType.YellowBalloon, 7, 3f) }
+            { BotType.GreenBalloon, new BotInfo(BotType.GreenBalloon, 15, 2f) },
+            { BotType.RedBalloon, new BotInfo(BotType.RedBalloon, 5, 3f) },
+            { BotType.YellowBalloon, new BotInfo(BotType.YellowBalloon, 9, 5f) }
         };
 
         private int _points;
@@ -35,18 +38,26 @@ namespace Modules.GameController.Models.Impl
 
         public void InitBots()
         {
-            var v = _botCounts.Keys.ToList();
-            v.ForEach(SpawnIfNeed);
+            _botCounts.Keys.ToList().ForEach(SpawnIfNeed);
         }
 
-        public void OnBotDestroyed(BotType botType, bool byPlayer)
+        public void OnBotDestroyed(BotType botType, bool wasDestroyedByPlayer)
         {
+            var incPointsJobResult = new NativeArray<int>(1, Allocator.Persistent);
+            incPointsJobResult[0] = Points;
+            var incPointsJob = new IncPointsJob
+            {
+                IsNeedIncreasePoints = wasDestroyedByPlayer,
+                Result = incPointsJobResult
+            };
+            var incPointsJobHandle = incPointsJob.Schedule();
+            
             ReduceBotsCount(botType);
             SpawnIfNeed(botType);
-            if (byPlayer)
-            {
-                Points++;
-            }
+            
+            incPointsJobHandle.Complete();
+            Points = incPointsJobResult[0];
+            incPointsJobResult.Dispose();
         }
 
         public void OnBotSpawned(BotType botType)
@@ -57,9 +68,7 @@ namespace Modules.GameController.Models.Impl
 
         private void ReduceBotsCount(BotType botType)
         {
-            var botInfo = _botCounts[botType];
-            botInfo.ReduceCounts();
-            _botCounts[botInfo.BotType] = botInfo;
+            _botCounts[botType].ReduceCounts();
         }
 
         private void SpawnIfNeed(BotType botType)
@@ -70,15 +79,26 @@ namespace Modules.GameController.Models.Impl
                 _gameControllerFacade.RequestSpawn(botInfo);
                 botInfo.IncAwaitingBotsCount();
             }
-
-            _botCounts[botInfo.BotType] = botInfo;
         }
 
         private void UpSpawnedBotsCount(BotType botType)
         {
-            var botInfo = _botCounts[botType];
-            botInfo.IncSpawnedBotsCount();
-            _botCounts[botInfo.BotType] = botInfo;
+            _botCounts[botType].IncSpawnedBotsCount();
+        }
+    }
+
+    [BurstCompile]
+    public struct IncPointsJob : IJob
+    {
+        [ReadOnly] public bool IsNeedIncreasePoints;
+        public NativeArray<int> Result;
+        
+        public void Execute()
+        {
+            if (IsNeedIncreasePoints)
+            {
+                Result[0]++;
+            }
         }
     }
 }

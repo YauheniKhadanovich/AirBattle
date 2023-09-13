@@ -6,7 +6,7 @@ namespace Features.Plane.Components
     public class FireController : MonoBehaviour
     {
         [SerializeField] 
-        private FireEffectController _fireEffect;
+        private ParticleSystem _fireEffect;
         [SerializeField] 
         private Bullet bullet;
         [SerializeField] 
