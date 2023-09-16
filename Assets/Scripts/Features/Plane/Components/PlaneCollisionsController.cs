@@ -9,7 +9,7 @@ namespace Features.Plane.Components
         
         private void OnTriggerEnter(Collider other)
         {
-            OnCollision.Invoke(other);
+        //    OnCollision.Invoke(other);
         }
     }
 }
