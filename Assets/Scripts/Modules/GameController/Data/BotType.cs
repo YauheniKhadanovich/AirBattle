@@ -1,6 +1,6 @@
 namespace Modules.GameController.Data
 {
-    public enum BotType
+    public enum BotType_
     {
         GreenBalloon,
         RedBalloon,

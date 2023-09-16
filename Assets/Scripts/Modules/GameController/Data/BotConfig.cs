@@ -1,15 +1,18 @@
+using System;
+
 namespace Modules.GameController.Data
 {
+    [Serializable]
     public struct BotConfig
     {
-        public BotType BotType { get; private set; }
-        public int MaxCount { get; private set; }
-        public float SpawnDelay { get; private set; }
+        public string BotId;
+        public int MaxCount;
+        public float SpawnDelay;
 
-        public BotConfig(BotType botType, int maxCount, float spawnDelay)
+        public BotConfig(string botId, int maxCount, float spawnDelay)
         {
+            BotId = botId;
             MaxCount = maxCount;
-            BotType = botType;
             SpawnDelay = spawnDelay;
         }
     }

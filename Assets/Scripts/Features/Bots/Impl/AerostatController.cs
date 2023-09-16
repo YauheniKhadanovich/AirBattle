@@ -32,7 +32,6 @@ namespace Features.Bots.Impl
             _rotationJobHandle = rotationJob.Schedule();
         }
 
-
         private void LateUpdate()
         {
             _rotationJobHandle.Complete();

@@ -22,7 +22,8 @@ namespace Features.Plane
         private Transform _planeModel;
         [SerializeField]
         private PlaneCollisionsController _collisionsController;
-        private float xParam;
+      
+        private float _xParam;
         private bool _isAlive;
 
         private void Start()
@@ -60,7 +61,7 @@ namespace Features.Plane
             _fireController.Fire();
         }
 
-        // TODO: use consts
+        // TODO: use constants
         private void ControlPlane()
         {
             if (!_isAlive)
@@ -69,8 +70,8 @@ namespace Features.Plane
             }
             
             var localEulerAngles = _bodyDirection.localEulerAngles;
-            xParam = Mathf.Lerp(xParam, _planeInputHandler.MovementState.x, Time.deltaTime * 5f);
-            var targetEulerAngles = new Vector3(0f, localEulerAngles.y + xParam * 40f, 0f);
+            _xParam = Mathf.Lerp(_xParam, _planeInputHandler.MovementState.x, Time.deltaTime * 5f);
+            var targetEulerAngles = new Vector3(0f, localEulerAngles.y + _xParam * 40f, 0f);
             localEulerAngles = Vector3.Lerp(localEulerAngles, targetEulerAngles, Time.deltaTime * 2f);
             _bodyDirection.localEulerAngles = localEulerAngles;
             Tilt(targetEulerAngles);

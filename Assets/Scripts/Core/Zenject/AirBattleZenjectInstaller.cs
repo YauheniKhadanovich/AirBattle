@@ -5,6 +5,7 @@ using Features.UI.Presenters;
 using Features.UI.Presenters.Impl;
 using Features.UI.Views;
 using Features.UI.Views.Impl;
+using Modules.GameController.Data.Impl;
 using Modules.GameController.Facade;
 using Modules.GameController.Facade.Impl;
 using Modules.GameController.Models;
@@ -20,7 +21,9 @@ namespace Core.Zenject
         private BotSpawner _botSpawner;
         [SerializeField] 
         private MainGameView _gameView;
-
+        [SerializeField] 
+        private BotsScriptableObject _botsScriptableObject;
+        
         public override void InstallBindings()
         {
             InstallViews();
@@ -47,7 +50,7 @@ namespace Core.Zenject
         private void InstallModules()
         {
             Container.Bind<IGameControllerFacade>().To<GameControllerFacade>().AsCached();
-            Container.Bind(typeof(IGameModel)).To<GameModel>().AsCached();
+            Container.Bind(typeof(IGameModel)).To<GameModel>().AsCached().WithArguments(_botsScriptableObject);
         }
     }
 }

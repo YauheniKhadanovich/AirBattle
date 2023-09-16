@@ -934,7 +934,7 @@ Transform:
   m_GameObject: {fileID: 1327003916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4625982039862689}
@@ -1004,6 +1004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _botSpawner: {fileID: 1968983284}
   _gameView: {fileID: 1981180263}
+  _botsScriptableObject: {fileID: 11400000, guid: c4a939d0e0d744d88a0bb65e5477f8a8, type: 2}
 --- !u!4 &1655369800
 Transform:
   m_ObjectHideFlags: 0
@@ -1347,13 +1348,6 @@ MonoBehaviour:
   - {fileID: 1480465355}
   - {fileID: 499021940}
   - {fileID: 600221591}
-  _botPrefabs:
-  - _botType: 0
-    _botPrefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
-  - _botType: 2
-    _botPrefab: {fileID: 211909451465425808, guid: 972406f6112654babbf421639283827f, type: 3}
-  - _botType: 1
-    _botPrefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
   _planeView: {fileID: 1220624509}
 --- !u!4 &1968983285
 Transform:
