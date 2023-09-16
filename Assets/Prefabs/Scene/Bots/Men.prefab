@@ -327,8 +327,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 4467798015951077980}
   _speed: 25
-  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
-  _health: 3
+  _destroyParticle: {fileID: 6692936008329589306, guid: 912ca39e5d2f64bcb8de0a9b39532fbe, type: 3}
+  _health: 1
   _bodyRotationAroundSelf: {fileID: 1214641923989584608}
   _rotationsSpeed: 25
 --- !u!54 &2079317702731168382
