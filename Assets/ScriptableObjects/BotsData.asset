@@ -14,6 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bots:
   - BotConfig:
+      BotId: Sattelite
+      MaxCount: 3
+      SpawnDelay: 1
+    BotPrefab: {fileID: 2288001822176816386, guid: 8de64764c5a29440bad670ce58e39f0a, type: 3}
+  - BotConfig:
+      BotId: man
+      MaxCount: 5
+      SpawnDelay: 0.6
+    BotPrefab: {fileID: 7714523082314059043, guid: 7c78b7ff17a914f7fb027c07c20cc5ba, type: 3}
+  - BotConfig:
       BotId: red_ball
       MaxCount: 2
       SpawnDelay: 0

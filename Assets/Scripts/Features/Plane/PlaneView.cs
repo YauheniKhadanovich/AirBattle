@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Features.Bots;
 using Features.Plane.Components;
 using Features.Shared;
@@ -13,7 +15,7 @@ namespace Features.Plane
         [SerializeField] 
         private Transform _bodyRotation;
         [SerializeField] 
-        private FireController _fireController;
+        private List<FireController> _fireControllers;
         [SerializeField] 
         private PlaneInputHandler _planeInputHandler;
         [SerializeField]
@@ -58,7 +60,7 @@ namespace Features.Plane
                 return;
             }
 
-            _fireController.Fire();
+            _fireControllers.ForEach(item=>item.Fire());
         }
 
         // TODO: use constants

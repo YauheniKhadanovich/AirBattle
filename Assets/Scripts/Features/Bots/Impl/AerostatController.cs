@@ -11,6 +11,9 @@ namespace Features.Bots.Impl
         [SerializeField] 
         private Transform _bodyRotationAroundSelf;
 
+        [SerializeField] 
+        private float _rotationsSpeed = 25f;
+
         private NativeArray<float3> _nativeRotation;
         private JobHandle _rotationJobHandle;
 
@@ -28,7 +31,7 @@ namespace Features.Bots.Impl
         {
             MoveForward();
 
-            var rotationJob = new RotationJob(26f, Time.deltaTime, _nativeRotation);
+            var rotationJob = new RotationJob(_rotationsSpeed, Time.deltaTime, _nativeRotation);
             _rotationJobHandle = rotationJob.Schedule();
         }
 
