@@ -13,7 +13,6 @@ namespace Core.Editor.Impl
         
         private BotsScriptableObject _botsScriptableObject;
         private Vector2 _scrollPosition = Vector2.zero;
-
         private bool _isShowBots = true;
 
         [MenuItem("Window/Edit Bots")]

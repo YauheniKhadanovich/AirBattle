@@ -1,7 +1,7 @@
 using Features.Bullets;
 using UnityEngine;
 
-namespace Features.Plane.Components
+namespace Features.Shared
 {
     public class FireController : MonoBehaviour
     {

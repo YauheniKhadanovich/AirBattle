@@ -10,7 +10,6 @@ namespace Features.UI.Views.Components
         private static readonly int Enabled = Animator.StringToHash("Enabled");
 
         private Animator _animator;
-
         private Button _button;
 
         public Button Button

@@ -4,6 +4,8 @@ using System.Linq;
 using Features.Bots.Impl;
 using Modules.GameController.Facade;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -22,6 +24,11 @@ namespace Features.Spawner.Impl
         private Plane.PlaneView _planeView;
         [SerializeField] 
         private Earth.Impl.Earth _earth;
+        [SerializeField] 
+        private Volume _volume;
+
+        // TODO: remove it
+        private bool _isFirstGame = true;
         
         public void Initialize()
         {
@@ -41,6 +48,7 @@ namespace Features.Spawner.Impl
         
         private void Update()
         {
+            ChangeVolume();
             foreach (var botInfo in _gameControllerFacade.Bots.Select(pair => pair.Value))
             {
                 if (!_planeView.IsAlive)
@@ -80,6 +88,7 @@ namespace Features.Spawner.Impl
 
         private void OnGameStarted()
         {
+            _isFirstGame = false;
             _planeView.InitPlane();
         }
         
@@ -96,6 +105,16 @@ namespace Features.Spawner.Impl
         private void OnGameFailed()
         {
             _planeView.DestroyPlane();
+        }
+
+        private void ChangeVolume()
+        {
+            float targetValue = _planeView.IsAlive || _isFirstGame ? 50 : -100;
+
+            _volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments);
+            var currentValue = colorAdjustments.saturation.value;
+
+            colorAdjustments.saturation.value = Mathf.Lerp(currentValue, targetValue, Time.deltaTime * 8f);
         }
     }
 }
