@@ -48,12 +48,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Emission_Power: 22.18
+    - Emission_Power: 0.58
     - Fresnel_Size: 2.32
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Fresnel_Color: {r: 0, g: 0.44607884, b: 0.4745098, a: 0}
+    - Fresnel_Color: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4641337225992018019
 MonoBehaviour:
