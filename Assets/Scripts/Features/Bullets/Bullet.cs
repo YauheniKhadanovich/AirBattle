@@ -1,47 +1,26 @@
-using Features.Bots;
 using Features.Shared;
 using UnityEngine;
 
 namespace Features.Bullets
 {
-    public class Bullet : CanFly
+    public class BaseBullet : CanFly
     {
         [SerializeField] 
-        private ParticleSystem _impactEffect;
-        [SerializeField] 
         private float _lifeTime = 4f;
-        
+
         private float _lifeTimeTmp;
 
-        private void Update()
+        protected virtual void Update()
         {
             CheckLifeTime();
-            MoveForward();
         }
-
+        
         private void CheckLifeTime()
         {
             _lifeTimeTmp += Time.deltaTime;
             if (_lifeTimeTmp > _lifeTime)
             {
                 Destroy(gameObject);
-            }
-        }
-
-        private void DestroySelf()
-        {
-            var impact = Instantiate(_impactEffect, null);
-            impact.transform.position = transform.position;
-            
-            Destroy(gameObject);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.TryGetComponent<IMortal>(out var obj))
-            {
-                obj.Damage(1, true); // TODO: add damage value
-                DestroySelf();
             }
         }
     }

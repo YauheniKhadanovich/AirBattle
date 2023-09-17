@@ -15,6 +15,8 @@ namespace Features.Bots.Impl
 
         private string _botId;
 
+        protected bool IsAlive => _health > 0;
+
         public void SetData(string botId)
         {
             _botId = botId;
@@ -23,7 +25,7 @@ namespace Features.Bots.Impl
         public void Damage(int damageValue, bool byPlayer)
         {
             _health -= damageValue;
-            if (_health <= 0)
+            if (!IsAlive)
             {
                 Destroy(byPlayer);
             }

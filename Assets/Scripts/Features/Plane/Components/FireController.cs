@@ -8,7 +8,7 @@ namespace Features.Plane.Components
         [SerializeField] 
         private ParticleSystem _fireEffect;
         [SerializeField] 
-        private Bullet bullet;
+        private BaseBullet _bullet;
         [SerializeField] 
         private float _fireDelay = 0.15f;
 
@@ -27,13 +27,19 @@ namespace Features.Plane.Components
 
         private void FireProceed()
         {
-            var effect = Instantiate(_fireEffect, transform);
-            effect.transform.rotation = transform.rotation; // TODO: fix it
-            effect.transform.position = transform.position;
+            if (_fireEffect)
+            {
+                var effect = Instantiate(_fireEffect, transform);
+                effect.transform.rotation = transform.rotation;
+                effect.transform.position = transform.position;
+            }
 
-            var bullet = Instantiate(this.bullet, null);
-            bullet.transform.rotation = transform.rotation; // TODO: fix it
-            bullet.transform.position = transform.position;
+            if (_bullet)
+            {
+                var bullet = Instantiate(_bullet, null);
+                bullet.transform.rotation = transform.rotation;
+                bullet.transform.position = transform.position;
+            }
         }
     }
 }

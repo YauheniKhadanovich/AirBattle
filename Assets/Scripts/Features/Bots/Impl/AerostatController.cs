@@ -27,7 +27,7 @@ namespace Features.Bots.Impl
             _nativeRotation.Dispose();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             MoveForward();
 
