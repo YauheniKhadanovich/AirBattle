@@ -66,6 +66,7 @@ namespace Core.Editor.Impl
                     EditorGUILayout.BeginHorizontal();
                     bot.BotConfig.BotId = EditorGUILayout.TextField("ID", bot.BotConfig.BotId);
                     bot.BotConfig.MaxCount = EditorGUILayout.IntField("MaxCount", bot.BotConfig.MaxCount);
+                    bot.BotConfig.Reward = EditorGUILayout.IntField("Reward", bot.BotConfig.Reward);
                     bot.BotConfig.SpawnDelay = EditorGUILayout.FloatField("SpawnDelay", bot.BotConfig.SpawnDelay);
                     bot.BotPrefab = EditorGUILayout.ObjectField(bot.BotPrefab, typeof(Bot), false) as Bot;
                     
@@ -99,6 +100,7 @@ namespace Core.Editor.Impl
             {
                 var bot = new BotTo();
                 botsInEditor.Add(bot);
+                bot.BotConfig.Reward = 1;
             }
         }
     }

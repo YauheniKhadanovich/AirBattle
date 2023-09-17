@@ -1,20 +1,26 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Modules.GameController.Data;
 using Modules.GameController.Data.Impl;
-using Modules.GameController.Facade;
-using Zenject;
+using UnityEngine;
 
 namespace Modules.GameController.Models.Impl
 {
     public class GameModel : IGameModel
     {
-        [Inject] 
-        private readonly IGameControllerFacade _gameControllerFacade;
         private readonly BotsScriptableObject _botsScriptableObject;
 
+        public event Action<float> EarthUpdated = delegate { };
+        public event Action<int> PointsUpdated = delegate { };
+        public event Action GameStarted = delegate { };
+        public event Action DestroyBotsRequested = delegate { };
+        public event Action GameFailed = delegate { };
+
         private int _points;
-        
+        private float _earthHealth;
+        private bool _gameInProgress;
+
         public Dictionary<string, BotInfo> Bots { get; } = new();
 
         private int Points
@@ -22,8 +28,18 @@ namespace Modules.GameController.Models.Impl
             get => _points;
             set
             {
-                _points = value;
-                _gameControllerFacade.OnPointUpdated(_points);
+                _points = Mathf.Clamp(value, 0, int.MaxValue);
+                PointsUpdated.Invoke(_points);
+            }
+        }
+        
+        private float EarthHealth
+        {
+            get => _earthHealth;
+            set
+            {
+                _earthHealth = Mathf.Clamp(value, 0, 100);
+                EarthUpdated.Invoke(_earthHealth);
             }
         }
         
@@ -36,7 +52,7 @@ namespace Modules.GameController.Models.Impl
         {
             if (isRestart)
             {
-                _gameControllerFacade.DestroyBotsImmediately();
+                DestroyBotsRequested.Invoke();
             }
             else
             {
@@ -48,10 +64,12 @@ namespace Modules.GameController.Models.Impl
                 InitBots();
             }
 
-            _gameControllerFacade.OnGameStarted();
+            _gameInProgress = true;
+            EarthHealth = 100;
+            GameStarted.Invoke();
         }
 
-        public void OnBotDestroyed(bool wasDestroyedByPlayer)
+        public void DestroyBot(bool wasDestroyedByPlayer)
         {
             if (wasDestroyedByPlayer)
             {
@@ -59,9 +77,29 @@ namespace Modules.GameController.Models.Impl
             }
         }
         
+        public void DamageEarth(float value)
+        {
+            EarthHealth -= value;
+            if (EarthHealth == 0)
+            {
+                DestroyBotsRequested.Invoke();
+                FailGame();
+            }
+        }
+
         private void InitBots()
         {
             Bots.Values.ToList().ForEach(item=>item.SetBotEnable(true));
+        }
+        
+        public void FailGame()
+        {
+            if (!_gameInProgress)
+            {
+                return;
+            }
+            _gameInProgress = false;
+            GameFailed.Invoke();
         }
     }
 }

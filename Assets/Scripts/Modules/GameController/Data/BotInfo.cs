@@ -6,9 +6,11 @@ namespace Modules.GameController.Data
         public int SpawnedBotsCount { get; private set; }
         public float SpawnTimer { get; private set; }
         public BotTo BotTo { get; private set; }
-
         public bool BotEnabled { get; private set; }
 
+        public bool IsNeedSpawnByCount => SpawnedBotsCount < BotTo.BotConfig.MaxCount && BotEnabled;
+        public bool IsNeedSpawnByTime => SpawnTimer > BotTo.BotConfig.SpawnDelay;
+        
         public BotInfo(BotTo botTo)
         {
             BotId = botTo.BotConfig.BotId;
@@ -25,21 +27,11 @@ namespace Modules.GameController.Data
             SpawnedBotsCount--;
         }
 
-        public void IncSpawnedBotsCount()
-        {
-            SpawnedBotsCount++;
-        }
-        
         public void TimerTick(float timeDelay)
         {
             SpawnTimer += timeDelay;
         }
-        
-        public bool IsNeedSpawn()
-        {
-            return SpawnTimer > BotTo.BotConfig.SpawnDelay && SpawnedBotsCount < BotTo.BotConfig.MaxCount && BotEnabled;
-        }
-        
+
         public void Spawned()
         {
             SpawnTimer = 0;

@@ -79,6 +79,7 @@ MonoBehaviour:
   _bodyDirection: {fileID: 3928341714630518652}
   _speed: 30
   _lifeTime: 4
+  _damage: 2
 --- !u!1 &729619832869019951
 GameObject:
   m_ObjectHideFlags: 0

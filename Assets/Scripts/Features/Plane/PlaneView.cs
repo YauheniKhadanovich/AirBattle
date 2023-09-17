@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Features.Bots;
 using Features.Plane.Components;
 using Features.Shared;
@@ -10,7 +9,7 @@ namespace Features.Plane
 {
     public class PlaneView : CanFly
     {
-        public event Action Failed =  delegate { };
+        public event Action PlaneDestroyed =  delegate { };
 
         [SerializeField] 
         private Transform _bodyRotation;
@@ -27,6 +26,8 @@ namespace Features.Plane
       
         private float _xParam;
         private bool _isAlive;
+
+        public bool IsAlive => _isAlive;
 
         private void Start()
         {
@@ -53,6 +54,14 @@ namespace Features.Plane
             _planeModel.gameObject.SetActive(true);
         }
 
+        public void DestroyPlane()
+        {
+            if (_isAlive)
+            {
+                DestroySelf();
+            }
+        }
+        
         private void FireIfNeed()
         {
             if (!_planeInputHandler.IsFirePressed || !_isAlive)
@@ -62,8 +71,7 @@ namespace Features.Plane
 
             _fireControllers.ForEach(item=>item.Fire());
         }
-
-        // TODO: use constants
+        
         private void ControlPlane()
         {
             if (!_isAlive)
@@ -82,7 +90,6 @@ namespace Features.Plane
         private void Tilt(Vector3 targetEulerAngles)
         {
             var tiltAngle = Mathf.Clamp(Mathf.DeltaAngle(targetEulerAngles.y, _bodyDirection.localEulerAngles.y) * 1.5f, -89f, 89f);
-        
             _bodyRotation.localEulerAngles = new Vector3(-tiltAngle, 0, 0);
         }
         
@@ -95,7 +102,7 @@ namespace Features.Plane
             
             if (other.gameObject.TryGetComponent<IMortal>(out var obj))
             {
-                obj.FullDamage(); // TODO: add damage value
+                obj.FullDamage();
                 DestroySelf();
             }
         }
@@ -106,7 +113,7 @@ namespace Features.Plane
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
             _planeModel.gameObject.SetActive(false);
-            Failed.Invoke();
+            PlaneDestroyed.Invoke();
         }
     }
 }

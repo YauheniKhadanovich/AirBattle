@@ -9,15 +9,14 @@ namespace Modules.GameController.Facade
         event Action DestroyBotsRequested;
         event Action GameFailed;
         event Action GameStarted;
-        event Action<int> PointUpdated;
+        event Action<float> EarthUpdated;
+        event Action<int> PointsUpdated;
 
         Dictionary<string, BotInfo> Bots { get; }
 
         void StartGame(bool needInitBots);
-        void OnBotDestroyed(bool byPlayer);
-        void OnGameFailed();
-        void OnPointUpdated(int points);
-        void DestroyBotsImmediately();
-        void OnGameStarted();
+        void DestroyBot(bool byPlayer);
+        void FailGame();
+        void DamageEarth(float value);
     }
 }

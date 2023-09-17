@@ -5,7 +5,8 @@ namespace Features.Bullets
 {
     public class UfoBullet : BaseBullet
     {
-        private float _damage = 1;
+        [SerializeField]
+        private float _damage = 10;
         
         protected override void Update()
         {

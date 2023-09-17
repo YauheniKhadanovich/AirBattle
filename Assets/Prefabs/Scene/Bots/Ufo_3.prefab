@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireEffect: {fileID: 0}
   _bullet: {fileID: 3671433094660953145, guid: 13e68d854becf41cd8c1e67920b406a9, type: 3}
-  _fireDelay: 6
+  _fireDelay: 4
 --- !u!1 &4737092460479805207
 GameObject:
   m_ObjectHideFlags: 0

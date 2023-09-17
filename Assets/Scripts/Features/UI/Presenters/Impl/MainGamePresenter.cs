@@ -17,7 +17,8 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.GoClicked += OnGoClicked;
             _mainGameView.RestartClicked += OnRestartClicked;
             _gameControllerFacade.GameFailed += OnGameFailed;
-            _gameControllerFacade.PointUpdated += OnPointUpdated;
+            _gameControllerFacade.PointsUpdated += OnPointUpdated;
+            _gameControllerFacade.EarthUpdated += OnEarthUpdated;
         }
 
         public void Dispose()
@@ -25,7 +26,8 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.GoClicked -= OnGoClicked;
             _mainGameView.RestartClicked -= OnRestartClicked;
             _gameControllerFacade.GameFailed -= OnGameFailed;
-            _gameControllerFacade.PointUpdated -= OnPointUpdated;
+            _gameControllerFacade.PointsUpdated -= OnPointUpdated;
+            _gameControllerFacade.EarthUpdated -= OnEarthUpdated;
         }
 
         private void OnGoClicked()
@@ -46,6 +48,11 @@ namespace Features.UI.Presenters.Impl
         private void OnPointUpdated(int pointsCount)
         {
             _mainGameView.SetPointsCount(pointsCount);
+        }
+
+        private void OnEarthUpdated(float value)
+        {
+            _mainGameView.SetEarthHealth(value);
         }
     }
 }

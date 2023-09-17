@@ -77,11 +77,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 5406016486164760958}
-  _speed: 0
+  _speed: 3
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
-  _health: 10
+  _health: 8
   _bodyRotationAroundSelf: {fileID: 5411343353667696114}
-  _rotationsSpeed: 60
+  _rotationsSpeed: 70
   _fireController: {fileID: 4838330650209121268}
 --- !u!1 &3423296238476744330
 GameObject:
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireEffect: {fileID: 0}
   _bullet: {fileID: 7741858599194515955, guid: 9113a4302ffa043ad889edd7accb29ff, type: 3}
-  _fireDelay: 1
+  _fireDelay: 6
 --- !u!1 &5409682334665146436
 GameObject:
   m_ObjectHideFlags: 0

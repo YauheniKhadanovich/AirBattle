@@ -17,6 +17,8 @@ namespace Features.UI.Views.Impl
         private GameObject _footPane;
         [SerializeField] 
         private PointsField _pointsField;
+        [SerializeField] 
+        private EarthField _earthField;
         
         public void Awake()
         {
@@ -34,6 +36,11 @@ namespace Features.UI.Views.Impl
         public void SetPointsCount(int points)
         {
             _pointsField.Set(points);
+        }
+        
+        public void SetEarthHealth(float value)
+        {
+            _earthField.Set(value);
         }
         
         public void ShowRestartButton()

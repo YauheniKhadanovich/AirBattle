@@ -20,31 +20,45 @@ namespace Features.Spawner.Impl
         private List<Transform> _spawnPositions;
         [SerializeField] 
         private Plane.PlaneView _planeView;
-
+        [SerializeField] 
+        private Earth.Impl.Earth _earth;
+        
         public void Initialize()
         {
             _gameControllerFacade.GameStarted += OnGameStarted;
-            _planeView.Failed += OnFailed;
+            _gameControllerFacade.GameFailed += OnGameFailed;
+            _earth.EarthDamaged += OnEarthDamaged;
+            _planeView.PlaneDestroyed += OnPlaneDestroyed;
         }
         
         public void Dispose()
         {
-            _planeView.Failed -= OnFailed;
+            _gameControllerFacade.GameStarted -= OnGameStarted;
+            _gameControllerFacade.GameFailed -= OnGameFailed;
+            _earth.EarthDamaged -= OnEarthDamaged;
+            _planeView.PlaneDestroyed -= OnPlaneDestroyed;
         }
         
         private void Update()
         {
             foreach (var botInfo in _gameControllerFacade.Bots.Select(pair => pair.Value))
             {
-                botInfo.TimerTick(Time.deltaTime);
-
-                if (!botInfo.IsNeedSpawn())
+                if (!_planeView.IsAlive)
+                {
+                    return;
+                }
+                if (!botInfo.IsNeedSpawnByCount)
                 {
                     continue;
                 }
-
-                Spawn(botInfo.BotId, botInfo.BotTo.BotPrefab);
+                botInfo.TimerTick(Time.deltaTime);
                 
+                if (!botInfo.IsNeedSpawnByTime)
+                {
+                    continue;
+                }
+                
+                Spawn(botInfo.BotId, botInfo.BotTo.BotPrefab);
                 botInfo.Spawned();
             }
         }
@@ -59,7 +73,7 @@ namespace Features.Spawner.Impl
             bot.BotDestroyed += (id, byPlayer) =>
             {
                 _gameControllerFacade.Bots[id].ReduceSpawnedBotsCount();
-                _gameControllerFacade.OnBotDestroyed(byPlayer);
+                _gameControllerFacade.DestroyBot(byPlayer);
                 _gameControllerFacade.DestroyBotsRequested -= bot.FullDamage;
             };
         }
@@ -69,9 +83,19 @@ namespace Features.Spawner.Impl
             _planeView.InitPlane();
         }
         
-        private void OnFailed()
+        private void OnPlaneDestroyed()
         {
-            _gameControllerFacade.OnGameFailed();
+            _gameControllerFacade.FailGame();
+        }
+        
+        private void OnEarthDamaged(float value)
+        {
+            _gameControllerFacade.DamageEarth(value);
+        }
+        
+        private void OnGameFailed()
+        {
+            _planeView.DestroyPlane();
         }
     }
 }
