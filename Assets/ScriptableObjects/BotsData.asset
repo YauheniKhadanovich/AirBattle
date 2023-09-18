@@ -14,50 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bots:
   - BotConfig:
-      BotId: Ufo_3
+      BotId: green_ball
       MaxCount: 2
-      SpawnDelay: 15
-      Reward: 0
-    BotPrefab: {fileID: 2957832113644268808, guid: c28b8f74a5ca04ec4b46e9529c215096, type: 3}
+      SpawnDelay: 2
+      Reward: 1
+    BotPrefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
   - BotConfig:
       BotId: Ufo_2
-      MaxCount: 3
-      SpawnDelay: 8
-      Reward: 0
+      MaxCount: 4
+      SpawnDelay: 6
+      Reward: 1
     BotPrefab: {fileID: 1133547530590728998, guid: 11ba6051f39f8415c98c2c287db205b8, type: 3}
   - BotConfig:
       BotId: Ufo_1
       MaxCount: 1
-      SpawnDelay: 35
-      Reward: 0
+      SpawnDelay: 15
+      Reward: 1
     BotPrefab: {fileID: 5129636357559307413, guid: 14c9dc0affefc40b4964940d79604b9d, type: 3}
   - BotConfig:
-      BotId: Sattelite2
-      MaxCount: 1
-      SpawnDelay: 2
-      Reward: 0
-    BotPrefab: {fileID: 8552852941380101632, guid: 3dab79d6ec6dd49d58f527b637e23682, type: 3}
-  - BotConfig:
       BotId: Sattelite
-      MaxCount: 3
-      SpawnDelay: 2
-      Reward: 0
+      MaxCount: 2
+      SpawnDelay: 5
+      Reward: 1
     BotPrefab: {fileID: 2288001822176816386, guid: 8de64764c5a29440bad670ce58e39f0a, type: 3}
   - BotConfig:
       BotId: man
       MaxCount: 3
       SpawnDelay: 2
-      Reward: 0
+      Reward: 1
     BotPrefab: {fileID: 7714523082314059043, guid: 7c78b7ff17a914f7fb027c07c20cc5ba, type: 3}
   - BotConfig:
       BotId: red_ball
-      MaxCount: 0
-      SpawnDelay: 0
-      Reward: 0
+      MaxCount: 2
+      SpawnDelay: 2
+      Reward: 1
     BotPrefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
-  - BotConfig:
-      BotId: green_ball
-      MaxCount: 0
-      SpawnDelay: 0
-      Reward: 0
-    BotPrefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
