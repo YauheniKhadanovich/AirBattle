@@ -1,5 +1,6 @@
 using System;
 using Features.UI.Views.Components;
+using Modules.GameController.Models.Impl;
 using UnityEngine;
 
 namespace Features.UI.Views.Impl
@@ -18,7 +19,7 @@ namespace Features.UI.Views.Impl
         [SerializeField] 
         private PointsField _pointsField;
         [SerializeField] 
-        private EarthField _earthField;
+        private LevelField _levelField;
         
         public void Awake()
         {
@@ -38,11 +39,11 @@ namespace Features.UI.Views.Impl
             _pointsField.Set(points);
         }
         
-        public void SetEarthHealth(float value)
+        public void SetCurrentLevel(Level level)
         {
-            _earthField.Set(value);
+            _levelField.SetLevel(level);
         }
-        
+
         public void ShowRestartButton()
         {
             _goButton.DisableButton();

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 344964040162096211}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_LocalScale: {x: 0.035, y: 0.035, z: 0.035}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 343526173930455807}
@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 349733183402917491}
-  _speed: 25
-  _botType: 1
+  _speed: 42
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
   _health: 3
   _bodyRotationAroundSelf: {fileID: 343526173930455807}
+  _rotationsSpeed: 60
 --- !u!54 &2738600387260499537
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.33
   m_Center: {x: 0, y: 0, z: -0.14}
 --- !u!1 &6943841349111275911
 GameObject:

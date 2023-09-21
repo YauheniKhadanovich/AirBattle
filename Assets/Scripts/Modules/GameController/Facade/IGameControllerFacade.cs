@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Modules.GameController.Data;
+using Modules.GameController.Models.Impl;
 
 namespace Modules.GameController.Facade
 {
@@ -9,14 +10,13 @@ namespace Modules.GameController.Facade
         event Action DestroyBotsRequested;
         event Action GameFailed;
         event Action GameStarted;
-        event Action<float> EarthUpdated;
+        event Action<Level> LevelUpdated;
         event Action<int> PointsUpdated;
 
         Dictionary<string, BotInfo> Bots { get; }
 
         void StartGame(bool needInitBots);
-        void DestroyBot(bool byPlayer);
+        void DestroyBot(string botId, bool byPlayer);
         void FailGame();
-        void DamageEarth(float value);
     }
 }

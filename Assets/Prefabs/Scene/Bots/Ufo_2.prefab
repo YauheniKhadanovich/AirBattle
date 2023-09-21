@@ -278,7 +278,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: -0.14}
 --- !u!114 &1133547530590728998
 MonoBehaviour:
@@ -293,11 +293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 255875279080158925}
-  _speed: 9
+  _speed: 20
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
   _health: 2
   _bodyRotationAroundSelf: {fileID: 257829377569016385}
-  _rotationsSpeed: 200
+  _rotationsSpeed: 70
   _fireController: {fileID: 841678867633048647}
 --- !u!1 &7425019225342191929
 GameObject:

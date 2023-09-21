@@ -70,6 +70,10 @@ namespace Core.Editor.Impl
                     bot.BotPrefab = EditorGUILayout.ObjectField(bot.BotPrefab, typeof(Bot), false) as Bot;
                     
                     EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                    bot.BotConfig.AppearFromLevel = EditorGUILayout.IntField("From Level", bot.BotConfig.AppearFromLevel);
+                    bot.BotConfig.AppearToLevel = EditorGUILayout.IntField("To Level", bot.BotConfig.AppearToLevel);
+                    EditorGUILayout.EndHorizontal();
                     EditorGUI.indentLevel -= 1;
 
                     EditorGUILayout.Space(50);

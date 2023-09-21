@@ -5,9 +5,6 @@ namespace Features.Bullets
 {
     public class UfoBullet : BaseBullet
     {
-        [SerializeField]
-        private float _damage = 10;
-        
         protected override void Update()
         {
             base.Update();
@@ -18,7 +15,7 @@ namespace Features.Bullets
         {
             if (other.TryGetComponent<IEarth>(out var earth))
             {
-                earth.Hit(_damage);
+                //earth.Hit(_damage);
                 Destroy(gameObject);
             }
         }

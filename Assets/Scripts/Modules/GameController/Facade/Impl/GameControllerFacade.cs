@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Modules.GameController.Data;
 using Modules.GameController.Models;
+using Modules.GameController.Models.Impl;
 using Zenject;
 
 namespace Modules.GameController.Facade.Impl
@@ -14,14 +15,14 @@ namespace Modules.GameController.Facade.Impl
         public event Action DestroyBotsRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
-        public event Action<float> EarthUpdated = delegate { };
+        public event Action<Level> LevelUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
 
         public Dictionary<string, BotInfo> Bots => _gameModel.Bots;
 
         public void Initialize()
         {
-            _gameModel.EarthUpdated += OnEarthUpdated;
+            _gameModel.LevelUpdated += OnLevelUpdated;
             _gameModel.DestroyBotsRequested += OnDestroyBotsRequested;
             _gameModel.GameStarted += OnGameStarted;
             _gameModel.PointsUpdated += OnPointUpdated;
@@ -30,7 +31,7 @@ namespace Modules.GameController.Facade.Impl
 
         public void Dispose()
         {
-            _gameModel.EarthUpdated -= OnEarthUpdated;
+            _gameModel.LevelUpdated -= OnLevelUpdated;
             _gameModel.DestroyBotsRequested -= OnDestroyBotsRequested;
             _gameModel.GameStarted -= OnGameStarted;
             _gameModel.PointsUpdated -= OnPointUpdated;
@@ -42,19 +43,14 @@ namespace Modules.GameController.Facade.Impl
             _gameModel.StartGame(isRestart);
         }
 
-        public void DestroyBot(bool byPlayer)
+        public void DestroyBot(string botId, bool byPlayer)
         {
-            _gameModel.DestroyBot(byPlayer);
+            _gameModel.DestroyBot(botId, byPlayer);
         }
 
         public void FailGame()
         {
             _gameModel.FailGame();
-        }
-
-        public void DamageEarth(float value)
-        {
-            _gameModel.DamageEarth(value);
         }
 
         private void OnPointUpdated(int points)
@@ -72,9 +68,9 @@ namespace Modules.GameController.Facade.Impl
             GameStarted.Invoke();
         }
 
-        private void OnEarthUpdated(float value)
+        private void OnLevelUpdated(Level level)
         {
-            EarthUpdated.Invoke(value);
+            LevelUpdated.Invoke(level);
         }
         
         private void OnGameFailed()

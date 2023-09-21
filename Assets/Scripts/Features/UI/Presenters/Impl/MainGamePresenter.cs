@@ -1,6 +1,7 @@
 using System;
 using Features.UI.Views;
 using Modules.GameController.Facade;
+using Modules.GameController.Models.Impl;
 using Zenject;
 
 namespace Features.UI.Presenters.Impl
@@ -18,7 +19,7 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.RestartClicked += OnRestartClicked;
             _gameControllerFacade.GameFailed += OnGameFailed;
             _gameControllerFacade.PointsUpdated += OnPointUpdated;
-            _gameControllerFacade.EarthUpdated += OnEarthUpdated;
+            _gameControllerFacade.LevelUpdated += OnLevelUpdated;
         }
 
         public void Dispose()
@@ -27,7 +28,7 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.RestartClicked -= OnRestartClicked;
             _gameControllerFacade.GameFailed -= OnGameFailed;
             _gameControllerFacade.PointsUpdated -= OnPointUpdated;
-            _gameControllerFacade.EarthUpdated -= OnEarthUpdated;
+            _gameControllerFacade.LevelUpdated -= OnLevelUpdated;
         }
 
         private void OnGoClicked()
@@ -50,9 +51,9 @@ namespace Features.UI.Presenters.Impl
             _mainGameView.SetPointsCount(pointsCount);
         }
 
-        private void OnEarthUpdated(float value)
+        private void OnLevelUpdated(Level level)
         {
-            _mainGameView.SetEarthHealth(value);
+            _mainGameView.SetCurrentLevel(level);
         }
     }
 }

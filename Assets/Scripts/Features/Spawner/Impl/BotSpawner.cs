@@ -34,7 +34,6 @@ namespace Features.Spawner.Impl
         {
             _gameControllerFacade.GameStarted += OnGameStarted;
             _gameControllerFacade.GameFailed += OnGameFailed;
-            _earth.EarthDamaged += OnEarthDamaged;
             _planeView.PlaneDestroyed += OnPlaneDestroyed;
         }
         
@@ -42,7 +41,6 @@ namespace Features.Spawner.Impl
         {
             _gameControllerFacade.GameStarted -= OnGameStarted;
             _gameControllerFacade.GameFailed -= OnGameFailed;
-            _earth.EarthDamaged -= OnEarthDamaged;
             _planeView.PlaneDestroyed -= OnPlaneDestroyed;
         }
         
@@ -81,7 +79,7 @@ namespace Features.Spawner.Impl
             bot.BotDestroyed += (id, byPlayer) =>
             {
                 _gameControllerFacade.Bots[id].ReduceSpawnedBotsCount();
-                _gameControllerFacade.DestroyBot(byPlayer);
+                _gameControllerFacade.DestroyBot(botId, byPlayer);
                 _gameControllerFacade.DestroyBotsRequested -= bot.FullDamage;
             };
         }
@@ -95,11 +93,6 @@ namespace Features.Spawner.Impl
         private void OnPlaneDestroyed()
         {
             _gameControllerFacade.FailGame();
-        }
-        
-        private void OnEarthDamaged(float value)
-        {
-            _gameControllerFacade.DamageEarth(value);
         }
         
         private void OnGameFailed()

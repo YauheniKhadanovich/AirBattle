@@ -11,14 +11,26 @@ namespace Modules.GameController.Models.Impl
     {
         private readonly BotsScriptableObject _botsScriptableObject;
 
-        public event Action<float> EarthUpdated = delegate { };
+        // TODO: serialize
+        private readonly Dictionary<int, float> _levelsToMaxProgressMapping = new()
+        {
+            { 1, 5 },
+            { 2, 20 },
+            { 3, 50 },
+            { 4, 50 },
+            { 5, 50 },
+        };
+
+        public event Action<Level> LevelUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
         public event Action GameStarted = delegate { };
         public event Action DestroyBotsRequested = delegate { };
         public event Action GameFailed = delegate { };
 
         private int _points;
-        private float _earthHealth;
+
+        private Level _currentLevel;
+        
         private bool _gameInProgress;
 
         public Dictionary<string, BotInfo> Bots { get; } = new();
@@ -33,18 +45,9 @@ namespace Modules.GameController.Models.Impl
             }
         }
         
-        private float EarthHealth
-        {
-            get => _earthHealth;
-            set
-            {
-                _earthHealth = Mathf.Clamp(value, 0, 100);
-                EarthUpdated.Invoke(_earthHealth);
-            }
-        }
-        
         public GameModel(BotsScriptableObject botsScriptableObject)
         {
+            _currentLevel = new Level(1, 0, 0);
             _botsScriptableObject = botsScriptableObject;
         }
         
@@ -61,35 +64,23 @@ namespace Modules.GameController.Models.Impl
                 {
                     Bots.Add(bot.BotConfig.BotId, new BotInfo(bot));
                 }
-                InitBots();
             }
 
+            _currentLevel = new Level(1, 0, _levelsToMaxProgressMapping[1]);
+            LevelUpdated.Invoke(_currentLevel);
+            InitBots();
             _gameInProgress = true;
-            EarthHealth = 100;
             GameStarted.Invoke();
         }
 
-        public void DestroyBot(bool wasDestroyedByPlayer)
+        public void DestroyBot(string botId, bool wasDestroyedByPlayer)
         {
             if (wasDestroyedByPlayer)
             {
-                Points++;
+                var reward = Bots[botId].BotTo.BotConfig.Reward;
+                Points += reward;
+                AddLevelProgress(reward);
             }
-        }
-        
-        public void DamageEarth(float value)
-        {
-            EarthHealth -= value;
-            if (EarthHealth == 0)
-            {
-                DestroyBotsRequested.Invoke();
-                FailGame();
-            }
-        }
-
-        private void InitBots()
-        {
-            Bots.Values.ToList().ForEach(item=>item.SetBotEnable(true));
         }
         
         public void FailGame()
@@ -98,8 +89,52 @@ namespace Modules.GameController.Models.Impl
             {
                 return;
             }
+
             _gameInProgress = false;
             GameFailed.Invoke();
+        }
+        
+        private void InitBots()
+        {
+            Bots.Values.ToList().ForEach(botInfo =>
+            {
+                var isEnable = botInfo.BotTo.BotConfig.AppearFromLevel <= _currentLevel.LevelNum && botInfo.BotTo.BotConfig.AppearToLevel >= _currentLevel.LevelNum;
+                botInfo.SetBotEnable(isEnable);
+                
+            });
+        }
+
+        private void AddLevelProgress(float progress)
+        {
+            _currentLevel.Progress += progress;
+
+            if (_currentLevel.Progress >= _currentLevel.MaxProgress)
+            {
+                var nextLevelNum = ++_currentLevel.LevelNum;
+                if (!_levelsToMaxProgressMapping.TryGetValue(nextLevelNum, out var newProgress))
+                {
+                    newProgress = 100;
+                }
+
+                _currentLevel = new Level(nextLevelNum, 0, newProgress);
+                InitBots();
+            }
+
+            LevelUpdated.Invoke(_currentLevel);
+        }
+    }
+
+    public struct Level
+    {
+        public int LevelNum;
+        public float Progress;
+        public float MaxProgress;
+
+        public Level(int levelNum, float progress, float maxProgress)
+        {
+            LevelNum = levelNum;
+            Progress = progress;
+            MaxProgress = maxProgress;
         }
     }
 }
