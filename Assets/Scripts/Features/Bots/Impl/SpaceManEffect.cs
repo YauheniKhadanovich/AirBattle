@@ -7,6 +7,7 @@ namespace Features.Bots.Impl
         private Vector3 _direction = Vector3.back;
         private float _speed = 1f;
         
+        // TODO: refactoring
         private void Start()
         {
             _speed = Random.Range(1f, 4f);

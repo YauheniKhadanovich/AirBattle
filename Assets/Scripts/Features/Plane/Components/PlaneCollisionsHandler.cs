@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Features.Plane.Components
 {
-    public class PlaneCollisionsController : MonoBehaviour
+    public class PlaneCollisionsHandler : MonoBehaviour
     {
         public event Action<Collider> OnCollision = delegate { };
 

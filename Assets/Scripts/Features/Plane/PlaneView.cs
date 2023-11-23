@@ -22,17 +22,16 @@ namespace Features.Plane
         [SerializeField]
         private Transform _planeModel;
         [SerializeField]
-        private PlaneCollisionsController _collisionsController;
+        private PlaneCollisionsHandler _collisionsHandler;
       
         private float _xParam;
-        private bool _isAlive;
 
-        public bool IsAlive => _isAlive;
+        public bool IsAlive { get; private set; }
 
         private void Start()
         {
-            _collisionsController.OnCollision += OnCollision;
-            _isAlive = false;
+            _collisionsHandler.OnCollision += OnCollision;
+            IsAlive = false;
             _planeModel.gameObject.SetActive(false);
         }
         
@@ -45,18 +44,18 @@ namespace Features.Plane
 
         private void OnDestroy()
         {
-            _collisionsController.OnCollision -= OnCollision;
+            _collisionsHandler.OnCollision -= OnCollision;
         }
         
         public void InitPlane()
         {
-            _isAlive = true;
+            IsAlive = true;
             _planeModel.gameObject.SetActive(true);
         }
 
         public void DestroyPlane()
         {
-            if (_isAlive)
+            if (IsAlive)
             {
                 DestroySelf();
             }
@@ -64,7 +63,7 @@ namespace Features.Plane
         
         private void FireIfNeed()
         {
-            if (!_planeInputHandler.IsFirePressed || !_isAlive)
+            if (!_planeInputHandler.IsFirePressed || !IsAlive)
             {
                 return;
             }
@@ -74,7 +73,7 @@ namespace Features.Plane
         
         private void ControlPlane()
         {
-            if (!_isAlive)
+            if (!IsAlive)
             {
                 return;
             }
@@ -95,7 +94,7 @@ namespace Features.Plane
         
         private void OnCollision(Collider other)
         {
-            if (!_isAlive)
+            if (!IsAlive)
             {
                 return;
             }
@@ -109,7 +108,7 @@ namespace Features.Plane
 
         private void DestroySelf()
         {
-            _isAlive = false;
+            IsAlive = false;
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
             _planeModel.gameObject.SetActive(false);
