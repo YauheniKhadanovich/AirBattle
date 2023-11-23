@@ -28,9 +28,7 @@ namespace Modules.GameController.Models.Impl
         public event Action GameFailed = delegate { };
 
         private int _points;
-
         private Level _currentLevel;
-        
         private bool _gameInProgress;
 
         public Dictionary<string, BotInfo> Bots { get; } = new();
@@ -51,7 +49,7 @@ namespace Modules.GameController.Models.Impl
             _botsScriptableObject = botsScriptableObject;
         }
         
-        public void StartGame(bool isRestart)
+        public void ReportStartClicked(bool isRestart)
         {
             if (isRestart)
             {
@@ -73,17 +71,16 @@ namespace Modules.GameController.Models.Impl
             GameStarted.Invoke();
         }
 
-        public void DestroyBot(string botId, bool wasDestroyedByPlayer)
+        public void ReportBotDestroyed(string botId, bool wasDestroyedByPlayer)
         {
             if (wasDestroyedByPlayer)
             {
                 var reward = Bots[botId].BotTo.BotConfig.Reward;
-                Points += reward;
                 AddLevelProgress(reward);
             }
         }
         
-        public void FailGame()
+        public void ReportPlayerDestroyed()
         {
             if (!_gameInProgress)
             {
@@ -93,14 +90,18 @@ namespace Modules.GameController.Models.Impl
             _gameInProgress = false;
             GameFailed.Invoke();
         }
-        
+
+        public void ReportCoinTaken()
+        {
+            Points += 1;
+        }
+
         private void InitBots()
         {
             Bots.Values.ToList().ForEach(botInfo =>
             {
                 var isEnable = botInfo.BotTo.BotConfig.AppearFromLevel <= _currentLevel.LevelNum && botInfo.BotTo.BotConfig.AppearToLevel >= _currentLevel.LevelNum;
                 botInfo.SetBotEnable(isEnable);
-                
             });
         }
 

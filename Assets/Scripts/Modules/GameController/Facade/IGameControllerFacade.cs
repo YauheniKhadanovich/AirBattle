@@ -15,8 +15,9 @@ namespace Modules.GameController.Facade
 
         Dictionary<string, BotInfo> Bots { get; }
 
-        void StartGame(bool needInitBots);
-        void DestroyBot(string botId, bool byPlayer);
-        void FailGame();
+        void ReportStartClicked(bool needInitBots);
+        void ReportBotDestroyed(string botId, bool byPlayer);
+        void ReportPlayerDestroyed();
+        void ReportCoinTaken();
     }
 }

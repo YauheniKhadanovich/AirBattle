@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Features.Bots.Impl;
+using Features.Environment.Earth.Impl;
 using Modules.GameController.Facade;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -23,7 +24,7 @@ namespace Features.Spawner.Impl
         [SerializeField] 
         private Plane.PlaneView _planeView;
         [SerializeField] 
-        private Earth.Impl.Earth _earth;
+        private Earth _earth;
         [SerializeField] 
         private Volume _volume;
 
@@ -35,8 +36,9 @@ namespace Features.Spawner.Impl
             _gameControllerFacade.GameStarted += OnGameStarted;
             _gameControllerFacade.GameFailed += OnGameFailed;
             _planeView.PlaneDestroyed += OnPlaneDestroyed;
+            _planeView.TakeCoin += OnTakeCoin;
         }
-        
+
         public void Dispose()
         {
             _gameControllerFacade.GameStarted -= OnGameStarted;
@@ -79,7 +81,7 @@ namespace Features.Spawner.Impl
             bot.BotDestroyed += (id, byPlayer) =>
             {
                 _gameControllerFacade.Bots[id].ReduceSpawnedBotsCount();
-                _gameControllerFacade.DestroyBot(botId, byPlayer);
+                _gameControllerFacade.ReportBotDestroyed(botId, byPlayer);
                 _gameControllerFacade.DestroyBotsRequested -= bot.FullDamage;
             };
         }
@@ -92,7 +94,12 @@ namespace Features.Spawner.Impl
         
         private void OnPlaneDestroyed()
         {
-            _gameControllerFacade.FailGame();
+            _gameControllerFacade.ReportPlayerDestroyed();
+        }
+        
+        private void OnTakeCoin()
+        {
+            _gameControllerFacade.ReportCoinTaken();
         }
         
         private void OnGameFailed()

@@ -15,8 +15,9 @@ namespace Modules.GameController.Models
         
         Dictionary<string, BotInfo> Bots { get; }
 
-        void StartGame(bool isRestart);
-        void DestroyBot(string botId, bool byPlayer);
-        void FailGame();
+        void ReportStartClicked(bool isRestart);
+        void ReportBotDestroyed(string botId, bool byPlayer);
+        void ReportPlayerDestroyed();
+        void ReportCoinTaken();
     }
 }

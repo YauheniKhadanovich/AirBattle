@@ -1,4 +1,4 @@
-namespace Features.Earth
+namespace Features.Environment.Earth
 {
     public interface IEarth
     {

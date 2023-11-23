@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Features.Bots;
+using Features.Environment.Coins;
 using Features.Plane.Components;
 using Features.Shared;
 using UnityEngine;
 
 namespace Features.Plane
 {
-    public class PlaneView : CanFly
+    public class PlaneView : CanFly // TODO: add zenject initializer
     {
         public event Action PlaneDestroyed =  delegate { };
+        public event Action TakeCoin =  delegate { };
 
         [SerializeField] 
         private Transform _bodyRotation;
@@ -103,6 +105,11 @@ namespace Features.Plane
             {
                 obj.FullDamage();
                 DestroySelf();
+            }
+            if (other.gameObject.TryGetComponent<ICoin>(out var coin))
+            {
+                TakeCoin.Invoke();
+                coin.Take();
             }
         }
 

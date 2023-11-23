@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Features.Earth.Impl
+namespace Features.Environment.Earth.Impl
 {
     public class Earth : MonoBehaviour, IEarth
     {

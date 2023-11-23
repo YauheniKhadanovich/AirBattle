@@ -163,8 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 349733183402917491}
-  _speed: 42
+  _speed: 30
+  _coin: {fileID: 1713039090909254266, guid: 15cc826146a9f4fa9921f05dc07be145, type: 3}
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _smokeParticle: {fileID: 19852826, guid: 552b7b5872bf41745810a0b7bdabf440, type: 3}
   _health: 3
   _bodyRotationAroundSelf: {fileID: 343526173930455807}
   _rotationsSpeed: 60

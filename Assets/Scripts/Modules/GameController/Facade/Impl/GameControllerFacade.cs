@@ -38,19 +38,24 @@ namespace Modules.GameController.Facade.Impl
             _gameModel.GameFailed -= OnGameFailed;
         }
 
-        public void StartGame(bool isRestart)
+        public void ReportStartClicked(bool isRestart)
         {
-            _gameModel.StartGame(isRestart);
+            _gameModel.ReportStartClicked(isRestart);
         }
 
-        public void DestroyBot(string botId, bool byPlayer)
+        public void ReportBotDestroyed(string botId, bool byPlayer)
         {
-            _gameModel.DestroyBot(botId, byPlayer);
+            _gameModel.ReportBotDestroyed(botId, byPlayer);
         }
 
-        public void FailGame()
+        public void ReportPlayerDestroyed()
         {
-            _gameModel.FailGame();
+            _gameModel.ReportPlayerDestroyed();
+        }
+
+        public void ReportCoinTaken()
+        {
+            _gameModel.ReportCoinTaken();
         }
 
         private void OnPointUpdated(int points)

@@ -1,4 +1,4 @@
-using Features.Earth;
+using Features.Environment.Earth;
 using UnityEngine;
 
 namespace Features.Bullets
