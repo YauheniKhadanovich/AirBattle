@@ -60,6 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8933fd1d134be8869a1c2d30c06119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coinTransform: {fileID: 1713039092168327213}
+  _takeEffect: {fileID: 19884698, guid: c816e04fdd948ef479558e37f6acc4ae, type: 3}
+  _expiredEffect: {fileID: 19884698, guid: c816e04fdd948ef479558e37f6acc4ae, type: 3}
 --- !u!1 &1713039092168327212
 GameObject:
   m_ObjectHideFlags: 0

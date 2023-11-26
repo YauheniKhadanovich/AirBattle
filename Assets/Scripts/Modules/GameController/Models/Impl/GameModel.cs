@@ -16,7 +16,7 @@ namespace Modules.GameController.Models.Impl
         {
             { 1, 5 },
             { 2, 20 },
-            { 3, 50 },
+            { 3, 30 },
             { 4, 50 },
             { 5, 50 },
         };

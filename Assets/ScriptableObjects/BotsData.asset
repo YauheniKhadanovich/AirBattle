@@ -15,8 +15,8 @@ MonoBehaviour:
   Bots:
   - BotConfig:
       BotId: green_ball
-      MaxCount: 2
-      SpawnDelay: 1.5
+      MaxCount: 5
+      SpawnDelay: 1.2
       Reward: 1
       AppearFromLevel: 0
       AppearToLevel: 2
@@ -39,24 +39,24 @@ MonoBehaviour:
     BotPrefab: {fileID: 5129636357559307413, guid: 14c9dc0affefc40b4964940d79604b9d, type: 3}
   - BotConfig:
       BotId: Sattelite
-      MaxCount: 2
-      SpawnDelay: 5
+      MaxCount: 4
+      SpawnDelay: 3
       Reward: 1
       AppearFromLevel: 3
-      AppearToLevel: 3
+      AppearToLevel: 5
     BotPrefab: {fileID: 2288001822176816386, guid: 8de64764c5a29440bad670ce58e39f0a, type: 3}
   - BotConfig:
       BotId: man
-      MaxCount: 5
-      SpawnDelay: 1
+      MaxCount: 7
+      SpawnDelay: 1.5
       Reward: 1
       AppearFromLevel: 3
       AppearToLevel: 100
     BotPrefab: {fileID: 7714523082314059043, guid: 7c78b7ff17a914f7fb027c07c20cc5ba, type: 3}
   - BotConfig:
       BotId: red_ball
-      MaxCount: 7
-      SpawnDelay: 1
+      MaxCount: 5
+      SpawnDelay: 1.4
       Reward: 1
       AppearFromLevel: 2
       AppearToLevel: 2

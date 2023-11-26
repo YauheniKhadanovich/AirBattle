@@ -15,7 +15,9 @@ namespace Features.UI.Views.Impl
         [SerializeField] 
         private MainButton _restartButton;
         [SerializeField] 
-        private GameObject _footPane;
+        private GameObject _headPanel;
+        [SerializeField] 
+        private GameObject _footPanel;
         [SerializeField] 
         private PointsField _pointsField;
         [SerializeField] 
@@ -31,7 +33,8 @@ namespace Features.UI.Views.Impl
         {
             _goButton.EnableButton();
             _restartButton.DisableButton();
-            HideFootPanel();
+            _headPanel.SetActive(false);
+            _footPanel.SetActive(false);
         }
 
         public void SetPointsCount(int points)
@@ -48,31 +51,23 @@ namespace Features.UI.Views.Impl
         {
             _goButton.DisableButton();
             _restartButton.EnableButton();
-            HideFootPanel();
+            _footPanel.SetActive(false);
         }
 
         private void GoOnClick()
         {
             GoClicked.Invoke();
             _goButton.DisableButton();
-            ShowFootPanel();
+            _headPanel.SetActive(true);
+            _footPanel.SetActive(true);
         }
         
         private void RestartOnClick()
         {
             RestartClicked.Invoke();
             _restartButton.DisableButton();
-            ShowFootPanel();
-        }
-
-        private void ShowFootPanel()
-        {
-            _footPane.SetActive(true);
-        }
-        
-        private void HideFootPanel()
-        {
-            _footPane.SetActive(false);
+            _headPanel.SetActive(true);
+            _footPanel.SetActive(true);
         }
     }
 }

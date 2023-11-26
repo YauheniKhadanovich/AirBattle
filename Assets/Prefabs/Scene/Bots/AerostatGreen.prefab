@@ -52,7 +52,7 @@ MonoBehaviour:
   _coin: {fileID: 1713039090909254266, guid: 15cc826146a9f4fa9921f05dc07be145, type: 3}
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
   _smokeParticle: {fileID: 3768578476237731264}
-  _health: 3
+  _health: 2
   _bodyRotationAroundSelf: {fileID: 4450703653756043941}
   _rotationsSpeed: 25
 --- !u!54 &-321593230701081280
