@@ -10,7 +10,7 @@ namespace Modules.GameController.Models
         event Action<Level> LevelUpdated;
         event Action<int> PointsUpdated;
         event Action GameStarted;
-        event Action DestroyBotsRequested;
+        event Action ClearLevelRequested;
         event Action GameFailed;
         
         Dictionary<string, BotInfo> Bots { get; }

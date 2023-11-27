@@ -1,6 +1,6 @@
 using System;
-using Features.Environment.Coins.Impl;
 using Features.Shared;
+using Features.Spawner;
 using Modules.GameController.Facade;
 using UnityEngine;
 using Zenject;
@@ -9,11 +9,13 @@ namespace Features.Bots.Impl
 {
     public class Bot : CanFly, IMortal, IInitializable, IDisposable
     {
-        [Inject] 
-        private IGameControllerFacade _gameControllerFacade;
+        [Inject]
+        private readonly IGameControllerFacade _gameControllerFacade;
+        [Inject]
+        private readonly IGameSpawner _gameSpawner;
         
         [SerializeField]
-        private Coin _coin;
+        private bool _isContainsCoin;
         [SerializeField]
         private ParticleSystem _destroyParticle;
         [SerializeField]
@@ -28,12 +30,12 @@ namespace Features.Bots.Impl
 
         public void Initialize()
         {
-            _gameControllerFacade.DestroyBotsRequested += OnDestroyBotsRequested;
+            _gameControllerFacade.ClearLevelRequested += OnClearLevelRequested;
         }
         
         public void Dispose()
         {
-            _gameControllerFacade.DestroyBotsRequested -= OnDestroyBotsRequested;
+            _gameControllerFacade.ClearLevelRequested -= OnClearLevelRequested;
         }
         
         public void SetData(string botId)
@@ -63,17 +65,16 @@ namespace Features.Bots.Impl
             Destroy(false);
         }
 
-        private void OnDestroyBotsRequested()
+        private void OnClearLevelRequested()
         {
             FullDamage();
         }
         
         private void Destroy(bool byPlayer)
         {
-            if (_coin && byPlayer)
+            if (_isContainsCoin && byPlayer)
             {
-                var coin = Instantiate(_coin, null);
-                coin.transform.position = transform.position;
+                _gameSpawner.SpawnCoin(transform.position);
             }
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;

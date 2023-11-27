@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 4457375200429082445}
   _speed: 12
-  _coin: {fileID: 1713039090909254266, guid: 15cc826146a9f4fa9921f05dc07be145, type: 3}
+  _isContainsCoin: 1
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
   _smokeParticle: {fileID: 3768578476237731264}
   _health: 2

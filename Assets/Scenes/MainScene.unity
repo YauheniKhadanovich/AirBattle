@@ -31166,7 +31166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928692ca77a54140be74056b3acdb4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _botSpawner: {fileID: 1968983284}
+  gameSpawner: {fileID: 1968983284}
   _gameView: {fileID: 1981180263}
   _botsScriptableObject: {fileID: 11400000, guid: c4a939d0e0d744d88a0bb65e5477f8a8, type: 2}
 --- !u!4 &1655369800
@@ -36330,6 +36330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c49a046ad242189cff8dd6a6e21c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coin: {fileID: 1713039090909254266, guid: 15cc826146a9f4fa9921f05dc07be145, type: 3}
   _spawnPositions:
   - {fileID: 1480465355}
   - {fileID: 499021940}

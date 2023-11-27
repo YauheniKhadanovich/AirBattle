@@ -7,7 +7,7 @@ namespace Modules.GameController.Facade
 {
     public interface IGameControllerFacade
     {
-        event Action DestroyBotsRequested;
+        event Action ClearLevelRequested;
         event Action GameFailed;
         event Action GameStarted;
         event Action<Level> LevelUpdated;

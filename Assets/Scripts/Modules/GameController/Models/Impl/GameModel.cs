@@ -24,7 +24,7 @@ namespace Modules.GameController.Models.Impl
         public event Action<Level> LevelUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
         public event Action GameStarted = delegate { };
-        public event Action DestroyBotsRequested = delegate { };
+        public event Action ClearLevelRequested = delegate { };
         public event Action GameFailed = delegate { };
 
         private int _points;
@@ -53,7 +53,7 @@ namespace Modules.GameController.Models.Impl
         {
             if (isRestart)
             {
-                DestroyBotsRequested.Invoke();
+                ClearLevelRequested.Invoke();
             }
             else
             {

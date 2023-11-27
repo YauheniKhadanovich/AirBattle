@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Features.Bots.Impl;
+using Features.Environment.Coins.Impl;
 using Features.Environment.Earth.Impl;
 using Modules.GameController.Facade;
 using UnityEngine;
@@ -12,15 +13,17 @@ using Random = UnityEngine.Random;
 
 namespace Features.Spawner.Impl
 {
-    public class BotSpawner : MonoBehaviour, IBotSpawner, IInitializable, IDisposable
+    public class GameSpawner : MonoBehaviour, IGameSpawner, IInitializable, IDisposable
     {
         private readonly Vector3 _groundPosition = Vector3.zero;
 
         [Inject] 
-        private IGameControllerFacade _gameControllerFacade;
+        private readonly IGameControllerFacade _gameControllerFacade;
         [Inject]
         private readonly DiContainer _container;
-        
+
+        [SerializeField] 
+        private Coin _coin;
         [SerializeField] 
         private List<Transform> _spawnPositions;
         [SerializeField] 
@@ -46,6 +49,7 @@ namespace Features.Spawner.Impl
             _gameControllerFacade.GameStarted -= OnGameStarted;
             _gameControllerFacade.GameFailed -= OnGameFailed;
             _planeView.PlaneDestroyed -= OnPlaneDestroyed;
+            _planeView.TakeCoin -= OnTakeCoin;
         }
         
         private void Update()
@@ -68,12 +72,12 @@ namespace Features.Spawner.Impl
                     continue;
                 }
                 
-                Spawn(botInfo.BotId, botInfo.BotTo.BotPrefab);
+                SpawnBot(botInfo.BotId, botInfo.BotTo.BotPrefab);
                 botInfo.Spawned();
             }
         }
 
-        private void Spawn(string botId, Bot botPrefab)
+        private void SpawnBot(string botId, Bot botPrefab)
         {
             var position = _spawnPositions[Random.Range(0, _spawnPositions.Count)].position;
             var bot = _container.InstantiatePrefabForComponent<Bot>(botPrefab, position, Quaternion.identity, null);
@@ -88,6 +92,15 @@ namespace Features.Spawner.Impl
             bot.transform.LookAt(_groundPosition);
         }
 
+        public void SpawnCoin(Vector3 position)
+        {
+            var coin = _container.InstantiatePrefabForComponent<Coin>(_coin, position, Quaternion.identity, null);
+            if (coin is IInitializable initializableCoin)
+            {
+                initializableCoin.Initialize();
+            }
+        }
+        
         private void OnGameStarted()
         {
             _isFirstGame = false;

@@ -18,7 +18,7 @@ namespace Core.Zenject
     public class AirBattleZenjectInstaller : MonoInstaller
     {
         [SerializeField] 
-        private BotSpawner _botSpawner;
+        private GameSpawner gameSpawner;
         [SerializeField] 
         private MainGameView _gameView;
         [SerializeField] 
@@ -44,7 +44,7 @@ namespace Core.Zenject
 
         private void InstallFeatures()
         {
-            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IBotSpawner)).To<BotSpawner>().FromInstance(_botSpawner).AsCached();
+            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameSpawner)).To<GameSpawner>().FromInstance(gameSpawner).AsCached();
         }
         
         private void InstallModules()

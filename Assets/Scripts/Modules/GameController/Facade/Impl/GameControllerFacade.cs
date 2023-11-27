@@ -12,7 +12,7 @@ namespace Modules.GameController.Facade.Impl
         [Inject] 
         private readonly IGameModel _gameModel;
 
-        public event Action DestroyBotsRequested = delegate { };
+        public event Action ClearLevelRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
         public event Action<Level> LevelUpdated = delegate { };
@@ -23,7 +23,7 @@ namespace Modules.GameController.Facade.Impl
         public void Initialize()
         {
             _gameModel.LevelUpdated += OnLevelUpdated;
-            _gameModel.DestroyBotsRequested += OnDestroyBotsRequested;
+            _gameModel.ClearLevelRequested += OnClearLevelRequested;
             _gameModel.GameStarted += OnGameStarted;
             _gameModel.PointsUpdated += OnPointUpdated;
             _gameModel.GameFailed += OnGameFailed;
@@ -32,7 +32,7 @@ namespace Modules.GameController.Facade.Impl
         public void Dispose()
         {
             _gameModel.LevelUpdated -= OnLevelUpdated;
-            _gameModel.DestroyBotsRequested -= OnDestroyBotsRequested;
+            _gameModel.ClearLevelRequested -= OnClearLevelRequested;
             _gameModel.GameStarted -= OnGameStarted;
             _gameModel.PointsUpdated -= OnPointUpdated;
             _gameModel.GameFailed -= OnGameFailed;
@@ -63,9 +63,9 @@ namespace Modules.GameController.Facade.Impl
             PointsUpdated.Invoke(points);
         }
 
-        private void OnDestroyBotsRequested()
+        private void OnClearLevelRequested()
         {
-            DestroyBotsRequested.Invoke();
+            ClearLevelRequested.Invoke();
         }
 
         private void OnGameStarted()

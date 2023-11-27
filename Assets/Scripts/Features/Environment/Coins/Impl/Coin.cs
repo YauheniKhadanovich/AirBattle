@@ -1,11 +1,18 @@
+using System;
+using Modules.GameController.Facade;
 using UnityEngine;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Features.Environment.Coins.Impl
 {
-    public class Coin : MonoBehaviour, ICoin
+    public class Coin : MonoBehaviour, ICoin, IInitializable, IDisposable
     {
         private const float CoinTime = 7f;
 
+        [Inject]
+        private readonly IGameControllerFacade _gameControllerFacade;
+        
         [SerializeField] 
         private Transform _coinTransform;
         [SerializeField] 
@@ -17,6 +24,16 @@ namespace Features.Environment.Coins.Impl
         private float _rotationSpeed = 50f;
         private float _time = CoinTime;
 
+        public void Initialize()
+        {
+            _gameControllerFacade.ClearLevelRequested += OnClearLevelRequested;
+        }
+
+        public void Dispose()
+        {
+            _gameControllerFacade.ClearLevelRequested -= OnClearLevelRequested;
+        }
+        
         private void Start()
         {
             _randomRotationDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -32,11 +49,6 @@ namespace Features.Environment.Coins.Impl
             }
 
             Destroy(gameObject);
-        }
-
-        public void NeedDestroy()
-        {
-            Expired();
         }
 
         private void Expired()
@@ -58,6 +70,16 @@ namespace Features.Environment.Coins.Impl
             {
                 Expired();
             }
+        }
+        
+        private void OnClearLevelRequested()
+        {
+            Expired();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
     }
 }
