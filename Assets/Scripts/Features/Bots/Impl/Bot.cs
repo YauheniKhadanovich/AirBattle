@@ -1,14 +1,17 @@
 using System;
 using Features.Environment.Coins.Impl;
 using Features.Shared;
+using Modules.GameController.Facade;
 using UnityEngine;
+using Zenject;
 
 namespace Features.Bots.Impl
 {
-    public class Bot : CanFly, IMortal
+    public class Bot : CanFly, IMortal, IInitializable, IDisposable
     {
-        public event Action<string, bool> BotDestroyed = delegate {  };
-
+        [Inject] 
+        private IGameControllerFacade _gameControllerFacade;
+        
         [SerializeField]
         private Coin _coin;
         [SerializeField]
@@ -23,6 +26,16 @@ namespace Features.Bots.Impl
 
         protected bool IsAlive => _currentHealth > 0;
 
+        public void Initialize()
+        {
+            _gameControllerFacade.DestroyBotsRequested += OnDestroyBotsRequested;
+        }
+        
+        public void Dispose()
+        {
+            _gameControllerFacade.DestroyBotsRequested -= OnDestroyBotsRequested;
+        }
+        
         public void SetData(string botId)
         {
             _botId = botId;
@@ -50,6 +63,11 @@ namespace Features.Bots.Impl
             Destroy(false);
         }
 
+        private void OnDestroyBotsRequested()
+        {
+            FullDamage();
+        }
+        
         private void Destroy(bool byPlayer)
         {
             if (_coin && byPlayer)
@@ -59,8 +77,14 @@ namespace Features.Bots.Impl
             }
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
-            BotDestroyed(_botId, byPlayer);
+            _gameControllerFacade.Bots[_botId].ReduceSpawnedBotsCount();
+            _gameControllerFacade.ReportBotDestroyed(_botId, byPlayer);
             GameObject.Destroy(gameObject);
+        }
+        
+        protected virtual void OnDestroy()
+        {
+            Dispose();
         }
     }
 }

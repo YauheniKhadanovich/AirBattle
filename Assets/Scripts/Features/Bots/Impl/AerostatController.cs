@@ -10,7 +10,6 @@ namespace Features.Bots.Impl
     {
         [SerializeField] 
         private Transform _bodyRotationAroundSelf;
-
         [SerializeField] 
         private float _rotationsSpeed = 25f;
 
@@ -22,9 +21,10 @@ namespace Features.Bots.Impl
             _nativeRotation = new NativeArray<float3>(1, Allocator.Persistent);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             _nativeRotation.Dispose();
+            base.OnDestroy();
         }
 
         protected virtual void Update()

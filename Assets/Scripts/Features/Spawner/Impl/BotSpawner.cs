@@ -18,6 +18,8 @@ namespace Features.Spawner.Impl
 
         [Inject] 
         private IGameControllerFacade _gameControllerFacade;
+        [Inject]
+        private readonly DiContainer _container;
         
         [SerializeField] 
         private List<Transform> _spawnPositions;
@@ -73,17 +75,17 @@ namespace Features.Spawner.Impl
 
         private void Spawn(string botId, Bot botPrefab)
         {
-            var bot = Instantiate(botPrefab, null);
+            var position = _spawnPositions[Random.Range(0, _spawnPositions.Count)].position;
+            var bot = _container.InstantiatePrefabForComponent<Bot>(botPrefab, position, Quaternion.identity, null);
+                          
+            if (bot is IInitializable initializableBot)
+            {
+                initializableBot.Initialize();
+            }
+            
             bot.SetData(botId);
             bot.transform.position = _spawnPositions[Random.Range(0, _spawnPositions.Count)].position;
             bot.transform.LookAt(_groundPosition);
-            _gameControllerFacade.DestroyBotsRequested += bot.FullDamage;
-            bot.BotDestroyed += (id, byPlayer) =>
-            {
-                _gameControllerFacade.Bots[id].ReduceSpawnedBotsCount();
-                _gameControllerFacade.ReportBotDestroyed(botId, byPlayer);
-                _gameControllerFacade.DestroyBotsRequested -= bot.FullDamage;
-            };
         }
 
         private void OnGameStarted()
