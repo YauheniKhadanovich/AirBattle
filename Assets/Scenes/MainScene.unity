@@ -348,6 +348,7 @@ MonoBehaviour:
   _darkBackGround: {fileID: 1491729854}
   _popupsContainer: {fileID: 8880403602251455089}
   _failPopup: {fileID: 1204470360943103495, guid: 3957ac169a3a845c9b2ebd5b3d8d3423, type: 3}
+  _levelPopup: {fileID: 3183624411209403306, guid: 3293bcb3c0fb44f8da6051569ce7e25f, type: 3}
 --- !u!4 &51137509
 Transform:
   m_ObjectHideFlags: 0

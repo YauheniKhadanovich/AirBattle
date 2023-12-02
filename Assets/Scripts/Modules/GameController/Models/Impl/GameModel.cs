@@ -11,7 +11,7 @@ namespace Modules.GameController.Models.Impl
     {
         private readonly BotsScriptableObject _botsScriptableObject;
 
-        // TODO: serialize
+        // TODO: serialize!
         private readonly Dictionary<int, float> _levelsToMaxProgressMapping = new()
         {
             { 1, 5 },
@@ -21,7 +21,7 @@ namespace Modules.GameController.Models.Impl
             { 5, 50 },
         };
 
-        public event Action<Level> LevelUpdated = delegate { };
+        public event Action<Level, bool> LevelUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
         public event Action GameStarted = delegate { };
         public event Action ClearLevelRequested = delegate { };
@@ -65,7 +65,7 @@ namespace Modules.GameController.Models.Impl
             }
 
             _currentLevel = new Level(1, 0, _levelsToMaxProgressMapping[1]);
-            LevelUpdated.Invoke(_currentLevel);
+            LevelUpdated.Invoke(_currentLevel, false);
             InitBots();
             _gameInProgress = true;
             GameStarted.Invoke();
@@ -108,10 +108,11 @@ namespace Modules.GameController.Models.Impl
         private void AddLevelProgress(float progress)
         {
             _currentLevel.Progress += progress;
-
+            var onlyProgressUpdated = true;
             if (_currentLevel.Progress >= _currentLevel.MaxProgress)
             {
                 var nextLevelNum = ++_currentLevel.LevelNum;
+                onlyProgressUpdated = false;
                 if (!_levelsToMaxProgressMapping.TryGetValue(nextLevelNum, out var newProgress))
                 {
                     newProgress = 100;
@@ -121,7 +122,7 @@ namespace Modules.GameController.Models.Impl
                 InitBots();
             }
 
-            LevelUpdated.Invoke(_currentLevel);
+            LevelUpdated.Invoke(_currentLevel, onlyProgressUpdated);
         }
     }
 

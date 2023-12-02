@@ -15,7 +15,7 @@ namespace Modules.GameController.Facade.Impl
         public event Action ClearLevelRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
-        public event Action<Level> LevelUpdated = delegate { };
+        public event Action<Level, bool> LevelUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
 
         public Dictionary<string, BotInfo> Bots => _gameModel.Bots;
@@ -73,9 +73,9 @@ namespace Modules.GameController.Facade.Impl
             GameStarted.Invoke();
         }
 
-        private void OnLevelUpdated(Level level)
+        private void OnLevelUpdated(Level level, bool onlyProgressUpdated)
         {
-            LevelUpdated.Invoke(level);
+            LevelUpdated.Invoke(level, onlyProgressUpdated);
         }
         
         private void OnGameFailed()

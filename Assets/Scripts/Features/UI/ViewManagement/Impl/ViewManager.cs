@@ -1,7 +1,6 @@
 using Features.UI.Presenters;
 using Features.UI.Presenters.Impl;
 using Features.UI.Views;
-using UnityEngine;
 using Zenject;
 
 namespace Features.UI.ViewManagement.Impl
@@ -11,14 +10,20 @@ namespace Features.UI.ViewManagement.Impl
         [Inject]
         private ViewFactory _factory;
         
+        public void OpenLevelView(int level)
+        {
+            var view = OpenView<ILevelPopupView, LevelPopupPresenter>(true);
+            view.SetData(level);
+        }
+        
         public void OpenFailView()
         {
             OpenView<IFailPopupView, FailPopupPresenter>(true);
         }
         
-        private void OpenView<TView, TPresenter>(bool useBackground = false) where TView : IView where TPresenter : class, IPresenter
+        private TView OpenView<TView, TPresenter>(bool useBackground = false) where TView : IView where TPresenter : class, IPresenter
         {
-            _factory.CreateView<TView, TPresenter>(useBackground);
+            return _factory.CreateView<TView, TPresenter>(useBackground);
         }
     }
 }

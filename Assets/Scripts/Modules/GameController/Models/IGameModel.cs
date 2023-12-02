@@ -7,7 +7,7 @@ namespace Modules.GameController.Models
 {
     public interface IGameModel
     {
-        event Action<Level> LevelUpdated;
+        event Action<Level, bool> LevelUpdated;
         event Action<int> PointsUpdated;
         event Action GameStarted;
         event Action ClearLevelRequested;

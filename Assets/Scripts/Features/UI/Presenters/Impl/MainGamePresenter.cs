@@ -12,13 +12,13 @@ namespace Features.UI.Presenters.Impl
         [Inject] 
         private IViewManager _viewManager;
         [Inject] 
-        private IMainGameView _mainGameView;
+        private IMainGameView _view;
         [Inject] 
         private IGameControllerFacade _gameControllerFacade;
         
         public void Initialize()
         {
-            _mainGameView.GoClicked += OnGoClicked;
+            _view.GoClicked += OnGoClicked;
             _gameControllerFacade.GameFailed += OnGameFailed;
             _gameControllerFacade.PointsUpdated += OnPointUpdated;
             _gameControllerFacade.LevelUpdated += OnLevelUpdated;
@@ -26,7 +26,7 @@ namespace Features.UI.Presenters.Impl
 
         public void Dispose()
         {
-            _mainGameView.GoClicked -= OnGoClicked;
+            _view.GoClicked -= OnGoClicked;
             _gameControllerFacade.GameFailed -= OnGameFailed;
             _gameControllerFacade.PointsUpdated -= OnPointUpdated;
             _gameControllerFacade.LevelUpdated -= OnLevelUpdated;
@@ -44,12 +44,16 @@ namespace Features.UI.Presenters.Impl
 
         private void OnPointUpdated(int pointsCount)
         {
-            _mainGameView.SetPointsCount(pointsCount);
+            _view.SetPointsCount(pointsCount);
         }
 
-        private void OnLevelUpdated(Level level)
+        private void OnLevelUpdated(Level level, bool onlyProgressUpdated)
         {
-            _mainGameView.SetCurrentLevel(level);
+            _view.SetCurrentLevel(level);
+            if (!onlyProgressUpdated)
+            {
+                _viewManager.OpenLevelView(level.LevelNum);
+            }
         }
     }
 }

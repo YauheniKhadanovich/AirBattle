@@ -7,7 +7,7 @@ namespace Features.UI.Views.Impl
     {
         public event Action ViewDestroyed = delegate { };
 
-        protected void CloseView()
+        public void CloseView()
         {
             ViewDestroyed.Invoke();
             Destroy(gameObject);

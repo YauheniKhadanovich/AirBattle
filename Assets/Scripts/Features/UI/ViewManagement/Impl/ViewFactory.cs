@@ -18,8 +18,10 @@ namespace Features.UI.ViewManagement.Impl
         private Transform _popupsContainer;
         [SerializeField]
         private FailPopupView _failPopup;
-
-        public IView CreateView<TView, TPresenter>(bool useBackground = false)
+        [SerializeField]
+        private LevelPopupView _levelPopup;
+        
+        public TView CreateView<TView, TPresenter>(bool useBackground = false)
             where TView : IView
             where TPresenter : class, IPresenter
         {
@@ -52,6 +54,7 @@ namespace Features.UI.ViewManagement.Impl
             return viewType.Name switch
             {
                 nameof(IFailPopupView) => _failPopup.gameObject,
+                nameof(ILevelPopupView) => _levelPopup.gameObject,
                 _ => throw new InvalidOperationException("No prefab defined for view type: " + viewType.Name)
             };
         }
