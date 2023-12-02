@@ -8,12 +8,9 @@ namespace Features.UI.Views.Impl
     public class MainGameView : MonoBehaviour, IMainGameView
     {
         public event Action GoClicked = delegate { };
-        public event Action RestartClicked = delegate { };
 
         [SerializeField] 
         private MainButton _goButton;
-        [SerializeField] 
-        private MainButton _restartButton;
         [SerializeField] 
         private GameObject _headPanel;
         [SerializeField] 
@@ -25,14 +22,12 @@ namespace Features.UI.Views.Impl
         
         public void Awake()
         {
-            _goButton.Button.onClick.AddListener(GoOnClick);
-            _restartButton.Button.onClick.AddListener(RestartOnClick);
+            _goButton.Button.onClick.AddListener(GoOnClick); 
         }
         
         private void Start()
         {
             _goButton.EnableButton();
-            _restartButton.DisableButton();
             _headPanel.SetActive(false);
             _footPanel.SetActive(false);
         }
@@ -50,7 +45,6 @@ namespace Features.UI.Views.Impl
         public void ShowRestartButton()
         {
             _goButton.DisableButton();
-            _restartButton.EnableButton();
             _footPanel.SetActive(false);
         }
 
@@ -58,14 +52,6 @@ namespace Features.UI.Views.Impl
         {
             GoClicked.Invoke();
             _goButton.DisableButton();
-            _headPanel.SetActive(true);
-            _footPanel.SetActive(true);
-        }
-        
-        private void RestartOnClick()
-        {
-            RestartClicked.Invoke();
-            _restartButton.DisableButton();
             _headPanel.SetActive(true);
             _footPanel.SetActive(true);
         }

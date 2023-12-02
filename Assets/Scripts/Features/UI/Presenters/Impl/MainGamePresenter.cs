@@ -1,4 +1,5 @@
 using System;
+using Features.UI.ViewManagement;
 using Features.UI.Views;
 using Modules.GameController.Facade;
 using Modules.GameController.Models.Impl;
@@ -9,6 +10,8 @@ namespace Features.UI.Presenters.Impl
     public class MainGamePresenter : IMainGamePresenter, IInitializable, IDisposable
     {
         [Inject] 
+        private IViewManager _viewManager;
+        [Inject] 
         private IMainGameView _mainGameView;
         [Inject] 
         private IGameControllerFacade _gameControllerFacade;
@@ -16,7 +19,6 @@ namespace Features.UI.Presenters.Impl
         public void Initialize()
         {
             _mainGameView.GoClicked += OnGoClicked;
-            _mainGameView.RestartClicked += OnRestartClicked;
             _gameControllerFacade.GameFailed += OnGameFailed;
             _gameControllerFacade.PointsUpdated += OnPointUpdated;
             _gameControllerFacade.LevelUpdated += OnLevelUpdated;
@@ -25,7 +27,6 @@ namespace Features.UI.Presenters.Impl
         public void Dispose()
         {
             _mainGameView.GoClicked -= OnGoClicked;
-            _mainGameView.RestartClicked -= OnRestartClicked;
             _gameControllerFacade.GameFailed -= OnGameFailed;
             _gameControllerFacade.PointsUpdated -= OnPointUpdated;
             _gameControllerFacade.LevelUpdated -= OnLevelUpdated;
@@ -35,15 +36,10 @@ namespace Features.UI.Presenters.Impl
         {
             _gameControllerFacade.ReportStartClicked(false);
         }
-        
-        private void OnRestartClicked()
-        {
-            _gameControllerFacade.ReportStartClicked(true);
-        }
 
         private void OnGameFailed()
         {
-            _mainGameView.ShowRestartButton();
+            _viewManager.OpenFailView();
         }
 
         private void OnPointUpdated(int pointsCount)

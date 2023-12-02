@@ -4,6 +4,7 @@ using System.Linq;
 using Features.Bots.Impl;
 using Features.Environment.Coins.Impl;
 using Features.Environment.Earth.Impl;
+using Features.UI.ViewManagement;
 using Modules.GameController.Facade;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -19,6 +20,8 @@ namespace Features.Spawner.Impl
 
         [Inject] 
         private readonly IGameControllerFacade _gameControllerFacade;
+        [Inject]
+        private readonly IViewManager _viewManager;
         [Inject]
         private readonly DiContainer _container;
 
@@ -54,6 +57,11 @@ namespace Features.Spawner.Impl
         
         private void Update()
         {
+            if (Input.GetKeyUp("a"))
+            {
+                _viewManager.OpenFailView();
+            }
+            
             ChangeVolume();
             foreach (var botInfo in _gameControllerFacade.Bots.Select(pair => pair.Value))
             {

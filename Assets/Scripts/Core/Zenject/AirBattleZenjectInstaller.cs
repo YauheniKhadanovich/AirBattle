@@ -3,6 +3,8 @@ using Features.Spawner;
 using Features.Spawner.Impl;
 using Features.UI.Presenters;
 using Features.UI.Presenters.Impl;
+using Features.UI.ViewManagement;
+using Features.UI.ViewManagement.Impl;
 using Features.UI.Views;
 using Features.UI.Views.Impl;
 using Modules.GameController.Data.Impl;
@@ -18,6 +20,8 @@ namespace Core.Zenject
     public class AirBattleZenjectInstaller : MonoInstaller
     {
         [SerializeField] 
+        private ViewFactory _viewFactory;
+        [SerializeField] 
         private GameSpawner gameSpawner;
         [SerializeField] 
         private MainGameView _gameView;
@@ -26,6 +30,8 @@ namespace Core.Zenject
         
         public override void InstallBindings()
         {
+            Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
+            Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
             InstallViews();
             InstallPresenters();
             InstallFeatures();
