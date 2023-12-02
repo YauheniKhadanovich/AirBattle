@@ -28,14 +28,13 @@ namespace Features.Spawner.Impl
         [SerializeField] 
         private Coin _coin;
         [SerializeField] 
-        private List<Transform> _spawnPositions;
-        [SerializeField] 
         private Plane.PlaneView _planeView;
         [SerializeField] 
         private Earth _earth;
         [SerializeField] 
         private Volume _volume;
 
+        private List<Transform> _spawnPositions;
         // TODO: remove it
         private bool _isFirstGame = true;
         
@@ -54,14 +53,14 @@ namespace Features.Spawner.Impl
             _planeView.PlaneDestroyed -= OnPlaneDestroyed;
             _planeView.TakeCoin -= OnTakeCoin;
         }
-        
+
+        private void Start()
+        {
+            _spawnPositions = GetComponentsInChildren<SpawnPoint>().Select(point => point.transform).ToList();
+        }
+
         private void Update()
         {
-            if (Input.GetKeyUp("a"))
-            {
-                _viewManager.OpenFailView();
-            }
-            
             ChangeVolume();
             foreach (var botInfo in _gameControllerFacade.Bots.Select(pair => pair.Value))
             {
