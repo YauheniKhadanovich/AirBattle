@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Features.Aircraft.Controllers;
 using Features.Bots.Impl;
 using Features.Environment.Coins.Impl;
 using Features.Environment.Earth.Impl;
-using Features.UI.ViewManagement;
 using Modules.GameController.Facade;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -21,14 +21,12 @@ namespace Features.Spawner.Impl
         [Inject] 
         private readonly IGameControllerFacade _gameControllerFacade;
         [Inject]
-        private readonly IViewManager _viewManager;
-        [Inject]
         private readonly DiContainer _container;
-
+        [Inject]
+        private readonly IAircraftController _aircraftController;
+        
         [SerializeField] 
         private Coin _coin;
-        [SerializeField] 
-        private Plane.PlaneView _planeView;
         [SerializeField] 
         private Earth _earth;
         [SerializeField] 
@@ -40,16 +38,16 @@ namespace Features.Spawner.Impl
         {
             _gameControllerFacade.GameStarted += OnGameStarted;
             _gameControllerFacade.GameFailed += OnGameFailed;
-            _planeView.PlaneDestroyed += OnPlaneDestroyed;
-            _planeView.TakeCoin += OnTakeCoin;
+            _aircraftController.PlaneDestroyed += OnPlaneDestroyed;
+            _aircraftController.TakeCoin += OnTakeCoin;
         }
 
         public void Dispose()
         {
             _gameControllerFacade.GameStarted -= OnGameStarted;
             _gameControllerFacade.GameFailed -= OnGameFailed;
-            _planeView.PlaneDestroyed -= OnPlaneDestroyed;
-            _planeView.TakeCoin -= OnTakeCoin;
+            _aircraftController.PlaneDestroyed -= OnPlaneDestroyed;
+            _aircraftController.TakeCoin -= OnTakeCoin;
         }
 
         private void Start()
@@ -60,7 +58,7 @@ namespace Features.Spawner.Impl
         private void Update()
         {
             ChangeVolume();
-            if (!_planeView.IsAlive)
+            if (!_aircraftController.IsAlive)
             {
                 return;
             }
@@ -109,7 +107,8 @@ namespace Features.Spawner.Impl
         
         private void OnGameStarted()
         {
-            _planeView.InitPlane();
+            var aircraftBodyPrefab = _gameControllerFacade.GetCurrentAircraftBodyPrefab();
+            _aircraftController.InitPlane(aircraftBodyPrefab);
         }
         
         private void OnPlaneDestroyed()
@@ -124,17 +123,17 @@ namespace Features.Spawner.Impl
         
         private void OnGameFailed()
         {
-            _planeView.DestroyPlane();
+            _aircraftController.DestroyPlane();
         }
 
         private void ChangeVolume()
         {
-            float targetValue = _planeView.IsAlive || _gameControllerFacade.GameInProgress ? 50 : -100;
+            float targetValue = _aircraftController.IsAlive || _gameControllerFacade.GameInProgress ? 50 : -100;
 
             _volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments);
             var currentValue = colorAdjustments.saturation.value;
 
-            colorAdjustments.saturation.value = Mathf.Lerp(currentValue, targetValue, Time.deltaTime * 8f);
+            colorAdjustments.saturation.value = Mathf.Lerp(currentValue, targetValue, Time.deltaTime * 7.4f);
         }
     }
 }

@@ -12,19 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e7409783e544f38907088f37fdf605, type: 3}
   m_Name: LevelsData
   m_EditorClassIdentifier: 
-  Levels:
+  _levels:
   - LevelId: 0
     PointsToFinish: 10
     Bots:
-    - MaxCount: 3
+    - MaxCount: 2
       SpawnDelay: 2
       Prefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
-    - MaxCount: 1
+    - MaxCount: 2
       SpawnDelay: 2
       Prefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
   - LevelId: 1
-    PointsToFinish: 100
+    PointsToFinish: 50
     Bots:
-    - MaxCount: 20
-      SpawnDelay: 0.1
-      Prefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
+    - MaxCount: 1
+      SpawnDelay: 1
+      Prefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
+  - LevelId: 0
+    PointsToFinish: 0
+    Bots: []

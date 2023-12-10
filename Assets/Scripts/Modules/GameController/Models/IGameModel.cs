@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Modules.GameController.Data;
+using Features.Aircraft.Components;
+using Modules.GameController.Repositories;
 
 namespace Modules.GameController.Models
 {
     public interface IGameModel
     {
-        public event Action<int> LevelUpdated;
-        public event Action<int, int> LevelProgressUpdated;
+        event Action<int> LevelUpdated;
+        event Action<int, int> LevelProgressUpdated;
         event Action<int> PointsUpdated;
         event Action GameStarted;
         event Action ClearLevelRequested;
@@ -20,5 +21,6 @@ namespace Modules.GameController.Models
         void ReportBotDestroyed(int reward, string botId, bool wasDestroyedByPlayer);
         void ReportPlayerDestroyed();
         void ReportCoinTaken();
+        AircraftBody GetCurrentAircraftBodyPrefab();
     }
 }

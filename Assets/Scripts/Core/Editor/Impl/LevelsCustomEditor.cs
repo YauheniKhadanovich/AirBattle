@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Features.Bots.Impl;
-using Modules.GameController.Data;
-using Modules.GameController.Data.Impl;
+using Modules.GameController.Repositories;
+using Modules.GameController.Repositories.Impl;
 using UnityEditor;
 using UnityEngine;
 

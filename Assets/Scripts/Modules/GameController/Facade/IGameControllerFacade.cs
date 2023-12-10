@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Modules.GameController.Data;
+using Features.Aircraft.Components;
+using Modules.GameController.Repositories;
 
 namespace Modules.GameController.Facade
 {
@@ -20,5 +21,6 @@ namespace Modules.GameController.Facade
         void ReportBotDestroyed(int reward, string botId, bool byPlayer);
         void ReportPlayerDestroyed();
         void ReportCoinTaken();
+        AircraftBody GetCurrentAircraftBodyPrefab();
     }
 }

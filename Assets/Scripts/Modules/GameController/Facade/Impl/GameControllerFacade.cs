@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Modules.GameController.Data;
+using Features.Aircraft.Components;
 using Modules.GameController.Models;
+using Modules.GameController.Repositories;
 using Zenject;
 
 namespace Modules.GameController.Facade.Impl
@@ -59,6 +60,11 @@ namespace Modules.GameController.Facade.Impl
         public void ReportCoinTaken()
         {
             _gameModel.ReportCoinTaken();
+        }
+
+        public AircraftBody GetCurrentAircraftBodyPrefab()
+        {
+            return _gameModel.GetCurrentAircraftBodyPrefab();
         }
 
         private void OnPointUpdated(int points)

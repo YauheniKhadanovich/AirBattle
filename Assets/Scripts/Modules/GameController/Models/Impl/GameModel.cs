@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Modules.GameController.Data;
-using Modules.GameController.Data.Impl;
+using Features.Aircraft.Components;
+using Modules.GameController.Repositories;
+using Modules.GameController.Repositories.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace Modules.GameController.Models.Impl
     public class GameModel : IGameModel, IInitializable, IDisposable
     {
         private readonly LevelsRepository _levelsRepository;
+        private readonly AircraftRepository _aircraftRepository;
 
         public event Action<int> LevelUpdated = delegate { };
         public event Action<int, int> LevelProgressUpdated = delegate { };
@@ -22,7 +24,6 @@ namespace Modules.GameController.Models.Impl
         private bool _gameInProgress;
         
         public Dictionary<string, BotIngameState> BotStates { get; } = new();
-        
         public bool GameInProgress => _gameInProgress;
         private int Coins
         {
@@ -34,9 +35,10 @@ namespace Modules.GameController.Models.Impl
             }
         }
         
-        public GameModel(LevelsRepository levelsRepository)
+        public GameModel(LevelsRepository levelsRepository, AircraftRepository aircraftRepository)
         {
             _levelsRepository = levelsRepository;
+            _aircraftRepository = aircraftRepository;
         }
 
         public void Initialize()
@@ -69,7 +71,7 @@ namespace Modules.GameController.Models.Impl
             }
             else
             {
-                InitBotsForLevel();
+              //  InitBotsForLevel();
             }
             _gameInProgress = true;
             _levelsRepository.FirstLevel();
@@ -104,6 +106,11 @@ namespace Modules.GameController.Models.Impl
         public void ReportCoinTaken()
         {
             Coins += 1;
+        }
+
+        public AircraftBody GetCurrentAircraftBodyPrefab()
+        {
+            return _aircraftRepository.GetCurrentBody();
         }
 
         private void AddLevelProgress(int reward)
