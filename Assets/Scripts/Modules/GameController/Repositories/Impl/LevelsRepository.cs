@@ -14,7 +14,6 @@ namespace Modules.GameController.Repositories.Impl
         [SerializeField]
         private List<LevelTo> _levels;
         
-
         private int _currentLevelIndex = -1;
         private IngameLevel _ingameLevel;
 
@@ -27,6 +26,7 @@ namespace Modules.GameController.Repositories.Impl
             {
                 _ingameLevel = new IngameLevel(level, 0);
                 LevelUpdated.Invoke(_currentLevelIndex + 1);
+                LevelProgressUpdated.Invoke(0, 1);
             }
         }
 

@@ -69,10 +69,6 @@ namespace Modules.GameController.Models.Impl
             {
                 ClearLevelRequested.Invoke();
             }
-            else
-            {
-              //  InitBotsForLevel();
-            }
             _gameInProgress = true;
             _levelsRepository.FirstLevel();
             InitBotsForLevel();
