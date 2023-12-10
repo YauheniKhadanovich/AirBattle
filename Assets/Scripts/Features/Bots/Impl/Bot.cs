@@ -15,17 +15,21 @@ namespace Features.Bots.Impl
         private readonly IGameSpawner _gameSpawner;
         
         [SerializeField]
+        private string _id;
+        [SerializeField] 
+        private int _health = 10;
+        [SerializeField] 
+        private int _reward= 1;
+        [SerializeField]
         private bool _isContainsCoin;
         [SerializeField]
         private ParticleSystem _destroyParticle;
         [SerializeField]
         private ParticleSystem _smokeParticle;
-        [SerializeField] 
-        private int _health = 10;
-
         private int _currentHealth;
         private string _botId;
 
+        public string ID => _id;
         protected bool IsAlive => _currentHealth > 0;
 
         public void Initialize()
@@ -78,8 +82,7 @@ namespace Features.Bots.Impl
             }
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
-            _gameControllerFacade.Bots[_botId].ReduceSpawnedBotsCount();
-            _gameControllerFacade.ReportBotDestroyed(_botId, byPlayer);
+            _gameControllerFacade.ReportBotDestroyed(_reward, _botId, byPlayer);
             GameObject.Destroy(gameObject);
         }
         

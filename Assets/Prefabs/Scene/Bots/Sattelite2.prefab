@@ -669,8 +669,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 2575607285464803711}
   _speed: 2
-  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _id: Sattelite2
   _health: 2
+  _reward: 1
+  _isContainsCoin: 0
+  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _smokeParticle: {fileID: 0}
   _bodyRotationAroundSelf: {fileID: 2567217161319781875}
   _rotationsSpeed: 5
 --- !u!54 &100649151624434013

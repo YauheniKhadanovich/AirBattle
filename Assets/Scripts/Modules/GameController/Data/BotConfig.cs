@@ -1,25 +1,20 @@
 using System;
+using Features.Bots.Impl;
 
 namespace Modules.GameController.Data
 {
     [Serializable]
-    public struct BotConfig
+    public class BotConfig
     {
-        public string BotId;
         public int MaxCount;
         public float SpawnDelay;
-        public int Reward;
-        public int AppearFromLevel;
-        public int AppearToLevel;
+        public Bot Prefab;
 
-        public BotConfig(string botId, int maxCount, float spawnDelay, int reward, int appearFromLevel, int appearToLevel)
+        public BotConfig()
         {
-            BotId = botId;
-            MaxCount = maxCount;
-            SpawnDelay = spawnDelay;
-            Reward = reward;
-            AppearFromLevel = appearFromLevel;
-            AppearToLevel = appearToLevel;
+            MaxCount = 0;
+            SpawnDelay = 0;
+            Prefab = null;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Features.UI.Presenters.Impl
             _gameControllerFacade.GameFailed += OnGameFailed;
             _gameControllerFacade.PointsUpdated += OnPointUpdated;
             _gameControllerFacade.LevelUpdated += OnLevelUpdated;
+            _gameControllerFacade.LevelProgressUpdated += OnLevelProgressUpdated;
         }
 
         public void Dispose()
@@ -30,6 +31,7 @@ namespace Features.UI.Presenters.Impl
             _gameControllerFacade.GameFailed -= OnGameFailed;
             _gameControllerFacade.PointsUpdated -= OnPointUpdated;
             _gameControllerFacade.LevelUpdated -= OnLevelUpdated;
+            _gameControllerFacade.LevelProgressUpdated -= OnLevelProgressUpdated;
         }
 
         private void OnGoClicked()
@@ -47,13 +49,15 @@ namespace Features.UI.Presenters.Impl
             _view.SetPointsCount(pointsCount);
         }
 
-        private void OnLevelUpdated(Level level, bool onlyProgressUpdated)
+        private void OnLevelUpdated(int levelId)
         {
-            _view.SetCurrentLevel(level);
-            if (!onlyProgressUpdated)
-            {
-                _viewManager.OpenLevelView(level.LevelNum);
-            }
+            _view.SetLevelId(levelId);
+            _viewManager.OpenLevelView(levelId);
+        }
+        
+        private void OnLevelProgressUpdated(int currentPoints, int targetPoints)
+        {
+            _view.SetLevelProgress(currentPoints, targetPoints);
         }
     }
 }

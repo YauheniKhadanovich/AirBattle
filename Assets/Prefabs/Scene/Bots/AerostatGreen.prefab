@@ -49,10 +49,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 4457375200429082445}
   _speed: 12
+  _id: AerostatGreen
+  _health: 2
+  _reward: 1
   _isContainsCoin: 1
   _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
   _smokeParticle: {fileID: 3768578476237731264}
-  _health: 2
   _bodyRotationAroundSelf: {fileID: 4450703653756043941}
   _rotationsSpeed: 25
 --- !u!54 &-321593230701081280

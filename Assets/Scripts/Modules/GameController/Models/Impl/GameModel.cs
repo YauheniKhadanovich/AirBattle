@@ -1,52 +1,64 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Modules.GameController.Data;
 using Modules.GameController.Data.Impl;
 using UnityEngine;
+using Zenject;
 
 namespace Modules.GameController.Models.Impl
 {
-    public class GameModel : IGameModel
+    public class GameModel : IGameModel, IInitializable, IDisposable
     {
-        private readonly BotsScriptableObject _botsScriptableObject;
+        private readonly LevelsRepository _levelsRepository;
 
-        // TODO: serialize!
-        private readonly Dictionary<int, float> _levelsToMaxProgressMapping = new()
-        {
-            { 1, 5 },
-            { 2, 20 },
-            { 3, 30 },
-            { 4, 50 },
-            { 5, 50 },
-        };
-
-        public event Action<Level, bool> LevelUpdated = delegate { };
+        public event Action<int> LevelUpdated = delegate { };
+        public event Action<int, int> LevelProgressUpdated = delegate { };
         public event Action<int> PointsUpdated = delegate { };
         public event Action GameStarted = delegate { };
         public event Action ClearLevelRequested = delegate { };
         public event Action GameFailed = delegate { };
 
-        private int _points;
-        private Level _currentLevel;
+        private int _coins;
         private bool _gameInProgress;
-
-        public Dictionary<string, BotInfo> Bots { get; } = new();
-
-        private int Points
+        
+        public Dictionary<string, BotIngameState> BotStates { get; } = new();
+        
+        public bool GameInProgress => _gameInProgress;
+        private int Coins
         {
-            get => _points;
+            get => _coins;
             set
             {
-                _points = Mathf.Clamp(value, 0, int.MaxValue);
-                PointsUpdated.Invoke(_points);
+                _coins = Mathf.Clamp(value, 0, int.MaxValue);
+                PointsUpdated.Invoke(_coins);
             }
         }
         
-        public GameModel(BotsScriptableObject botsScriptableObject)
+        public GameModel(LevelsRepository levelsRepository)
         {
-            _currentLevel = new Level(1, 0, 0);
-            _botsScriptableObject = botsScriptableObject;
+            _levelsRepository = levelsRepository;
+        }
+
+        public void Initialize()
+        {
+            _levelsRepository.LevelUpdated += OnLevelUpdated;
+            _levelsRepository.LevelProgressUpdated += OnLevelProgressUpdated;
+            _levelsRepository.FirstLevel();
+        }
+
+        public void Dispose()
+        {
+            _levelsRepository.LevelUpdated -= OnLevelUpdated;
+            _levelsRepository.LevelProgressUpdated -= OnLevelProgressUpdated;
+        }
+        
+        private void InitBotsForLevel()
+        {
+            BotStates.Clear();
+            foreach (var bot in _levelsRepository.IngameLevel.LevelInfo.Bots)
+            {
+                BotStates.Add(bot.Prefab.ID, new BotIngameState(bot));
+            }
         }
         
         public void ReportStartClicked(bool isRestart)
@@ -57,26 +69,24 @@ namespace Modules.GameController.Models.Impl
             }
             else
             {
-                Bots.Clear();
-                foreach (var bot in _botsScriptableObject.Bots)
-                {
-                    Bots.Add(bot.BotConfig.BotId, new BotInfo(bot));
-                }
+                InitBotsForLevel();
             }
-
-            _currentLevel = new Level(1, 0, _levelsToMaxProgressMapping[1]);
-            LevelUpdated.Invoke(_currentLevel, false);
-            InitBots();
             _gameInProgress = true;
+            _levelsRepository.FirstLevel();
+            InitBotsForLevel();
             GameStarted.Invoke();
         }
 
-        public void ReportBotDestroyed(string botId, bool wasDestroyedByPlayer)
+        public void ReportBotDestroyed(int reward, string botId, bool wasDestroyedByPlayer)
         {
             if (wasDestroyedByPlayer)
             {
-                var reward = Bots[botId].BotTo.BotConfig.Reward;
                 AddLevelProgress(reward);
+            }
+
+            if (BotStates.TryGetValue(botId, out var bot))
+            {
+                bot.ReduceSpawnedBotsCount();
             }
         }
         
@@ -93,50 +103,30 @@ namespace Modules.GameController.Models.Impl
 
         public void ReportCoinTaken()
         {
-            Points += 1;
+            Coins += 1;
         }
 
-        private void InitBots()
+        private void AddLevelProgress(int reward)
         {
-            Bots.Values.ToList().ForEach(botInfo =>
+            _levelsRepository.AddReward(reward);
+            if (_levelsRepository.IngameLevel.IsFinished)
             {
-                var isEnable = botInfo.BotTo.BotConfig.AppearFromLevel <= _currentLevel.LevelNum && botInfo.BotTo.BotConfig.AppearToLevel >= _currentLevel.LevelNum;
-                botInfo.SetBotEnable(isEnable);
-            });
-        }
-
-        private void AddLevelProgress(float progress)
-        {
-            _currentLevel.Progress += progress;
-            var onlyProgressUpdated = true;
-            if (_currentLevel.Progress >= _currentLevel.MaxProgress)
-            {
-                var nextLevelNum = ++_currentLevel.LevelNum;
-                onlyProgressUpdated = false;
-                if (!_levelsToMaxProgressMapping.TryGetValue(nextLevelNum, out var newProgress))
-                {
-                    newProgress = 100;
-                }
-
-                _currentLevel = new Level(nextLevelNum, 0, newProgress);
-                InitBots();
+                _levelsRepository.NextLevel();
+                InitBotsForLevel();
             }
-
-            LevelUpdated.Invoke(_currentLevel, onlyProgressUpdated);
         }
-    }
-
-    public struct Level
-    {
-        public int LevelNum;
-        public float Progress;
-        public float MaxProgress;
-
-        public Level(int levelNum, float progress, float maxProgress)
+        
+        private void OnLevelProgressUpdated(int currentPoints, int targetPoints)
         {
-            LevelNum = levelNum;
-            Progress = progress;
-            MaxProgress = maxProgress;
+            LevelProgressUpdated.Invoke(currentPoints, targetPoints);
+        }
+
+        private void OnLevelUpdated(int levelIs)
+        {
+            if (_gameInProgress)
+            {
+                LevelUpdated.Invoke(levelIs);
+            }
         }
     }
 }

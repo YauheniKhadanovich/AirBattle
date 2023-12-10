@@ -1,6 +1,5 @@
 using System;
 using Features.UI.Views.Components;
-using Modules.GameController.Models.Impl;
 using UnityEngine;
 
 namespace Features.UI.Views.Impl
@@ -37,9 +36,14 @@ namespace Features.UI.Views.Impl
             _pointsField.Set(points);
         }
         
-        public void SetCurrentLevel(Level level)
+        public void SetLevelId(int levelId)
         {
-            _levelField.SetLevel(level);
+            _levelField.SetLevelId(levelId);
+        }
+        
+        public void SetLevelProgress(int currentPoints, int targetPoints)
+        {
+            _levelField.SetLevelProgress(currentPoints, targetPoints);
         }
 
         public void ShowRestartButton()

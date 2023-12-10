@@ -1,5 +1,4 @@
 using System;
-using Modules.GameController.Models.Impl;
 
 namespace Features.UI.Views
 {
@@ -9,6 +8,7 @@ namespace Features.UI.Views
 
         void ShowRestartButton();
         void SetPointsCount(int points);
-        void SetCurrentLevel(Level level);
+        void SetLevelId(int levelId);
+        void SetLevelProgress(int currentPoints, int targetPoints);
     }
 }

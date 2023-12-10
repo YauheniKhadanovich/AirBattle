@@ -294,8 +294,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 255875279080158925}
   _speed: 20
-  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _id: Ufo_2
   _health: 2
+  _reward: 1
+  _isContainsCoin: 0
+  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _smokeParticle: {fileID: 0}
   _bodyRotationAroundSelf: {fileID: 257829377569016385}
   _rotationsSpeed: 70
   _fireController: {fileID: 841678867633048647}

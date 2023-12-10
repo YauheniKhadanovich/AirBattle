@@ -35,9 +35,7 @@ namespace Features.Spawner.Impl
         private Volume _volume;
 
         private List<Transform> _spawnPositions;
-        // TODO: remove it
-        private bool _isFirstGame = true;
-        
+
         public void Initialize()
         {
             _gameControllerFacade.GameStarted += OnGameStarted;
@@ -62,12 +60,13 @@ namespace Features.Spawner.Impl
         private void Update()
         {
             ChangeVolume();
+            if (!_planeView.IsAlive)
+            {
+                return;
+            }
             foreach (var botInfo in _gameControllerFacade.Bots.Select(pair => pair.Value))
             {
-                if (!_planeView.IsAlive)
-                {
-                    return;
-                }
+
                 if (!botInfo.IsNeedSpawnByCount)
                 {
                     continue;
@@ -78,8 +77,8 @@ namespace Features.Spawner.Impl
                 {
                     continue;
                 }
-                
-                SpawnBot(botInfo.BotId, botInfo.BotTo.BotPrefab);
+
+                SpawnBot(botInfo.BotId, botInfo.BotPrefab);
                 botInfo.Spawned();
             }
         }
@@ -110,7 +109,6 @@ namespace Features.Spawner.Impl
         
         private void OnGameStarted()
         {
-            _isFirstGame = false;
             _planeView.InitPlane();
         }
         
@@ -131,7 +129,7 @@ namespace Features.Spawner.Impl
 
         private void ChangeVolume()
         {
-            float targetValue = _planeView.IsAlive || _isFirstGame ? 50 : -100;
+            float targetValue = _planeView.IsAlive || _gameControllerFacade.GameInProgress ? 50 : -100;
 
             _volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments);
             var currentValue = colorAdjustments.saturation.value;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Modules.GameController.Data;
-using Modules.GameController.Models.Impl;
 
 namespace Modules.GameController.Facade
 {
@@ -10,13 +9,15 @@ namespace Modules.GameController.Facade
         event Action ClearLevelRequested;
         event Action GameFailed;
         event Action GameStarted;
-        event Action<Level, bool> LevelUpdated;
+        event Action<int> LevelUpdated;
+        event Action<int, int> LevelProgressUpdated;
         event Action<int> PointsUpdated;
 
-        Dictionary<string, BotInfo> Bots { get; }
+        IReadOnlyDictionary<string, BotIngameState> Bots { get; }
+        bool GameInProgress { get; }
 
         void ReportStartClicked(bool needInitBots);
-        void ReportBotDestroyed(string botId, bool byPlayer);
+        void ReportBotDestroyed(int reward, string botId, bool byPlayer);
         void ReportPlayerDestroyed();
         void ReportCoinTaken();
     }

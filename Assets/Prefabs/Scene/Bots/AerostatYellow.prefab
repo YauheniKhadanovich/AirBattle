@@ -49,10 +49,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyDirection: {fileID: 6340903093096484079}
   _speed: 18
-  _botType: 2
-  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _id: AerostatYellow
   _health: 3
+  _reward: 1
+  _isContainsCoin: 0
+  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _smokeParticle: {fileID: 0}
   _bodyRotationAroundSelf: {fileID: 6332512436376580195}
+  _rotationsSpeed: 25
 --- !u!54 &8441046648657573069
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Modules.GameController.Data;
 using Modules.GameController.Models;
-using Modules.GameController.Models.Impl;
 using Zenject;
 
 namespace Modules.GameController.Facade.Impl
@@ -15,14 +14,17 @@ namespace Modules.GameController.Facade.Impl
         public event Action ClearLevelRequested = delegate { };
         public event Action GameStarted = delegate { };
         public event Action GameFailed = delegate { };
-        public event Action<Level, bool> LevelUpdated = delegate { };
+        public event Action<int> LevelUpdated = delegate { };
+        public event Action<int, int> LevelProgressUpdated= delegate { };
         public event Action<int> PointsUpdated = delegate { };
 
-        public Dictionary<string, BotInfo> Bots => _gameModel.Bots;
+        public IReadOnlyDictionary<string, BotIngameState> Bots => _gameModel.BotStates;
+        public bool GameInProgress => _gameModel.GameInProgress;
 
         public void Initialize()
         {
             _gameModel.LevelUpdated += OnLevelUpdated;
+            _gameModel.LevelProgressUpdated += OnLevelProgressUpdated;
             _gameModel.ClearLevelRequested += OnClearLevelRequested;
             _gameModel.GameStarted += OnGameStarted;
             _gameModel.PointsUpdated += OnPointUpdated;
@@ -32,6 +34,7 @@ namespace Modules.GameController.Facade.Impl
         public void Dispose()
         {
             _gameModel.LevelUpdated -= OnLevelUpdated;
+            _gameModel.LevelProgressUpdated -= OnLevelProgressUpdated;
             _gameModel.ClearLevelRequested -= OnClearLevelRequested;
             _gameModel.GameStarted -= OnGameStarted;
             _gameModel.PointsUpdated -= OnPointUpdated;
@@ -43,9 +46,9 @@ namespace Modules.GameController.Facade.Impl
             _gameModel.ReportStartClicked(isRestart);
         }
 
-        public void ReportBotDestroyed(string botId, bool byPlayer)
+        public void ReportBotDestroyed(int reward, string botId, bool wasDestroyedByPlayer)
         {
-            _gameModel.ReportBotDestroyed(botId, byPlayer);
+            _gameModel.ReportBotDestroyed(reward, botId, wasDestroyedByPlayer);
         }
 
         public void ReportPlayerDestroyed()
@@ -72,10 +75,16 @@ namespace Modules.GameController.Facade.Impl
         {
             GameStarted.Invoke();
         }
-
-        private void OnLevelUpdated(Level level, bool onlyProgressUpdated)
+        
+        
+        private void OnLevelUpdated(int levelId)
         {
-            LevelUpdated.Invoke(level, onlyProgressUpdated);
+             LevelUpdated.Invoke(levelId);
+        }
+        
+        private void OnLevelProgressUpdated(int currentPoints, int targetPoints)
+        {
+            LevelProgressUpdated.Invoke(currentPoints, targetPoints);
         }
         
         private void OnGameFailed()

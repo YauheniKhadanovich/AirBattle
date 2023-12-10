@@ -13,21 +13,18 @@ using Modules.GameController.Facade.Impl;
 using Modules.GameController.Models;
 using Modules.GameController.Models.Impl;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Core.Zenject
 {
     public class AirBattleZenjectInstaller : MonoInstaller
     {
-        [SerializeField] 
-        private ViewFactory _viewFactory;
-        [SerializeField] 
-        private GameSpawner gameSpawner;
-        [SerializeField] 
-        private MainGameView _gameView;
-        [SerializeField] 
-        private BotsScriptableObject _botsScriptableObject;
-        
+        [SerializeField] private ViewFactory _viewFactory;
+        [SerializeField] private GameSpawner gameSpawner;
+        [SerializeField] private MainGameView _gameView;
+        [FormerlySerializedAs("_levelsData")] [SerializeField] private LevelsRepository levelsRepository;
+
         public override void InstallBindings()
         {
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
@@ -37,12 +34,12 @@ namespace Core.Zenject
             InstallFeatures();
             InstallModules();
         }
-        
+
         private void InstallViews()
         {
             Container.Bind<IMainGameView>().To<MainGameView>().FromInstance(_gameView).AsCached();
         }
-        
+
         private void InstallPresenters()
         {
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IMainGamePresenter)).To<MainGamePresenter>().AsCached();
@@ -52,11 +49,11 @@ namespace Core.Zenject
         {
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameSpawner)).To<GameSpawner>().FromInstance(gameSpawner).AsCached();
         }
-        
+
         private void InstallModules()
         {
-            Container.Bind(typeof(IInitializable),typeof(IGameControllerFacade)).To<GameControllerFacade>().AsCached();
-            Container.Bind(typeof(IGameModel)).To<GameModel>().AsCached().WithArguments(_botsScriptableObject);
+            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameControllerFacade)).To<GameControllerFacade>().AsCached();
+            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameModel)).To<GameModel>().AsCached().WithArguments(levelsRepository);
         }
     }
 }
