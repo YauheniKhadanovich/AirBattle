@@ -20,6 +20,7 @@ namespace Modules.GameController.Facade.Impl
         public event Action<int> PointsUpdated = delegate { };
 
         public IReadOnlyDictionary<string, BotIngameState> Bots => _gameModel.BotStates;
+        public bool WasStarted => _gameModel.WasStarted;
         public bool GameInProgress => _gameModel.GameInProgress;
 
         public void Initialize()

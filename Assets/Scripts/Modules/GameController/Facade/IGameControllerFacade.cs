@@ -15,7 +15,8 @@ namespace Modules.GameController.Facade
         event Action<int> PointsUpdated;
 
         IReadOnlyDictionary<string, BotIngameState> Bots { get; }
-        bool GameInProgress { get; }
+        bool WasStarted { get; } // TODO: refactoring
+        bool GameInProgress { get; } // TODO: refactoring
 
         void ReportStartClicked(bool needInitBots);
         void ReportBotDestroyed(int reward, string botId, bool byPlayer);

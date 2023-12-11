@@ -15,6 +15,7 @@ namespace Modules.GameController.Models
         event Action GameFailed;
         
         Dictionary<string, BotIngameState> BotStates { get; }
+        bool WasStarted { get; }
         bool GameInProgress { get; }
         
         void ReportStartClicked(bool isRestart);

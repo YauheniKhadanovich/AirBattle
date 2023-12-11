@@ -128,7 +128,7 @@ namespace Features.Spawner.Impl
 
         private void ChangeVolume()
         {
-            float targetValue = _aircraftController.IsAlive || _gameControllerFacade.GameInProgress ? 50 : -100;
+            float targetValue = _aircraftController.IsAlive || !_gameControllerFacade.WasStarted ? 50 : -100;
 
             _volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments);
             var currentValue = colorAdjustments.saturation.value;

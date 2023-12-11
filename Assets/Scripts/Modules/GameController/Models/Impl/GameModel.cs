@@ -21,10 +21,11 @@ namespace Modules.GameController.Models.Impl
         public event Action GameFailed = delegate { };
 
         private int _coins;
-        private bool _gameInProgress;
-        
+
         public Dictionary<string, BotIngameState> BotStates { get; } = new();
-        public bool GameInProgress => _gameInProgress;
+        public bool WasStarted { get; private set; } // TODO: refactoring
+        public bool GameInProgress { get; private set; } // TODO: refactoring
+
         private int Coins
         {
             get => _coins;
@@ -46,6 +47,7 @@ namespace Modules.GameController.Models.Impl
             _levelsRepository.LevelUpdated += OnLevelUpdated;
             _levelsRepository.LevelProgressUpdated += OnLevelProgressUpdated;
             _levelsRepository.FirstLevel();
+            WasStarted = false;
         }
 
         public void Dispose()
@@ -69,7 +71,9 @@ namespace Modules.GameController.Models.Impl
             {
                 ClearLevelRequested.Invoke();
             }
-            _gameInProgress = true;
+
+            WasStarted = true;
+            GameInProgress = true;
             _levelsRepository.FirstLevel();
             InitBotsForLevel();
             GameStarted.Invoke();
@@ -90,12 +94,12 @@ namespace Modules.GameController.Models.Impl
         
         public void ReportPlayerDestroyed()
         {
-            if (!_gameInProgress)
+            if (!GameInProgress)
             {
                 return;
             }
 
-            _gameInProgress = false;
+            GameInProgress = false;
             GameFailed.Invoke();
         }
 
@@ -126,7 +130,7 @@ namespace Modules.GameController.Models.Impl
 
         private void OnLevelUpdated(int levelIs)
         {
-            if (_gameInProgress)
+            if (GameInProgress)
             {
                 LevelUpdated.Invoke(levelIs);
             }
