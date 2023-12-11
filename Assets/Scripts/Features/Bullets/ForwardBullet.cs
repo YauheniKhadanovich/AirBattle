@@ -1,33 +1,33 @@
 using Features.Bots;
+using Features.Spawner;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace Features.Bullets
 {
     public class ForwardBullet : BaseBullet
     {
-        [SerializeField] 
-        private ParticleSystem _impactEffect;
-
-        private ObjectPool<ForwardBullet> _bulletsPool;
+        private IObjectPoolController _objectPoolController;
 
         protected override void Update()
         {
             base.Update();
             MoveForward();
         }
+        
+        public void SetPoolController(IObjectPoolController poolController)
+        {
+            _objectPoolController = poolController;
+        }
 
         protected override void TimeOver()
         {
-            _bulletsPool.Release(this);
+            _objectPoolController.ReleaseBullet(this);
         }
 
         private void DestroySelf()
         {
-            var impact = Instantiate(_impactEffect, null);
-            impact.transform.position = transform.position;
-            
-            _bulletsPool.Release(this);
+            _objectPoolController.SpawnBulletImpactEffect(transform.position);
+            _objectPoolController.ReleaseBullet(this);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -37,11 +37,6 @@ namespace Features.Bullets
                 obj.Damage(1, true);
                 DestroySelf();
             }
-        }
-
-        public void SetPool(ObjectPool<ForwardBullet> pool)
-        {
-            _bulletsPool = pool;
         }
     }
 }

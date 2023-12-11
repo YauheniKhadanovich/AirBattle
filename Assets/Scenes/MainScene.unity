@@ -26149,6 +26149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 8414732822992680651, guid: 28d64f855d1d84460aa525d652dbb9bb, type: 3}
+  _bulletImpactEffect: {fileID: 2432540539767435277, guid: 0617d5023d90b447da8576d6e57ae212, type: 3}
 --- !u!4 &1569456044
 Transform:
   m_ObjectHideFlags: 0
