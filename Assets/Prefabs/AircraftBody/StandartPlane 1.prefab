@@ -83,6 +83,52 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5420901968441709916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292790853555217553}
+  - component: {fileID: 1720967106287134754}
+  m_Layer: 0
+  m_Name: FirePlace (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1292790853555217553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5420901968441709916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.26, y: 0, z: 0.361}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6738478747840037270}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1720967106287134754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5420901968441709916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61eb326b4b1cd42ddb0022a5336bfa62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireEffect: {fileID: 3597772836445351093, guid: fccbd6d7e71b34135bb81d07744260ee, type: 3}
+  _fireDelay: 0.1
 --- !u!1 &6737486445990130460
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +238,7 @@ Transform:
   m_Children:
   - {fileID: 6742889155688600890}
   - {fileID: 7669124325457600384}
-  - {fileID: 7669124324687747248}
+  - {fileID: 1292790853555217553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -208,10 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a6f9771f21455d9c8b86c34e686a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _planeModel: {fileID: 6742889155688600890}
   _fireControllers:
   - {fileID: 7669124325457600385}
-  - {fileID: 7669124324687747249}
+  - {fileID: 1720967106287134754}
   _collisionsHandler: {fileID: 6742889155688600888}
 --- !u!1 &7669124324291443171
 GameObject:
@@ -5001,53 +5046,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &7669124324687747263
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7669124324687747248}
-  - component: {fileID: 7669124324687747249}
-  m_Layer: 0
-  m_Name: FirePlace (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7669124324687747248
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7669124324687747263}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.26, y: 0, z: 0.368}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6738478747840037270}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7669124324687747249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7669124324687747263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61eb326b4b1cd42ddb0022a5336bfa62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fireEffect: {fileID: 3597772836445351093, guid: fccbd6d7e71b34135bb81d07744260ee, type: 3}
-  _bullet: {fileID: 8414732822992680651, guid: 28d64f855d1d84460aa525d652dbb9bb, type: 3}
-  _fireDelay: 0.1
 --- !u!1 &7669124325110578197
 GameObject:
   m_ObjectHideFlags: 0
@@ -9881,5 +9879,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fireEffect: {fileID: 3597772836445351093, guid: fccbd6d7e71b34135bb81d07744260ee, type: 3}
-  _bullet: {fileID: 8414732822992680651, guid: 28d64f855d1d84460aa525d652dbb9bb, type: 3}
   _fireDelay: 0.1

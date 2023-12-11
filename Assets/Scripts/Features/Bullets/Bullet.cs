@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Features.Bullets
 {
-    public class BaseBullet : CanFly
+    public abstract class BaseBullet : CanFly
     {
         [SerializeField] 
         private float _lifeTime = 4f;
@@ -14,14 +14,21 @@ namespace Features.Bullets
         {
             CheckLifeTime();
         }
-        
+
+        private void OnDisable()
+        {
+            _lifeTimeTmp = 0f;
+        }
+
         private void CheckLifeTime()
         {
             _lifeTimeTmp += Time.deltaTime;
             if (_lifeTimeTmp > _lifeTime)
             {
-                Destroy(gameObject);
+                TimeOver();
             }
         }
+
+        protected abstract void TimeOver();
     }
 }

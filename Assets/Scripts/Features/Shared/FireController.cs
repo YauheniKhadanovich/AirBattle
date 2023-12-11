@@ -1,4 +1,4 @@
-using Features.Bullets;
+using Features.Spawner;
 using UnityEngine;
 
 namespace Features.Shared
@@ -8,12 +8,17 @@ namespace Features.Shared
         [SerializeField] 
         private ParticleSystem _fireEffect;
         [SerializeField] 
-        private BaseBullet _bullet;
-        [SerializeField] 
         private float _fireDelay = 0.15f;
+
+        private IObjectPoolController _objectPoolController;
 
         private float _tmpDelay;
 
+        public void SetPoolController(IObjectPoolController objectPoolController)
+        {
+            _objectPoolController = objectPoolController;
+        }
+        
         public void Fire()
         {
             _tmpDelay += Time.deltaTime;
@@ -34,12 +39,7 @@ namespace Features.Shared
                 effect.transform.position = transform.position;
             }
 
-            if (_bullet)
-            {
-                var bullet = Instantiate(_bullet, null);
-                bullet.transform.rotation = transform.rotation;
-                bullet.transform.position = transform.position;
-            }
+            _objectPoolController.SpawnBullet(transform.rotation, transform.position);
         }
     }
 }

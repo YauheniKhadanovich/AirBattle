@@ -3,6 +3,7 @@ using Features.Aircraft.Controllers;
 using Features.Bots;
 using Features.Environment.Coins;
 using Features.Shared;
+using Features.Spawner;
 using UnityEngine;
 using Zenject;
 
@@ -12,6 +13,8 @@ namespace Features.Aircraft.View.Impl // TODO
     {
         [Inject] 
         private IAircraftController _aircraftController;
+        [Inject]
+        private IObjectPoolController _objectPoolController;
         
         [SerializeField] 
         private Transform _bodyRotation;
@@ -39,6 +42,7 @@ namespace Features.Aircraft.View.Impl // TODO
                 _aircraftBody = null;
             }
             _aircraftBody = Instantiate(aircraftBody, _bodySpawnPosition.position, _bodySpawnPosition.rotation, _bodySpawnPosition);
+            _aircraftBody.SetPoolManager(_objectPoolController);
             _aircraftBody.Collision += OnCollision;
         }
         

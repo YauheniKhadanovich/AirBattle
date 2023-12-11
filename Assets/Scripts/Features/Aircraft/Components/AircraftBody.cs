@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Features.Shared;
+using Features.Spawner;
+using Features.Spawner.Impl;
 using UnityEngine;
 
 namespace Features.Aircraft.Components
@@ -9,8 +11,6 @@ namespace Features.Aircraft.Components
     {
         public event Action<Collider> Collision = delegate { };
         
-        [SerializeField]
-        private Transform _planeModel;
         [SerializeField] 
         private List<FireController> _fireControllers;
         [SerializeField]
@@ -25,7 +25,13 @@ namespace Features.Aircraft.Components
         {
             _collisionsHandler.OnCollision -= OnCollision;
         }
+        
+        public void SetPoolManager(IObjectPoolController objectPoolController)
+        {
+            _fireControllers.ForEach(item => item.SetPoolController(objectPoolController));
 
+        }
+        
         public void Fire()
         {
             _fireControllers.ForEach(item => item.Fire());

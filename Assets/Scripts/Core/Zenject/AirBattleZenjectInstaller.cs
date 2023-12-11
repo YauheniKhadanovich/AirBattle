@@ -24,6 +24,8 @@ namespace Core.Zenject
     public class AirBattleZenjectInstaller : MonoInstaller
     {
         [SerializeField] 
+        public ObjectPoolController _objectPoolController;
+        [SerializeField] 
         public PlaneView _planeView;
         [SerializeField] 
         private ViewFactory _viewFactory;
@@ -41,6 +43,7 @@ namespace Core.Zenject
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IAircraftController)).To<AircraftController>().AsCached();
             Container.Bind( typeof(IPlaneView)).FromInstance(_planeView).AsCached();
             Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
+            Container.Bind<IObjectPoolController>().FromInstance(_objectPoolController).AsCached();
             InstallViews();
             InstallPresenters();
             InstallFeatures();
