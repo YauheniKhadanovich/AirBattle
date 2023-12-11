@@ -5,13 +5,12 @@ using UnityEngine.Pool;
 
 namespace Features.Spawner.Impl
 {
-    // TODO: refactoring
     public class ObjectPoolController : MonoBehaviour, IObjectPoolController
     {
         private ObjectPool<ForwardBullet> _bulletsPool;
         private ObjectPool<ParticleSystem> _bulletsImpactEffectPool;
 
-        [SerializeField]
+        [SerializeField] 
         private ForwardBullet _bullet;
         [SerializeField] 
         private ParticleSystem _bulletImpactEffect;
@@ -21,6 +20,13 @@ namespace Features.Spawner.Impl
             _bulletsPool = new ObjectPool<ForwardBullet>(CreateBullet, OnTakeBullet, OnReturnBullet, OnDestroyBullet, true, 10, 10);
             _bulletsImpactEffectPool = new ObjectPool<ParticleSystem>(CreateBulletImpactEffect, OnTakeBulletImpactEffect, OnReturnBulletImpactEffect, OnDestroyBulletImpactEffect, true, 4, 4);
         }
+
+        public void SpawnBullet(Quaternion rotation, Vector3 position)
+        {
+            SpawnBulletInternal(rotation, position);
+        }
+
+        #region ImpactEffect
 
         private void OnDestroyBulletImpactEffect(ParticleSystem effect)
         {
@@ -45,7 +51,7 @@ namespace Features.Spawner.Impl
             return impact;
         }
 
-        public void SpawnBulletImpactEffect(Vector3 pos)
+        private void SpawnBulletImpactEffect(Vector3 pos)
         {
             var effect = _bulletsImpactEffectPool.Get();
             effect.transform.position = pos;
@@ -60,15 +66,19 @@ namespace Features.Spawner.Impl
             _bulletsImpactEffectPool.Release(effect);
         }
 
-        public void SpawnBullet(Quaternion rot, Vector3 pos)
+        #endregion
+
+        #region Bullet
+
+        private void SpawnBulletInternal(Quaternion rot, Vector3 pos)
         {
             var bullet = _bulletsPool.Get();
 
             bullet.transform.position = pos;
             bullet.transform.rotation = rot;
         }
-        
-        public void ReleaseBullet(ForwardBullet bullet)
+
+        private void ReleaseBullet(ForwardBullet bullet)
         {
             _bulletsPool.Release(bullet);
         }
@@ -76,7 +86,8 @@ namespace Features.Spawner.Impl
         private ForwardBullet CreateBullet()
         {
             var bullet = Instantiate(_bullet);
-            bullet.SetPoolController(this);
+            bullet.Disabled += ReleaseBullet;
+            bullet.EffectRequested += SpawnBulletImpactEffect;
             return bullet;
         }
 
@@ -89,10 +100,14 @@ namespace Features.Spawner.Impl
         {
             bullet.gameObject.SetActive(false);
         }
-        
+
         private void OnDestroyBullet(ForwardBullet bullet)
         {
+            bullet.Disabled -= ReleaseBullet;
+            bullet.EffectRequested -= SpawnBulletImpactEffect;
             Destroy(bullet.gameObject);
         }
+
+        #endregion
     }
 }

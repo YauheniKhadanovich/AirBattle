@@ -1,12 +1,13 @@
+using System;
 using Features.Bots;
-using Features.Spawner;
 using UnityEngine;
 
 namespace Features.Bullets
 {
     public class ForwardBullet : BaseBullet
     {
-        private IObjectPoolController _objectPoolController;
+        public event Action<ForwardBullet> Disabled = delegate { }; 
+        public event Action<Vector3> EffectRequested = delegate { }; 
 
         protected override void Update()
         {
@@ -14,20 +15,15 @@ namespace Features.Bullets
             MoveForward();
         }
         
-        public void SetPoolController(IObjectPoolController poolController)
-        {
-            _objectPoolController = poolController;
-        }
-
         protected override void TimeOver()
         {
-            _objectPoolController.ReleaseBullet(this);
+            Disabled.Invoke(this);
         }
 
         private void DestroySelf()
         {
-            _objectPoolController.SpawnBulletImpactEffect(transform.position);
-            _objectPoolController.ReleaseBullet(this);
+            EffectRequested.Invoke(transform.position);
+            Disabled.Invoke(this);
         }
 
         private void OnTriggerEnter(Collider other)

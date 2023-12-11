@@ -30,7 +30,7 @@ namespace Features.Aircraft.View.Impl // TODO
         {
             MoveForward();
             ControlPlane();
-            FireIfNeed();
+            Fire();
         }
 
         public void SetBody(AircraftBody aircraftBody)
@@ -54,7 +54,7 @@ namespace Features.Aircraft.View.Impl // TODO
             }
         }
         
-        private void FireIfNeed()
+        private void Fire()
         {
             if (!_aircraftController.IsFirePressed || !_aircraftController.IsAlive)
             {
