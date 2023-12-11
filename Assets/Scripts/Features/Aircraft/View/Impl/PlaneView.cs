@@ -1,13 +1,12 @@
 using Features.Aircraft.Components;
 using Features.Aircraft.Controllers;
-using Features.Aircraft.View;
 using Features.Bots;
 using Features.Environment.Coins;
 using Features.Shared;
 using UnityEngine;
 using Zenject;
 
-namespace Features.Plane // TODO
+namespace Features.Aircraft.View.Impl // TODO
 {
     public class PlaneView : CanFly, IPlaneView
     {

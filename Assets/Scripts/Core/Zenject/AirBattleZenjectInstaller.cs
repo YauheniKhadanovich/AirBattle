@@ -2,7 +2,7 @@ using System;
 using Features.Aircraft.Controllers;
 using Features.Aircraft.Controllers.Impl;
 using Features.Aircraft.View;
-using Features.Plane;
+using Features.Aircraft.View.Impl;
 using Features.Spawner;
 using Features.Spawner.Impl;
 using Features.UI.Presenters;
