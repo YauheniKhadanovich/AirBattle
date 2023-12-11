@@ -11,8 +11,6 @@ namespace Modules.GameController.Repositories.Impl
         private List<AircraftTo> _aircraftTos;
 
         private int _currentBodyIndex = 0;
-        
-        public List<AircraftTo> AircraftTos => _aircraftTos;
 
         public AircraftBody GetCurrentBody()
         {

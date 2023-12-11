@@ -7,18 +7,11 @@ namespace Features.Bots.Impl
         private Vector3 _direction = Vector3.back;
         private float _speed = 1f;
         
-        // TODO: refactoring
         private void Start()
         {
             _speed = Random.Range(1f, 4f);
-            _direction = Random.Range(0, 3) switch
-            {
-                0 => Vector3.back,
-                1 => Vector3.forward,
-                2 => Vector3.left,
-                3 => Vector3.right,
-                _ => _direction
-            };
+            Vector3[] possibleDirections = { Vector3.back, Vector3.forward, Vector3.left, Vector3.right };
+            _direction = possibleDirections[Random.Range(0, possibleDirections.Length)];
         }
 
         private void Update()

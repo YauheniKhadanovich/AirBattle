@@ -132,6 +132,7 @@ namespace Modules.GameController.Models.Impl
         {
             if (GameInProgress)
             {
+                ClearLevelRequested.Invoke();
                 LevelUpdated.Invoke(levelIs);
             }
         }

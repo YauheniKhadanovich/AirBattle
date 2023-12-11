@@ -16,7 +16,7 @@ MonoBehaviour:
   - LevelId: 0
     PointsToFinish: 15
     Bots:
-    - MaxCount: 5
+    - MaxCount: 6
       SpawnDelay: 2
       Prefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
     - MaxCount: 2
@@ -25,15 +25,18 @@ MonoBehaviour:
   - LevelId: 1
     PointsToFinish: 50
     Bots:
-    - MaxCount: 8
-      SpawnDelay: 2
+    - MaxCount: 13
+      SpawnDelay: 1.5
       Prefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}
-    - MaxCount: 5
-      SpawnDelay: 2
+    - MaxCount: 7
+      SpawnDelay: 1.5
       Prefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
   - LevelId: 3
     PointsToFinish: 100
     Bots:
-    - MaxCount: 7
+    - MaxCount: 10
       SpawnDelay: 1.3
       Prefab: {fileID: 5896675616864973068, guid: 2590e8d830a574fe8bbaa029c43c1cb1, type: 3}
+    - MaxCount: 6
+      SpawnDelay: 1.3
+      Prefab: {fileID: 890935477589064221, guid: 408bbaffda7104a1697073272d1320a5, type: 3}

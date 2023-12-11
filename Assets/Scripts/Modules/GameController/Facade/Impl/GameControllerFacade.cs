@@ -82,8 +82,7 @@ namespace Modules.GameController.Facade.Impl
         {
             GameStarted.Invoke();
         }
-        
-        
+
         private void OnLevelUpdated(int levelId)
         {
              LevelUpdated.Invoke(levelId);
