@@ -40,14 +40,20 @@ namespace Core.Zenject
         
         public override void InstallBindings()
         {
-            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IAircraftController)).To<AircraftController>().AsCached();
-            Container.Bind( typeof(IPlaneView)).FromInstance(_planeView).AsCached();
-            Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
-            Container.Bind<IObjectPoolController>().FromInstance(_objectPoolController).AsCached();
             InstallViews();
             InstallPresenters();
             InstallFeatures();
             InstallModules();
+        }
+
+        
+        private void InstallFeatures()
+        {
+            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IAircraftController)).To<AircraftController>().AsCached();
+            Container.Bind( typeof(IPlaneView)).FromInstance(_planeView).AsCached();
+            Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
+            Container.Bind<IObjectPoolController>().FromInstance(_objectPoolController).AsCached();
+            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameSpawner)).To<GameSpawner>().FromInstance(_gameSpawner).AsCached();
         }
 
         private void InstallViews()
@@ -59,11 +65,6 @@ namespace Core.Zenject
         private void InstallPresenters()
         {
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IMainGamePresenter)).To<MainGamePresenter>().AsCached();
-        }
-
-        private void InstallFeatures()
-        {
-            Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameSpawner)).To<GameSpawner>().FromInstance(_gameSpawner).AsCached();
         }
 
         private void InstallModules()
