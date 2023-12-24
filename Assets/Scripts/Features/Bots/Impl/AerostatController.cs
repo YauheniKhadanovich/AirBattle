@@ -29,7 +29,7 @@ namespace Features.Bots.Impl
 
         protected virtual void Update()
         {
-            MoveForward();
+            MoveForwardInternal();
 
             var rotationJob = new RotationJob(_rotationsSpeed, Time.deltaTime, _nativeRotation);
             _rotationJobHandle = rotationJob.Schedule();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Features.Aircraft.Components;
 using Features.Aircraft.Controllers;
 using Features.Bots.Impl;
 using Features.Environment.Coins.Impl;
@@ -16,15 +17,13 @@ namespace Features.Spawner.Impl
 {
     public class GameSpawner : MonoBehaviour, IGameSpawner, IInitializable, IDisposable
     {
-        private readonly Vector3 _groundPosition = Vector3.zero;
-
-        [Inject] 
-        private readonly IGameControllerFacade _gameControllerFacade;
-        [Inject]
-        private readonly DiContainer _container;
-        [Inject]
-        private readonly IAircraftController _aircraftController;
+        public event Action GameFailed = delegate { };
+        public event Action<AircraftBody> GameStarted = delegate { };
         
+        private Vector3 _groundPosition = Vector3.zero;
+        private IGameControllerFacade _gameControllerFacade;
+        private DiContainer _container;
+
         [SerializeField] 
         private Coin _coin;
         [SerializeField] 
@@ -33,32 +32,56 @@ namespace Features.Spawner.Impl
         private Volume _volume;
 
         private List<Transform> _spawnPositions;
+        private bool _needSpawn;
+        private float _currentSaturationValue = 50;
+    
+        [Inject]
+        public void Construct(IGameControllerFacade gameControllerFacade, DiContainer container)
+        {
+            _gameControllerFacade = gameControllerFacade ?? throw new ArgumentNullException(nameof(gameControllerFacade));
+            _container = container ?? throw new ArgumentNullException(nameof(container));
+        }
 
         public void Initialize()
         {
             _gameControllerFacade.GameStarted += OnGameStarted;
             _gameControllerFacade.GameFailed += OnGameFailed;
-            _aircraftController.PlaneDestroyed += OnPlaneDestroyed;
-            _aircraftController.TakeCoin += OnTakeCoin;
         }
 
         public void Dispose()
         {
             _gameControllerFacade.GameStarted -= OnGameStarted;
             _gameControllerFacade.GameFailed -= OnGameFailed;
-            _aircraftController.PlaneDestroyed -= OnPlaneDestroyed;
-            _aircraftController.TakeCoin -= OnTakeCoin;
         }
 
         private void Start()
         {
             _spawnPositions = GetComponentsInChildren<SpawnPoint>().Select(point => point.transform).ToList();
         }
+        
+        public void ReportAircraftDestroyed()
+        {
+            _gameControllerFacade.ReportPlayerDestroyed();
+        }
+
+        public void ReportCoinTaken()
+        {
+            _gameControllerFacade.ReportCoinTaken();
+        }
+        
+        public void SpawnCoin(Vector3 position)
+        {
+            var coin = _container.InstantiatePrefabForComponent<Coin>(_coin, position, Quaternion.identity, null);
+            if (coin is IInitializable initializableCoin)
+            {
+                initializableCoin.Initialize();
+            }
+        }
 
         private void Update()
         {
             ChangeVolume();
-            if (!_aircraftController.IsAlive)
+            if (!_needSpawn)
             {
                 return;
             }
@@ -95,45 +118,27 @@ namespace Features.Spawner.Impl
             bot.transform.position = _spawnPositions[Random.Range(0, _spawnPositions.Count)].position;
             bot.transform.LookAt(_groundPosition);
         }
-
-        public void SpawnCoin(Vector3 position)
-        {
-            var coin = _container.InstantiatePrefabForComponent<Coin>(_coin, position, Quaternion.identity, null);
-            if (coin is IInitializable initializableCoin)
-            {
-                initializableCoin.Initialize();
-            }
-        }
         
         private void OnGameStarted()
         {
-            var aircraftBodyPrefab = _gameControllerFacade.GetCurrentAircraftBodyPrefab();
-            _aircraftController.InitPlane(aircraftBodyPrefab);
-        }
-        
-        private void OnPlaneDestroyed()
-        {
-            _gameControllerFacade.ReportPlayerDestroyed();
-        }
-        
-        private void OnTakeCoin()
-        {
-            _gameControllerFacade.ReportCoinTaken();
+            _currentSaturationValue = 50;
+            _needSpawn = true;
+            GameStarted.Invoke(_gameControllerFacade.GetCurrentAircraftBodyPrefab());
         }
         
         private void OnGameFailed()
         {
-            _aircraftController.DestroyPlane();
+            _currentSaturationValue = -100;
+            _needSpawn = false;
+            GameFailed.Invoke();
         }
 
         private void ChangeVolume()
         {
-            float targetValue = _aircraftController.IsAlive || !_gameControllerFacade.WasStarted ? 50 : -100;
-
             _volume.profile.TryGet<ColorAdjustments>(out var colorAdjustments);
             var currentValue = colorAdjustments.saturation.value;
 
-            colorAdjustments.saturation.value = Mathf.Lerp(currentValue, targetValue, Time.deltaTime * 7.4f);
+            colorAdjustments.saturation.value = Mathf.Lerp(currentValue, _currentSaturationValue, Time.deltaTime * 7.4f);
         }
     }
 }

@@ -1,5 +1,5 @@
+using System;
 using Features.Aircraft.Components;
-using Features.Aircraft.Controllers;
 using Features.Bots;
 using Features.Environment.Coins;
 using Features.Shared;
@@ -7,30 +7,29 @@ using Features.Spawner;
 using UnityEngine;
 using Zenject;
 
-namespace Features.Aircraft.View.Impl // TODO
+namespace Features.Aircraft.View.Impl
 {
     public class PlaneView : CanFly, IPlaneView
     {
-        [Inject] 
-        private IAircraftController _aircraftController;
-        [Inject]
+        public event Action AircraftDestroyed = delegate { };
+        public event Action CoinTaken = delegate { };
+
         private IObjectPoolController _objectPoolController;
-        
+
         [SerializeField] 
         private Transform _bodyRotation;
-        [SerializeField]
+        [SerializeField] 
         private ParticleSystem _destroyParticle;
-        [SerializeField]
+        [SerializeField] 
         private Transform _bodySpawnPosition;
 
         private float _xParam;
-        private AircraftBody _aircraftBody = null;
+        private AircraftBody _aircraftBody;
 
-        private void Update()
+        [Inject]
+        public void Construct(IObjectPoolController objectPoolController)
         {
-            MoveForward();
-            ControlPlane();
-            Fire();
+            _objectPoolController = objectPoolController ?? throw new ArgumentNullException(nameof(objectPoolController));
         }
 
         public void SetBody(AircraftBody aircraftBody)
@@ -41,41 +40,35 @@ namespace Features.Aircraft.View.Impl // TODO
                 Destroy(_aircraftBody.gameObject);
                 _aircraftBody = null;
             }
+
             _aircraftBody = Instantiate(aircraftBody, _bodySpawnPosition.position, _bodySpawnPosition.rotation, _bodySpawnPosition);
             _aircraftBody.SetPoolManager(_objectPoolController);
             _aircraftBody.Collision += OnCollision;
         }
-        
-        public void DestroyPlane()
-        {
-            if (_aircraftController.IsAlive)
-            {
-                DestroySelf();
-            }
-        }
-        
-        private void Fire()
-        {
-            if (!_aircraftController.IsFirePressed || !_aircraftController.IsAlive)
-            {
-                return;
-            }
 
+
+        public void DestroyAircraft()
+        {
+            DestroyAircraftInternal();
+        }
+
+        public void Fire()
+        {
             if (_aircraftBody)
             {
                 _aircraftBody.Fire();
             }
         }
-        
-        private void ControlPlane()
+
+        public void MoveForward()
         {
-            if (!_aircraftController.IsAlive)
-            {
-                return;
-            }
-            
+            MoveForwardInternal();
+        }
+
+        public void ControlPlane(Vector2 movementState)
+        {
             var localEulerAngles = _bodyDirection.localEulerAngles;
-            _xParam = Mathf.Lerp(_xParam, _aircraftController.MovementState.x, Time.deltaTime * 5f);
+            _xParam = Mathf.Lerp(_xParam, movementState.x, Time.deltaTime * 5f);
             var targetEulerAngles = new Vector3(0f, localEulerAngles.y + _xParam * 40f, 0f);
             localEulerAngles = Vector3.Lerp(localEulerAngles, targetEulerAngles, Time.deltaTime * 2f);
             _bodyDirection.localEulerAngles = localEulerAngles;
@@ -87,37 +80,35 @@ namespace Features.Aircraft.View.Impl // TODO
             var tiltAngle = Mathf.Clamp(Mathf.DeltaAngle(targetEulerAngles.y, _bodyDirection.localEulerAngles.y) * 1.5f, -89f, 89f);
             _bodyRotation.localEulerAngles = new Vector3(-tiltAngle, 0, 0);
         }
-        
+
         private void OnCollision(Collider other)
         {
-            if (!_aircraftController.IsAlive)
-            {
-                return;
-            }
-            
             if (other.gameObject.TryGetComponent<IMortal>(out var obj))
             {
-                obj.FullDamage();
-                DestroySelf();
+                obj.FullDamage(); // TODO: refactoring
+                DestroyAircraftInternal();
+                AircraftDestroyed.Invoke();
             }
+
             if (other.gameObject.TryGetComponent<ICoin>(out var coin))
             {
-                _aircraftController.ReportCoinTaken();
+                CoinTaken.Invoke();
                 coin.Take();
             }
         }
 
-        private void DestroySelf()
+        private void DestroyAircraftInternal()
         {
+            if (!_aircraftBody)
+            {
+                return;
+            }
+            
             var particle = Instantiate(_destroyParticle, null);
             particle.transform.position = transform.position;
-            if (_aircraftBody)
-            {
-                _aircraftBody.Collision -= OnCollision;
-                Destroy(_aircraftBody.gameObject);
-                _aircraftBody = null;
-            }
-            _aircraftController.ReportPlaneDestroyed();
+            _aircraftBody.Collision -= OnCollision;
+            Destroy(_aircraftBody.gameObject);
+            _aircraftBody = null;
         }
     }
 }

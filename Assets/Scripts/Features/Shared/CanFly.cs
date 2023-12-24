@@ -11,7 +11,7 @@ namespace Features.Shared
         [SerializeField]
         public float _speed = 30f;
         
-        protected void MoveForward()
+        protected void MoveForwardInternal()
         {
             transform.RotateAround(_groundPosition, _bodyDirection.forward, Time.deltaTime * _speed);
         }

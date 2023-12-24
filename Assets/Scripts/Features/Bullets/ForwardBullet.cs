@@ -12,7 +12,7 @@ namespace Features.Bullets
         protected override void Update()
         {
             base.Update();
-            MoveForward();
+            MoveForwardInternal();
         }
         
         protected override void TimeOver()
