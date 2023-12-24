@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Modules.GameController.Repositories.Impl
 {
+    // TODO: Refactoring
     [CreateAssetMenu(fileName = "AircraftData", menuName = "AirBattle/Aircrafts/Generate Data", order = 1)]
     public class AircraftRepository : ScriptableObject
     {

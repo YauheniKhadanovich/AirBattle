@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Modules.GameController.Repositories.Impl
 {
+    // TODO: Refactoring
     [CreateAssetMenu(fileName = "LevelsData", menuName = "AirBattle/Levels/Generate Data", order = 1)]
     public class LevelsRepository : ScriptableObject
     {
