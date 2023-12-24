@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Features.Aircraft.Components;
-using Features.Aircraft.Controllers;
 using Features.Bots.Impl;
 using Features.Environment.Coins.Impl;
-using Features.Environment.Earth.Impl;
 using Modules.GameController.Facade;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -26,8 +24,6 @@ namespace Features.Spawner.Impl
 
         [SerializeField] 
         private Coin _coin;
-        [SerializeField] 
-        private Earth _earth;
         [SerializeField] 
         private Volume _volume;
 

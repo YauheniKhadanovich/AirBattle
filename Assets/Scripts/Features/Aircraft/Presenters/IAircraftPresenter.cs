@@ -1,4 +1,4 @@
-namespace Features.Aircraft.Controllers
+namespace Features.Aircraft.Presenters
 {
     public interface IAircraftPresenter
     {

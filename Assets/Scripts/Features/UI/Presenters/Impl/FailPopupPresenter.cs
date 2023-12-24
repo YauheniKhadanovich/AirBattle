@@ -1,15 +1,19 @@
+using System;
 using Features.UI.Views;
 using Modules.GameController.Facade;
-using Zenject;
 
 namespace Features.UI.Presenters.Impl
 {
     public class FailPopupPresenter : IFailPopupPresenter
     {
-        [Inject]
         private readonly IGameControllerFacade _gameControllerFacade;
-        [Inject]
         private readonly IFailPopupView _view;
+        
+        public FailPopupPresenter(IGameControllerFacade gameControllerFacade, IFailPopupView view)
+        {
+            _gameControllerFacade = gameControllerFacade ?? throw new ArgumentNullException(nameof(gameControllerFacade));
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+        }
         
         public void Initialize()
         {

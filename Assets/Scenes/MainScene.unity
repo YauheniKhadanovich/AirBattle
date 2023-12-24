@@ -25526,31 +25526,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1220624510}
-  - component: {fileID: 1220624509}
+  - component: {fileID: 1220624511}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: AircraftView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1220624509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1220624508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0c2740e54ff440a982bd29827142eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bodyDirection: {fileID: 272099325}
-  _speed: 40
-  _bodyRotation: {fileID: 887918987}
-  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
-  _bodySpawnPosition: {fileID: 887918987}
 --- !u!4 &1220624510
 Transform:
   m_ObjectHideFlags: 0
@@ -25568,6 +25551,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1220624511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220624508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f33937863c04afaa75478717a16601d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyDirection: {fileID: 272099325}
+  _speed: 40
+  _bodyRotation: {fileID: 887918987}
+  _destroyParticle: {fileID: 8850279253884662300, guid: 95a13d72f5fc641d5ad470d7db5c6f07, type: 3}
+  _bodySpawnPosition: {fileID: 887918987}
 --- !u!1 &1266218227
 GameObject:
   m_ObjectHideFlags: 0
@@ -26499,7 +26499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectPoolController: {fileID: 1569456043}
-  _planeView: {fileID: 1220624509}
+  _aircraftView: {fileID: 1220624511}
   _viewFactory: {fileID: 51137508}
   _gameSpawner: {fileID: 1968983284}
   _gameView: {fileID: 1981180263}
@@ -31651,7 +31651,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coin: {fileID: 1713039090909254266, guid: 15cc826146a9f4fa9921f05dc07be145, type: 3}
-  _earth: {fileID: 33320358348687113}
   _volume: {fileID: 2143435286}
 --- !u!4 &1968983285
 Transform:
@@ -32047,7 +32046,6 @@ GameObject:
   - component: {fileID: 33320358348687111}
   - component: {fileID: 23643598236452595}
   - component: {fileID: 33320358348687112}
-  - component: {fileID: 33320358348687113}
   m_Layer: 0
   m_Name: Earth_Water
   m_TagString: Untagged
@@ -32237,23 +32235,11 @@ MeshCollider:
   m_GameObject: {fileID: 1226678803449583}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 232b6e1fb46dd414e8906c59e1ee00a1, type: 3}
---- !u!114 &33320358348687113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226678803449583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f80c1150f77479998489b7bcdd8347a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &33883391623973675
 MeshFilter:
   m_ObjectHideFlags: 0

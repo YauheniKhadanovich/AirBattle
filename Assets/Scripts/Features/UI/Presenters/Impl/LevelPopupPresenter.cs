@@ -1,16 +1,20 @@
+using System;
 using Features.UI.Views;
 using Modules.GameController.Facade;
-using Zenject;
 
 namespace Features.UI.Presenters.Impl
 {
     public class LevelPopupPresenter : ILevelPopupPresenter
     {
-        [Inject] 
-        private IGameControllerFacade _gameControllerFacade;
-        [Inject]
+        private readonly IGameControllerFacade _gameControllerFacade;
         private readonly ILevelPopupView _view;
-        
+
+        public LevelPopupPresenter(IGameControllerFacade gameControllerFacade, ILevelPopupView view)
+        {
+            _gameControllerFacade = gameControllerFacade ?? throw new ArgumentNullException(nameof(gameControllerFacade));
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+        }
+
         public void Initialize()
         {
             _gameControllerFacade.GameFailed += OnGameFailed;

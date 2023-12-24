@@ -2,20 +2,23 @@ using System;
 using Features.UI.ViewManagement;
 using Features.UI.Views;
 using Modules.GameController.Facade;
-using Modules.GameController.Models.Impl;
 using Zenject;
 
 namespace Features.UI.Presenters.Impl
 {
     public class MainGamePresenter : IMainGamePresenter, IInitializable, IDisposable
     {
-        [Inject] 
         private IViewManager _viewManager;
-        [Inject] 
         private IMainGameView _view;
-        [Inject] 
         private IGameControllerFacade _gameControllerFacade;
         
+        public MainGamePresenter(IGameControllerFacade gameControllerFacade, IMainGameView view, IViewManager viewManager)
+        {
+            _gameControllerFacade = gameControllerFacade ?? throw new ArgumentNullException(nameof(gameControllerFacade));
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _viewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
+        }
+
         public void Initialize()
         {
             _view.GoClicked += OnGoClicked;

@@ -7,9 +7,10 @@ using Features.Spawner;
 using UnityEngine;
 using Zenject;
 
+
 namespace Features.Aircraft.View.Impl
 {
-    public class PlaneView : CanFly, IAircraftView
+    public class AircraftView: CanFly, IAircraftView
     {
         public event Action AircraftDestroyed = delegate { };
         public event Action CoinTaken = delegate { };

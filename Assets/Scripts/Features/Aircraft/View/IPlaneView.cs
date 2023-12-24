@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Features.Aircraft.View
 {
-    public interface IPlaneView
+    public interface IAircraftView
     {
         event Action AircraftDestroyed;
         event Action CoinTaken;

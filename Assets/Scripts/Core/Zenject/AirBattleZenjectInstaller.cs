@@ -1,6 +1,6 @@
 using System;
-using Features.Aircraft.Controllers;
-using Features.Aircraft.Controllers.Impl;
+using Features.Aircraft.Presenters;
+using Features.Aircraft.Presenters.Impl;
 using Features.Aircraft.View;
 using Features.Aircraft.View.Impl;
 using Features.Spawner;
@@ -26,7 +26,7 @@ namespace Core.Zenject
         [SerializeField] 
         private ObjectPoolController _objectPoolController;
         [SerializeField] 
-        private PlaneView _planeView;
+        private AircraftView _aircraftView;
         [SerializeField] 
         private ViewFactory _viewFactory;
         [SerializeField] 
@@ -48,21 +48,21 @@ namespace Core.Zenject
 
         private void InstallFeatures()
         {
-            Container.Bind(typeof(IInitializable), typeof(IDisposable),  typeof(ITickable), typeof(IAircraftPresenter)).To<AircraftPresenter>().AsCached();
-            Container.Bind( typeof(IPlaneView)).FromInstance(_planeView).AsCached();
-            Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
             Container.Bind<IObjectPoolController>().FromInstance(_objectPoolController).AsCached();
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IGameSpawner)).To<GameSpawner>().FromInstance(_gameSpawner).AsCached();
         }
 
         private void InstallViews()
         {
+            Container.Bind( typeof(IAircraftView)).FromInstance(_aircraftView).AsCached();
+            Container.Bind<ViewFactory>().FromInstance(_viewFactory).AsCached();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
             Container.Bind<IMainGameView>().To<MainGameView>().FromInstance(_gameView).AsCached();
         }
 
         private void InstallPresenters()
         {
+            Container.Bind(typeof(IInitializable), typeof(IDisposable),  typeof(ITickable), typeof(IAircraftPresenter)).To<AircraftPresenter>().AsCached();
             Container.Bind(typeof(IInitializable), typeof(IDisposable), typeof(IMainGamePresenter)).To<MainGamePresenter>().AsCached();
         }
 
