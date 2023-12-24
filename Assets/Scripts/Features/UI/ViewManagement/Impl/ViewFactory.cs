@@ -9,8 +9,7 @@ namespace Features.UI.ViewManagement.Impl
 {
     public class ViewFactory : MonoBehaviour
     {
-        [Inject]
-        private readonly DiContainer _container;
+        private DiContainer _container;
         
         [SerializeField] 
         private Transform _darkBackGround;
@@ -20,7 +19,13 @@ namespace Features.UI.ViewManagement.Impl
         private FailPopupView _failPopup;
         [SerializeField]
         private LevelPopupView _levelPopup;
-        
+
+        [Inject]
+        public void Construct(DiContainer container)
+        {
+            _container = container ?? throw new ArgumentNullException(nameof(container));
+        }
+
         public TView CreateView<TView, TPresenter>(bool useBackground = false)
             where TView : IView
             where TPresenter : class, IPresenter

@@ -1,15 +1,19 @@
+using System;
 using Features.UI.Presenters;
 using Features.UI.Presenters.Impl;
 using Features.UI.Views;
-using Zenject;
 
 namespace Features.UI.ViewManagement.Impl
 {
     public class ViewManager : IViewManager
     {
-        [Inject]
         private ViewFactory _factory;
-        
+
+        public ViewManager(ViewFactory factory)
+        {
+            _factory = factory ? factory : throw new ArgumentNullException(nameof(factory));
+        }
+
         public void OpenLevelView(int level)
         {
             var view = OpenView<ILevelPopupView, LevelPopupPresenter>(true);

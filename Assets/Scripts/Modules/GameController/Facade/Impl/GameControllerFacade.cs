@@ -9,7 +9,6 @@ namespace Modules.GameController.Facade.Impl
 {
     public class GameControllerFacade : IGameControllerFacade, IInitializable, IDisposable
     {
-        [Inject] 
         private readonly IGameModel _gameModel;
 
         public event Action ClearLevelRequested = delegate { };
@@ -22,6 +21,11 @@ namespace Modules.GameController.Facade.Impl
         public IReadOnlyDictionary<string, BotIngameState> Bots => _gameModel.BotStates;
         public bool WasStarted => _gameModel.WasStarted;
         public bool GameInProgress => _gameModel.GameInProgress;
+
+        public GameControllerFacade(IGameModel gameModel)
+        {
+            _gameModel = gameModel ?? throw new ArgumentNullException(nameof(gameModel));
+        }
 
         public void Initialize()
         {
